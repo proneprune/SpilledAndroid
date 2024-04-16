@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="944dp"
+    android:height="1463dp"
+    android:viewportWidth="944"
+    android:viewportHeight="1463">
+    <path
+        android:pathData="M0 0V1463H944V0"
+        android:fillColor="@drawable/gradient_fill"/>
+</vector>
