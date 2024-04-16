@@ -24,8 +24,8 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="24sp"
-
         android:text="Click to scan"
+        android:fontFamily="@font/mervalescript_regular"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
