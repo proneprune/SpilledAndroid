@@ -26,12 +26,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //val button = findViewById<Button>(R.id.button)
+        val button = findViewById<Button>(R.id.btn)
         val intent = Intent("android.media.action.IMAGE_CAPTURE")
 
-        //button.setOnClickListener{
-        //    startActivityForResult(intent, 0)
-        //}
+        button.setOnClickListener{
+            startActivityForResult(intent, 0)
+        }
 
         /*setContent  {
             BlodpoolTheme {
