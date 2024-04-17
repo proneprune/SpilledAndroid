@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Blodpool"
 include(":app")
- 
+include(":opencv")
