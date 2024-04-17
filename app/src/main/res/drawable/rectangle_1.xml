@@ -4,6 +4,8 @@
     android:height="1463dp"
     android:viewportWidth="944"
     android:viewportHeight="1463">
+
+    <!--the background rectangle for the main page -->
     <path
         android:pathData="M0 0V1463H944V0"
         android:fillColor="@drawable/gradient_fill"/>

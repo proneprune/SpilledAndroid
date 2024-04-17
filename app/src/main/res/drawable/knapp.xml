@@ -3,6 +3,8 @@
     android:height="391dp"
     android:viewportWidth="337"
     android:viewportHeight="391">
+  <!--this drawable creates the button to start scanning on the starting page -->
+
 
   <!-- Outline -->
   <path

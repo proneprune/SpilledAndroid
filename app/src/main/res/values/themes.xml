@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Blodpool" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Blodpool" parent="android:Theme.Material.Light.NoActionBar" >
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/transparent_image</item>
+        <item name="android:windowBackground">@drawable/gradient_fill</item>
+    </style>
 </resources>
