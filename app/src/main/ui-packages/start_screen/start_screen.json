@@ -1,0 +1,178 @@
+{
+  "name": "start_screen",
+  "version": 33,
+  "source-key": {
+    "type": "figma",
+    "file": "GJAXEtIyLrh5MAs4nth61J",
+    "node": "13:7",
+    "version": "5564467313",
+    "component-id": "5c42eb9d78463780b60c5dce70711c975cf83783"
+  },
+  "default": "Property 1=Default",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "vector",
+        "id": "Rectangle 1"
+      },
+      {
+        "type": "text",
+        "id": "Spilled"
+      }
+    ],
+    "modes": {
+      "Property 1=Default": {
+        "rules": [
+          {
+            "id": "top_level",
+            "is-structured": false,
+            "children": [
+              "Rectangle 1",
+              "Spilled"
+            ],
+            "fills": [
+              {
+                "color": {},
+                "opacity": 1.0,
+                "fill-type": "lineargradient",
+                "blend-mode": "normal",
+                "color-stops": [
+                  {
+                    "color": {
+                      "alpha": 0.23921568627450981,
+                      "hue": 0.0,
+                      "saturation": 0.611764705882353,
+                      "value": 1.0
+                    },
+                    "color-stop-position": 0.0
+                  },
+                  {
+                    "color": {
+                      "alpha": 0.807843137254902,
+                      "hue": 327.94520547945206,
+                      "saturation": 0.28627450980392155,
+                      "value": 1.0
+                    },
+                    "color-stop-position": 0.73
+                  },
+                  {
+                    "color": {
+                      "alpha": 1.0,
+                      "hue": 270.0,
+                      "saturation": 0.007843137254901933,
+                      "value": 1.0
+                    },
+                    "color-stop-position": 1.0
+                  }
+                ],
+                "gradient-handle-positions": [
+                  {
+                    "x": 0.5,
+                    "y": 0.0
+                  },
+                  {
+                    "x": 0.5,
+                    "y": 1.0
+                  },
+                  {
+                    "x": 0.0,
+                    "y": 0.0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "Rectangle 1",
+            "alignment": {
+              "horizontal": {
+                "attachment": "center",
+                "offset": 20.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": 20.0
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 669.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 1220.0
+              }
+            },
+            "vector-content": "rectangle_1.svg"
+          },
+          {
+            "id": "Spilled",
+            "drop-shadow": {
+              "color": {
+                "alpha": 0.24705882352941178,
+                "hue": 0.0,
+                "saturation": 0.0,
+                "value": 0.0
+              },
+              "blur": 4.0,
+              "offset-x": 0.0,
+              "offset-y": 4.0,
+              "spread": 0.0,
+              "blend-mode": "normal"
+            },
+            "alignment": {
+              "horizontal": {
+                "attachment": "center",
+                "offset": 1.0
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": -98.5
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 249.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 147.0
+              }
+            },
+            "color": {
+              "alpha": 1.0,
+              "hue": 309.61538461538464,
+              "saturation": 0.611764705882353,
+              "value": 1.0
+            },
+            "text-content": "Spilled",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-size": 121.0,
+            "line-height": 1.32421875,
+            "typeface": "Mervale Script"
+          }
+        ]
+      }
+    }
+  },
+  "previews": [
+    {
+      "design": "Property 1=Default",
+      "size": {
+        "width": 629.0,
+        "height": 1180.0
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}

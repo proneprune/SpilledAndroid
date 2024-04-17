@@ -1,7 +1,11 @@
 package com.example.blodpool
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,26 +16,56 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.blodpool.ui.theme.BlodpoolTheme
+import android.widget.Button
+
+
+
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
+        setContentView(R.layout.activity_main)
+        val button = findViewById<Button>(R.id.btn)
+        val intent = Intent("android.media.action.IMAGE_CAPTURE")
+
+        button.setOnClickListener{
+            startActivityForResult(intent, 0)
+        }
+
+        /*setContent  {
             BlodpoolTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    //color = MaterialTheme.colorScheme.background
+
                 ) {
                     Greeting("Android")
                 }
             }
+        }*/
+
+
+
+        Toast.makeText(applicationContext,"CORRECT!",Toast.LENGTH_LONG).show()
+
+        //val intent = Intent("android.media.action.IMAGE_CAPTURE")
+        //startActivityForResult(intent, 0)
+
+
+
+    }
+    //@Deprecated
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
+            Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
+
+
+
         }
-
-        val intent = Intent("android.media.action.IMAGE_CAPTURE")
-        startActivity(intent)
-
 
 
     }
@@ -52,3 +86,4 @@ fun GreetingPreview() {
         Greeting("Android")
     }
 }
+
