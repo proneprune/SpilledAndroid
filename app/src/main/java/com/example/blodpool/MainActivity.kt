@@ -7,35 +7,28 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.blodpool.ui.theme.BlodpoolTheme
+import org.opencv.android.OpenCVLoader
+import org.opencv.android.Utils
+import org.opencv.core.Core.inRange
+import org.opencv.core.Mat
+import org.opencv.core.Scalar
+import org.opencv.imgproc.Imgproc
+import org.opencv.imgproc.Imgproc.COLOR_BGR2HSV
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContent {
-            BlodpoolTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
-            }
-        }
+        setContentView(R.layout.activity_main)
 
 
-
+        OpenCVLoader.initDebug()
         Toast.makeText(applicationContext,"CORRECT!",Toast.LENGTH_LONG).show()
 
         val intent = Intent("android.media.action.IMAGE_CAPTURE")
@@ -50,9 +43,26 @@ class MainActivity : ComponentActivity() {
 
         if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
             Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
-            
+
+            val image = findViewById<ImageView>(R.id.imageView);
+            val bitmap = (data.extras?.get("data")) as Bitmap
 
 
+            // Create OpenCV mat object and copy content from bitmap
+            val mat = Mat()
+            Utils.bitmapToMat(bitmap, mat)
+
+            Imgproc.cvtColor(mat, mat, COLOR_BGR2HSV)
+
+            val low_red = Scalar(0.0, 50.0, 50.0)
+            val high_red = Scalar(30.0, 255.0, 255.0)
+            inRange(mat, low_red, high_red, mat)
+
+
+            val redHighlight = bitmap.copy(bitmap.config, true)
+            Utils.matToBitmap(mat, redHighlight)
+
+            image.setImageBitmap(redHighlight)
         }
 
 
