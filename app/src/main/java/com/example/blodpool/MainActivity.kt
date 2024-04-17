@@ -40,20 +40,6 @@ class MainActivity : ComponentActivity() {
         }
 
 
-        setContentView(R.layout.activity_main)
-
-        /*setContent  {
-            BlodpoolTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    //color = MaterialTheme.colorScheme.background
-
-                ) {
-                    Greeting("Android")
-                }
-            }
-        }*/
 
 
 
@@ -78,8 +64,7 @@ class MainActivity : ComponentActivity() {
             val image = findViewById<ImageView>(R.id.imageView);
             val bitmap = (data.extras?.get("data")) as Bitmap
 
-
-            // Create OpenCV mat object and copy content from bitmap
+            
             val mat = Mat()
             Utils.bitmapToMat(bitmap, mat)
 
@@ -96,6 +81,7 @@ class MainActivity : ComponentActivity() {
             Utils.matToBitmap(hsvMat, redHighlight)
 
             image.setImageBitmap(redHighlight)
+
         }
 
 
