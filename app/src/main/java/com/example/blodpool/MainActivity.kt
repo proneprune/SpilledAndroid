@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.blodpool.ui.theme.BlodpoolTheme
+
 import org.opencv.android.OpenCVLoader
 import org.opencv.android.Utils
 import org.opencv.core.Core.inRange
@@ -21,19 +22,47 @@ import org.opencv.imgproc.Imgproc
 import org.opencv.imgproc.Imgproc.COLOR_BGR2HSV
 import org.opencv.imgproc.Imgproc.COLOR_RGB2HSV
 
+import android.widget.Button
+
+
+
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val button = findViewById<Button>(R.id.btn)
+        val intent = Intent("android.media.action.IMAGE_CAPTURE")
+
+        button.setOnClickListener{
+            startActivityForResult(intent, 0)
+        }
+
 
         setContentView(R.layout.activity_main)
+
+        /*setContent  {
+            BlodpoolTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    //color = MaterialTheme.colorScheme.background
+
+                ) {
+                    Greeting("Android")
+                }
+            }
+        }*/
+
+
 
 
         OpenCVLoader.initDebug()
         Toast.makeText(applicationContext,"CORRECT!",Toast.LENGTH_LONG).show()
 
-        val intent = Intent("android.media.action.IMAGE_CAPTURE")
-        startActivityForResult(intent, 0)
+        //val intent = Intent("android.media.action.IMAGE_CAPTURE")
+        //startActivityForResult(intent, 0)
 
 
 
@@ -44,6 +73,7 @@ class MainActivity : ComponentActivity() {
 
         if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
             Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
+
 
             val image = findViewById<ImageView>(R.id.imageView);
             val bitmap = (data.extras?.get("data")) as Bitmap
