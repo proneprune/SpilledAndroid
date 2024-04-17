@@ -19,6 +19,7 @@ import org.opencv.core.Mat
 import org.opencv.core.Scalar
 import org.opencv.imgproc.Imgproc
 import org.opencv.imgproc.Imgproc.COLOR_BGR2HSV
+import org.opencv.imgproc.Imgproc.COLOR_RGB2HSV
 
 
 class MainActivity : ComponentActivity() {
@@ -52,15 +53,17 @@ class MainActivity : ComponentActivity() {
             val mat = Mat()
             Utils.bitmapToMat(bitmap, mat)
 
-            Imgproc.cvtColor(mat, mat, COLOR_BGR2HSV)
+
+            val hsvMat = Mat()
+            Imgproc.cvtColor(mat, hsvMat, COLOR_RGB2HSV)
 
             val low_red = Scalar(0.0, 50.0, 50.0)
-            val high_red = Scalar(30.0, 255.0, 255.0)
-            inRange(mat, low_red, high_red, mat)
+            val high_red = Scalar(10.0, 255.0, 255.0)
+            inRange(hsvMat, low_red, high_red, hsvMat)
 
 
             val redHighlight = bitmap.copy(bitmap.config, true)
-            Utils.matToBitmap(mat, redHighlight)
+            Utils.matToBitmap(hsvMat, redHighlight)
 
             image.setImageBitmap(redHighlight)
         }
