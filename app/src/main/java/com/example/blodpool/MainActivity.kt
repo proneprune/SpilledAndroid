@@ -23,14 +23,23 @@ import org.opencv.imgproc.Imgproc.COLOR_BGR2HSV
 import org.opencv.imgproc.Imgproc.COLOR_RGB2HSV
 
 import android.widget.Button
-
-
-
+import org.opencv.core.Core
+import org.opencv.core.Core.bitwise_and
+import org.opencv.core.CvType.CV_8UC1
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        displayFrontpage()
+
+        OpenCVLoader.initDebug()
+       // Toast.makeText(applicationContext,"CORRECT!",Toast.LENGTH_LONG).show()
+
+    }
+
+    fun displayFrontpage(){
         setContentView(R.layout.activity_main)
         val button = findViewById<Button>(R.id.btn)
         val intent = Intent("android.media.action.IMAGE_CAPTURE")
@@ -38,49 +47,57 @@ class MainActivity : ComponentActivity() {
         button.setOnClickListener{
             startActivityForResult(intent, 0)
         }
+    }
 
+    fun displayImagePage(displayImage: Bitmap){
 
+        setContentView(R.layout.display_image)
+        val button = findViewById<Button>(R.id.button)
 
+        val image = findViewById<ImageView>(R.id.imageView2);
 
+        image.setImageBitmap(displayImage)
 
-
-        OpenCVLoader.initDebug()
-        Toast.makeText(applicationContext,"CORRECT!",Toast.LENGTH_LONG).show()
-
-        //val intent = Intent("android.media.action.IMAGE_CAPTURE")
-        //startActivityForResult(intent, 0)
-
-
+        button.setOnClickListener{
+            displayFrontpage()
+        }
 
     }
+
+
     //@Deprecated
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
-            Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
+           // Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
 
-
-            val image = findViewById<ImageView>(R.id.imageView);
             val bitmap = (data.extras?.get("data")) as Bitmap
 
-            
             val mat = Mat()
             Utils.bitmapToMat(bitmap, mat)
 
-
             val hsvMat = Mat()
-            Imgproc.cvtColor(mat, hsvMat, COLOR_RGB2HSV)
+            Imgproc.cvtColor(mat, hsvMat, Imgproc.COLOR_RGB2HSV)
 
-            val low_red = Scalar(0.0, 50.0, 50.0)
+            val low_red = Scalar(0.0, 100.0, 100.0)
             val high_red = Scalar(10.0, 255.0, 255.0)
-            inRange(hsvMat, low_red, high_red, hsvMat)
+            val redMask = Mat()
+            Core.inRange(hsvMat, low_red, high_red, redMask)
 
+            // Invert the mask
+            val invertedMask = Mat()
+            Core.bitwise_not(redMask, invertedMask)
 
-            val redHighlight = bitmap.copy(bitmap.config, true)
-            Utils.matToBitmap(hsvMat, redHighlight)
+            // Set non-red areas to black
+            val resultMat = Mat()
+            mat.copyTo(resultMat)
+            resultMat.setTo(Scalar(0.0, 0.0, 0.0), invertedMask)
 
-            image.setImageBitmap(redHighlight)
+            val resultBitmap = Bitmap.createBitmap(mat.cols(), mat.rows(), Bitmap.Config.ARGB_8888)
+            Utils.matToBitmap(resultMat, resultBitmap)
+            
+            displayImagePage(resultBitmap)
 
         }
 
