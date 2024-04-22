@@ -29,13 +29,18 @@ import org.opencv.core.CvType.CV_8UC1
 
 
 class MainActivity : ComponentActivity() {
+
+    external fun getTest() : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        System.loadLibrary("testcpp")
 
         displayFrontpage()
 
         OpenCVLoader.initDebug()
-       // Toast.makeText(applicationContext,"CORRECT!",Toast.LENGTH_LONG).show()
+        Toast.makeText(applicationContext,getTest(),Toast.LENGTH_LONG).show()
 
     }
 
