@@ -15,6 +15,9 @@
 #opencv
 /opencv/
 
+#jniLibs
+app/src/main/jniLibs/
+
 # Gradle files
 .gradle/
 build/
