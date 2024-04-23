@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "installationFolder": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\build\\intermediates\\prefab_package\\release\\prefab",
+=======
+  "installationFolder": "C:\\blappAndroid\\opencv\\build\\intermediates\\prefab_package\\release\\prefab",
+>>>>>>> 984c6bbf32e96fb9442d17501897c51e3afd7946
   "gradlePath": ":opencv",
   "packageInfo": {
     "packageName": "opencv",
@@ -8,7 +12,11 @@
     "modules": [
       {
         "moduleName": "opencv_jni_shared",
+<<<<<<< HEAD
         "moduleHeaders": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\native\\jni\\include",
+=======
+        "moduleHeaders": "C:\\blappAndroid\\opencv\\native\\jni\\include",
+>>>>>>> 984c6bbf32e96fb9442d17501897c51e3afd7946
         "moduleExportLibraries": [],
         "abis": []
       }

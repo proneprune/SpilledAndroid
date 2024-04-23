@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 ninja: Entering directory `C:\Users\jcull\OneDrive\Skrivbord\Kurser\II1305\blapp\blappAndroid\opencv\.cxx\Debug\2f6t2w56\arm64-v8a'
+=======
+ninja: Entering directory `C:\blappAndroid\opencv\.cxx\Debug\2f6t2w56\arm64-v8a'
+>>>>>>> 984c6bbf32e96fb9442d17501897c51e3afd7946
 ninja: no work to do.
