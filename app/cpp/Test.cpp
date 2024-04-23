@@ -10,6 +10,10 @@ using namespace cv;
 
 
 std::vector<std::vector<cv::Point>> getContours(cv::Mat& image) {
+    //cv::Mat filteredImage;
+    //cv::bilateralFilter(image, filteredImage, 9, 75, 75);  // Adjust parameters as needed
+    //image = filteredImage;
+
     cv::Mat gray;
     cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
 
@@ -22,7 +26,7 @@ std::vector<std::vector<cv::Point>> getContours(cv::Mat& image) {
     cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 
     std::vector<std::vector<cv::Point>> filteredContours;
-    int minArea = 20000;
+    int minArea = 1000;
 
     for (const auto& contour : contours) {
         double area = contourArea(contour);
@@ -45,8 +49,8 @@ cv::Mat findObject(cv::Mat image, int x, int y) {
     for (const auto& contour : contours) {
         if (cv::pointPolygonTest(contour, point, false) >= 0) {
             // Draw the contour containing the specific pixel
-            cv::drawContours(image, std::vector<std::vector<cv::Point>>{contour}, -1, cv::Scalar(0, 255, 0), 2);
-            //cv::circle(image, point, 5, cv::Scalar(255, 0, 0), -1); // Draw the specific pixel
+            cv::drawContours(image, std::vector<std::vector<cv::Point>>{contour}, -1, cv::Scalar(0, 255, 0), 20);
+            cv::circle(image, point, 5, cv::Scalar(255, 0, 0), -1); // Draw the specific pixel
             break;
         }
     }
@@ -74,47 +78,39 @@ int findObjectArea(cv::Mat image, int x, int y) {
     return area;
 }
 
-cv::Mat writeContourAll(cv::Mat& image) {
+cv::Mat writeAllContour(cv::Mat& image) {
 
     std::vector<std::vector<cv::Point>> contours = getContours(image);
 
     // Draw contours on the original image
-    cv::drawContours(image, contours, -1, cv::Scalar(0, 255, 0), 15);
+    cv::drawContours(image, contours, -1, cv::Scalar(0, 255, 0), 20);
 
     return image;
 }
 
-cv::Mat identifyCenterObject(cv::Mat image) {
+void removeBackground(cv::Mat& image) {
+    // Convert the image to grayscale
+    cv::Mat gray;
+    cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
 
-    std::vector<std::vector<cv::Point>> contours = getContours(image);
+    // Threshold the grayscale image to create a binary mask
+    cv::Mat mask;
+    cv::threshold(gray, mask, 0, 255, cv::THRESH_BINARY_INV | cv::THRESH_OTSU);
 
-    // Calculate centroids of contours
-    std::vector<cv::Moments> mu(contours.size());
-    for (size_t i = 0; i < contours.size(); i++) {
-        mu[i] = cv::moments(contours[i]);
-    }
+    // Find contours in the mask
+    std::vector<std::vector<cv::Point>> contours;
+    cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 
-    // Find the contour corresponding to the object in the center
-    cv::Point2f imageCenter(static_cast<float>(image.cols / 2), static_cast<float>(image.rows / 2));
-    int centerContourIndex = -1;
-    float minDist = std::numeric_limits<float>::max();
+    // Create a mask for the contours
+    cv::Mat contourMask = cv::Mat::zeros(image.size(), CV_8UC1);
+    cv::drawContours(contourMask, contours, -1, cv::Scalar(255), cv::FILLED);
 
-    double area = 0;
+    // Apply the mask to the original image to keep only the objects inside the contours
+    cv::Mat result;
+    image.copyTo(result, contourMask);
 
-    for (size_t i = 0; i < contours.size(); i++) {
-        cv::Point2f centroid(static_cast<float>(mu[i].m10 / mu[i].m00), static_cast<float>(mu[i].m01 / mu[i].m00));
-        float dist = cv::norm(imageCenter - centroid);
-
-        if (dist < minDist) {
-            minDist = dist;
-            centerContourIndex = static_cast<int>(i);
-        }
-    }
-
-    // Draw the contour of the center object onto the image
-    cv::drawContours(image, contours, centerContourIndex, cv::Scalar(0, 255, 0), 20);
-
-    return image;
+    // Update the original image with the result
+    image = result;
 }
 
 int identifyCenterObjectArea(cv::Mat image) {
@@ -145,6 +141,39 @@ int identifyCenterObjectArea(cv::Mat image) {
     }
 
     return area;
+}
+
+cv::Mat identifyCenterObject(cv::Mat image) {
+
+    std::vector<std::vector<cv::Point>> contours = getContours(image);
+
+    // Calculate centroids of contours
+    std::vector<cv::Moments> mu(contours.size());
+    for (size_t i = 0; i < contours.size(); i++) {
+        mu[i] = cv::moments(contours[i]);
+    }
+
+    // Find the contour corresponding to the object in the center
+    cv::Point2f imageCenter(static_cast<float>(image.cols / 2), static_cast<float>(image.rows / 2));
+    int centerContourIndex = -1;
+    float minDist = std::numeric_limits<float>::max();
+
+    double area = 0;
+
+    for (size_t i = 0; i < contours.size(); i++) {
+        cv::Point2f centroid(static_cast<float>(mu[i].m10 / mu[i].m00), static_cast<float>(mu[i].m01 / mu[i].m00));
+        float dist = cv::norm(imageCenter - centroid);
+
+        if (dist < minDist) {
+            minDist = dist;
+            centerContourIndex = static_cast<int>(i);
+        }
+    }
+
+    // Draw the contour of the center object onto the image
+    cv::drawContours(image, contours, centerContourIndex, cv::Scalar(0, 255, 0), 4);
+
+    return image;
 }
 
 cv::Mat readImage(const std::string& imgPath) {
@@ -192,7 +221,7 @@ int getAverageHSV(const cv::Mat& image) {
     int rows = image.rows;
     int cols = image.cols;
 
-    if (cols < 8 || rows < 8) {
+    if (cols < 8 || rows < 8){
         return getHSV(image);
     }
 
@@ -261,8 +290,7 @@ cv::Mat identifyObject(cv::Mat image) {
     cv::Mat resultImage;
     cv::Mat mask;
 
-    int hsvValue;
-    hsvValue = getAverageHSV(image);
+    int hsvValue = getAverageHSV(image);
 
     if (hsvValue != -1) {
         int h = (hsvValue >> 16) & 0xFF;
@@ -325,6 +353,91 @@ cv::Mat identifyObject(cv::Mat image) {
     return resultImage;
 }
 
+int identifyObjectTest(cv::Mat image) {
+    int range = 4;
+    cv::Mat resultImage;
+    cv::Mat mask;
+
+    //Exists to test the write contour functions
+    if (true) {
+        //writeAllContour(image);
+        image = findObject(image, 270, 180);
+    }
+
+    int hsvValue = getAverageHSV(image);
+
+    if (hsvValue != -1) {
+        int h = (hsvValue >> 16) & 0xFF;
+        int s = (hsvValue >> 8) & 0xFF;
+        int v = hsvValue & 0xFF;
+
+        std::cout << "HSV Color in the middle of the image: "
+                  << "H: " << h << ", "
+                  << "S: " << s << ", "
+                  << "V: " << v << std::endl;
+
+        int minSat = 100, maxSat = 255;
+        int minVal = 0, maxVal = 255;
+
+        cv::Scalar lowerBound;
+        cv::Scalar upperBound;
+
+        if (h < range || h >(180 - range)) {
+
+            cv::Scalar lowerBound2;
+            cv::Scalar upperBound2;
+
+            cv::Mat mask1, mask2;
+
+            if (h < range) {
+                int minHue1 = 0, maxHue1 = h + range;
+                int minHue2 = 179 - (range - h), maxHue2 = 180;
+
+                lowerBound = cv::Scalar(minHue1, minSat, minVal);
+                upperBound = cv::Scalar(maxHue1, maxSat, maxVal);
+
+                lowerBound2 = cv::Scalar(minHue2, minSat, minVal);
+                upperBound2 = cv::Scalar(maxHue2, maxSat, maxVal);
+            }
+            else {
+                int minHue1 = h - range, maxHue1 = 180;
+                int minHue2 = 0, maxHue2 = range - (180 - h);
+
+                lowerBound = cv::Scalar(minHue1, minSat, minVal);
+                upperBound = cv::Scalar(maxHue1, maxSat, maxVal);
+
+                lowerBound2 = cv::Scalar(minHue2, minSat, minVal);
+                upperBound2 = cv::Scalar(maxHue2, maxSat, maxVal);
+            }
+
+            mask1 = createMask(image, lowerBound, upperBound);
+            mask2 = createMask(image, lowerBound2, upperBound2);
+
+            mask = mask1 | mask2;
+
+            resultImage = applyMask(image, mask);
+        }
+        else {
+            int minHue = h - range, maxHue = h + range;
+
+            lowerBound = cv::Scalar(minHue, minSat, minVal);
+            upperBound = cv::Scalar(maxHue, maxSat, maxVal);
+
+            mask = createMask(image, lowerBound, upperBound);
+
+            resultImage = applyMask(image, mask);
+        }
+
+        cv::imshow("Input Image", image);
+        cv::imshow("Result (Masked) Image", resultImage);
+
+        cv::imwrite("C:/Users/Sebastian WL/Desktop/Results/img.png", resultImage);
+    }
+    waitKey(0);
+
+    return 0;
+}
+
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_example_blodpool_MainActivity_cvTest(JNIEnv *env, jobject thiz, jlong mat_addy, jlong mat_addy_res) {
@@ -334,9 +447,7 @@ Java_com_example_blodpool_MainActivity_cvTest(JNIEnv *env, jobject thiz, jlong m
 
     cv::Mat &resMat = *(cv::Mat*) mat_addy_res;
 
-    resMat = identifyObject(mat);
-
-
+    resMat = identifyCenterObject(mat);
 }
 
 
