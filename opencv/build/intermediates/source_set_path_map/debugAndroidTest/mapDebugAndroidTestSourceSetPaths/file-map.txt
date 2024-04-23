@@ -1,5 +1,0 @@
-org.opencv.test.opencv-androidTest-0 C:\Users\Admin\Desktop\projCpp\blappAndroid\opencv\build\generated\res\resValues\androidTest\debug
-org.opencv.test.opencv-mergeDebugAndroidTestResources-1 C:\Users\Admin\Desktop\projCpp\blappAndroid\opencv\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
-org.opencv.test.opencv-mergeDebugAndroidTestResources-2 C:\Users\Admin\Desktop\projCpp\blappAndroid\opencv\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
-org.opencv.test.opencv-debugAndroidTest-3 C:\Users\Admin\Desktop\projCpp\blappAndroid\opencv\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources
-org.opencv.test.opencv-debug-4 C:\Users\Admin\Desktop\projCpp\blappAndroid\opencv\build\intermediates\packaged_res\debug\packageDebugResources

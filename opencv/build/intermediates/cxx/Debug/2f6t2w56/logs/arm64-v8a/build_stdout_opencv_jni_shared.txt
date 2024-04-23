@@ -1,2 +1,0 @@
-ninja: Entering directory `C:\Users\Admin\Desktop\projCpp\blappAndroid\opencv\.cxx\Debug\2f6t2w56\arm64-v8a'
-ninja: no work to do.
