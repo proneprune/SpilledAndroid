@@ -22,16 +22,15 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
 class MainActivity : ComponentActivity() {
 
-<<<<<<< HEAD
-=======
+
     private lateinit var imageUri: Uri
->>>>>>> 43ec5e6ccb78c9ded8f2ef84a6552a2b21896ee1
 
     external fun getTest() : String
 
@@ -56,6 +55,18 @@ class MainActivity : ComponentActivity() {
             )
         } else {
             // Permission has already been granted
+
+            System.loadLibrary("testcpp")
+
+
+
+
+            displayFrontpage()
+
+            OpenCVLoader.initDebug()
+
+
+            Toast.makeText(applicationContext,getTest(),Toast.LENGTH_LONG).show()
             // You can now use the camera
         }
     }
@@ -75,7 +86,6 @@ class MainActivity : ComponentActivity() {
                 finish()
             }
         }
-
         System.loadLibrary("testcpp")
 
 
@@ -87,6 +97,7 @@ class MainActivity : ComponentActivity() {
 
 
         Toast.makeText(applicationContext,getTest(),Toast.LENGTH_LONG).show()
+
     }
 
 
@@ -167,6 +178,7 @@ class MainActivity : ComponentActivity() {
 
 
     //@Deprecated
+    @SuppressLint("ClickableViewAccessibility")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
 
