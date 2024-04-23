@@ -502,6 +502,9 @@ Java_com_example_blodpool_MainActivity_cvTest(JNIEnv *env, jobject thiz, jlong m
 
     cv::Mat &resMat = *(cv::Mat*) mat_addy_res;
 
+    cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+    cv::rotate(resMat, resMat, cv::ROTATE_90_CLOCKWISE);
+
     int x = static_cast<int>(x_addy);
     int y = static_cast<int>(y_addy);
 
