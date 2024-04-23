@@ -32,6 +32,8 @@ class MainActivity : ComponentActivity() {
 
     external fun getTest() : String
 
+    external fun cvTest(mat_addy: Long, mat_addy_res: Long)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,6 +42,8 @@ class MainActivity : ComponentActivity() {
         displayFrontpage()
 
         OpenCVLoader.initDebug()
+
+
         Toast.makeText(applicationContext,getTest(),Toast.LENGTH_LONG).show()
 
     }
@@ -82,6 +86,13 @@ class MainActivity : ComponentActivity() {
             val mat = Mat()
             Utils.bitmapToMat(bitmap, mat)
 
+            Toast.makeText(applicationContext,mat.toString(),Toast.LENGTH_LONG).show()
+
+            val resMat = Mat()
+
+            cvTest(mat.nativeObjAddr, resMat.nativeObjAddr)
+
+            /*
             val hsvMat = Mat()
             Imgproc.cvtColor(mat, hsvMat, Imgproc.COLOR_RGB2HSV)
 
@@ -99,8 +110,12 @@ class MainActivity : ComponentActivity() {
             mat.copyTo(resultMat)
             resultMat.setTo(Scalar(0.0, 0.0, 0.0), invertedMask)
 
-            val resultBitmap = Bitmap.createBitmap(mat.cols(), mat.rows(), Bitmap.Config.ARGB_8888)
-            Utils.matToBitmap(resultMat, resultBitmap)
+             */
+
+            Toast.makeText(applicationContext,resMat.toString(),Toast.LENGTH_LONG).show()
+
+            val resultBitmap = Bitmap.createBitmap(resMat.cols(), resMat.rows(), Bitmap.Config.ARGB_8888)
+            Utils.matToBitmap(resMat, resultBitmap)
             
             displayImagePage(resultBitmap)
 

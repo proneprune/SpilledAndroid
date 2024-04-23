@@ -8,9 +8,9 @@
     "triple": "x86_64-linux-android",
     "llvmTriple": "x86_64-none-linux-android"
   },
-  "cxxBuildFolder": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\.cxx\\Debug\\2f6t2w56\\x86_64",
-  "soFolder": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\build\\intermediates\\cxx\\Debug\\2f6t2w56\\obj\\x86_64",
-  "soRepublishFolder": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\build\\intermediates\\cmake\\debug\\obj\\x86_64",
+  "cxxBuildFolder": "C:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\.cxx\\Debug\\2f6t2w56\\x86_64",
+  "soFolder": "C:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\build\\intermediates\\cxx\\Debug\\2f6t2w56\\obj\\x86_64",
+  "soRepublishFolder": "C:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\build\\intermediates\\cmake\\debug\\obj\\x86_64",
   "abiPlatformVersion": 21,
   "cmake": {
     "effectiveConfiguration": {
@@ -27,6 +27,9 @@
     "variantName": "debug",
     "isDebuggableEnabled": true,
     "validAbiList": [
+      "armeabi-v7a",
+      "arm64-v8a",
+      "x86",
       "x86_64"
     ],
     "buildTargetSet": [
@@ -37,16 +40,16 @@
     ],
     "cmakeSettingsConfiguration": "android-gradle-plugin-predetermined-name",
     "module": {
-      "cxxFolder": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\.cxx",
-      "intermediatesBaseFolder": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\build\\intermediates",
-      "intermediatesFolder": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\build\\intermediates\\cxx",
+      "cxxFolder": "C:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\.cxx",
+      "intermediatesBaseFolder": "C:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\build\\intermediates",
+      "intermediatesFolder": "C:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\build\\intermediates\\cxx",
       "gradleModulePathName": ":opencv",
-      "moduleRootFolder": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv",
-      "moduleBuildFile": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\build.gradle",
-      "makeFile": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\libcxx_helper\\CMakeLists.txt",
+      "moduleRootFolder": "C:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv",
+      "moduleBuildFile": "C:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\build.gradle",
+      "makeFile": "C:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\libcxx_helper\\CMakeLists.txt",
       "buildSystem": "CMAKE",
-      "ndkFolder": "C:\\Users\\jcull\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393",
-      "ndkFolderBeforeSymLinking": "C:\\Users\\jcull\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393",
+      "ndkFolder": "C:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393",
+      "ndkFolderBeforeSymLinking": "C:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393",
       "ndkVersion": "25.1.8937393",
       "ndkSupportedAbiList": [
         "armeabi-v7a",
@@ -124,31 +127,30 @@
           "llvmTriple": "x86_64-none-linux-android"
         }
       ],
-      "cmakeToolchainFile": "C:\\Users\\jcull\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393\\build\\cmake\\android.toolchain.cmake",
+      "cmakeToolchainFile": "C:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393\\build\\cmake\\android.toolchain.cmake",
       "cmake": {
-        "cmakeExe": "C:\\Users\\jcull\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\cmake.exe"
+        "cmakeExe": "C:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\cmake.exe"
       },
       "stlSharedObjectMap": {
         "LIBCXX_SHARED": {
-          "armeabi-v7a": "C:\\Users\\jcull\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\arm-linux-androideabi\\libc++_shared.so",
-          "arm64-v8a": "C:\\Users\\jcull\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\libc++_shared.so",
-          "x86": "C:\\Users\\jcull\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\i686-linux-android\\libc++_shared.so",
-          "x86_64": "C:\\Users\\jcull\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\x86_64-linux-android\\libc++_shared.so"
+          "armeabi-v7a": "C:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\arm-linux-androideabi\\libc++_shared.so",
+          "arm64-v8a": "C:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\libc++_shared.so",
+          "x86": "C:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\i686-linux-android\\libc++_shared.so",
+          "x86_64": "C:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\x86_64-linux-android\\libc++_shared.so"
         },
         "LIBCXX_STATIC": {},
         "NONE": {},
         "SYSTEM": {}
       },
       "project": {
-        "rootBuildGradleFolder": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid",
-        "sdkFolder": "C:\\Users\\jcull\\AppData\\Local\\Android\\Sdk",
+        "rootBuildGradleFolder": "C:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid",
+        "sdkFolder": "C:\\Users\\Admin\\AppData\\Local\\Android\\Sdk",
         "isBuildOnlyTargetAbiEnabled": true,
-        "ideBuildTargetAbi": "x86_64,x86",
         "isCmakeBuildCohabitationEnabled": false,
         "isPrefabEnabled": false
       },
       "outputOptions": [],
-      "ninjaExe": "C:\\Users\\jcull\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+      "ninjaExe": "C:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
       "hasBuildTimeInformation": true
     },
     "prefabClassPaths": [],
@@ -160,29 +162,29 @@
   "buildSettings": {
     "environmentVariables": []
   },
-  "prefabFolder": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\.cxx\\Debug\\2f6t2w56\\prefab\\x86_64",
+  "prefabFolder": "C:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\.cxx\\Debug\\2f6t2w56\\prefab\\x86_64",
   "isActiveAbi": true,
   "fullConfigurationHash": "2f6t2w5655j6d2i85d4i1328685l6ig3d676h2q1q58724b703qv6k2n3l3v",
   "fullConfigurationHashKey": "# Values used to calculate the hash in this folder name.\n# Should not depend on the absolute path of the project itself.\n#   - AGP: 8.3.2.\n#   - $NDK is the path to NDK 25.1.8937393.\n#   - $PROJECT is the path to the parent folder of the root Gradle build file.\n#   - $ABI is the ABI to be built with. The specific value doesn\u0027t contribute to the value of the hash.\n#   - $HASH is the hash value computed from this text.\n#   - $CMAKE is the path to CMake 3.22.1.\n#   - $NINJA is the path to Ninja.\n-H$PROJECT/opencv/libcxx_helper\n-DCMAKE_SYSTEM_NAME\u003dAndroid\n-DCMAKE_EXPORT_COMPILE_COMMANDS\u003dON\n-DCMAKE_SYSTEM_VERSION\u003d21\n-DANDROID_PLATFORM\u003dandroid-21\n-DANDROID_ABI\u003d$ABI\n-DCMAKE_ANDROID_ARCH_ABI\u003d$ABI\n-DANDROID_NDK\u003d$NDK\n-DCMAKE_ANDROID_NDK\u003d$NDK\n-DCMAKE_TOOLCHAIN_FILE\u003d$NDK/build/cmake/android.toolchain.cmake\n-DCMAKE_MAKE_PROGRAM\u003d$NINJA\n-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003d$PROJECT/opencv/build/intermediates/cxx/Debug/$HASH/obj/$ABI\n-DCMAKE_RUNTIME_OUTPUT_DIRECTORY\u003d$PROJECT/opencv/build/intermediates/cxx/Debug/$HASH/obj/$ABI\n-DCMAKE_BUILD_TYPE\u003dDebug\n-B$PROJECT/opencv/.cxx/Debug/$HASH/$ABI\n-GNinja\n-DANDROID_STL\u003dc++_shared",
   "configurationArguments": [
-    "-HC:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\libcxx_helper",
+    "-HC:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\libcxx_helper",
     "-DCMAKE_SYSTEM_NAME\u003dAndroid",
     "-DCMAKE_EXPORT_COMPILE_COMMANDS\u003dON",
     "-DCMAKE_SYSTEM_VERSION\u003d21",
     "-DANDROID_PLATFORM\u003dandroid-21",
     "-DANDROID_ABI\u003dx86_64",
     "-DCMAKE_ANDROID_ARCH_ABI\u003dx86_64",
-    "-DANDROID_NDK\u003dC:\\Users\\jcull\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393",
-    "-DCMAKE_ANDROID_NDK\u003dC:\\Users\\jcull\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393",
-    "-DCMAKE_TOOLCHAIN_FILE\u003dC:\\Users\\jcull\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393\\build\\cmake\\android.toolchain.cmake",
-    "-DCMAKE_MAKE_PROGRAM\u003dC:\\Users\\jcull\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
-    "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003dC:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\build\\intermediates\\cxx\\Debug\\2f6t2w56\\obj\\x86_64",
-    "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY\u003dC:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\build\\intermediates\\cxx\\Debug\\2f6t2w56\\obj\\x86_64",
+    "-DANDROID_NDK\u003dC:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393",
+    "-DCMAKE_ANDROID_NDK\u003dC:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393",
+    "-DCMAKE_TOOLCHAIN_FILE\u003dC:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393\\build\\cmake\\android.toolchain.cmake",
+    "-DCMAKE_MAKE_PROGRAM\u003dC:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003dC:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\build\\intermediates\\cxx\\Debug\\2f6t2w56\\obj\\x86_64",
+    "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY\u003dC:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\build\\intermediates\\cxx\\Debug\\2f6t2w56\\obj\\x86_64",
     "-DCMAKE_BUILD_TYPE\u003dDebug",
-    "-BC:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\.cxx\\Debug\\2f6t2w56\\x86_64",
+    "-BC:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\.cxx\\Debug\\2f6t2w56\\x86_64",
     "-GNinja",
     "-DANDROID_STL\u003dc++_shared"
   ],
-  "stlLibraryFile": "C:\\Users\\jcull\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\x86_64-linux-android\\libc++_shared.so",
-  "intermediatesParentFolder": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\build\\intermediates\\cxx\\Debug\\2f6t2w56"
+  "stlLibraryFile": "C:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\ndk\\25.1.8937393\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\x86_64-linux-android\\libc++_shared.so",
+  "intermediatesParentFolder": "C:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\build\\intermediates\\cxx\\Debug\\2f6t2w56"
 }
