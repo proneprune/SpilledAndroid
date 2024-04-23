@@ -3,10 +3,14 @@
     "level_": 0,
     "message_": "Start JSON generation. Platform version: 21 min SDK version: x86",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file_": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\libcxx_helper\\CMakeLists.txt",
 =======
     "file_": "C:\\blappAndroid\\opencv\\libcxx_helper\\CMakeLists.txt",
 >>>>>>> 984c6bbf32e96fb9442d17501897c51e3afd7946
+=======
+    "file_": "C:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\libcxx_helper\\CMakeLists.txt",
+>>>>>>> 43ec5e6ccb78c9ded8f2ef84a6552a2b21896ee1
     "tag_": "debug|x86",
     "diagnosticCode_": 0,
     "memoizedIsInitialized": 1,
@@ -18,6 +22,7 @@
   },
   {
     "level_": 0,
+<<<<<<< HEAD
 <<<<<<< HEAD
     "message_": "rebuilding JSON C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\.cxx\\Debug\\2f6t2w56\\x86\\android_gradle_build.json due to:",
     "file_": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\libcxx_helper\\CMakeLists.txt",
@@ -184,6 +189,10 @@
     "message_": "hard linked C:\\blappAndroid\\opencv\\.cxx\\Debug\\2f6t2w56\\x86\\compile_commands.json to C:\\blappAndroid\\opencv\\.cxx\\tools\\debug\\x86\\compile_commands.json",
     "file_": "C:\\blappAndroid\\opencv\\libcxx_helper\\CMakeLists.txt",
 >>>>>>> 984c6bbf32e96fb9442d17501897c51e3afd7946
+=======
+    "message_": "JSON \u0027C:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\.cxx\\Debug\\2f6t2w56\\x86\\android_gradle_build.json\u0027 was up-to-date",
+    "file_": "C:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\libcxx_helper\\CMakeLists.txt",
+>>>>>>> 43ec5e6ccb78c9ded8f2ef84a6552a2b21896ee1
     "tag_": "debug|x86",
     "diagnosticCode_": 0,
     "memoizedIsInitialized": 1,
@@ -197,10 +206,14 @@
     "level_": 0,
     "message_": "JSON generation completed without problems",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "file_": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\libcxx_helper\\CMakeLists.txt",
 =======
     "file_": "C:\\blappAndroid\\opencv\\libcxx_helper\\CMakeLists.txt",
 >>>>>>> 984c6bbf32e96fb9442d17501897c51e3afd7946
+=======
+    "file_": "C:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid\\opencv\\libcxx_helper\\CMakeLists.txt",
+>>>>>>> 43ec5e6ccb78c9ded8f2ef84a6552a2b21896ee1
     "tag_": "debug|x86",
     "diagnosticCode_": 0,
     "memoizedIsInitialized": 1,

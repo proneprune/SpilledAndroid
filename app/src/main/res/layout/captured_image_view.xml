@@ -5,11 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/captured_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:srcCompat="@tools:sample/avatars" />
+
 
     <TextView
         android:id="@+id/blood_select"
@@ -36,7 +32,31 @@
         android:id="@+id/relative_layout_1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:context=".MainActivity">
+
+
+        <ImageView
+            android:id="@+id/captured_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:adjustViewBounds="true"
+            android:background="@color/white"
+            android:foregroundGravity="center"
+            android:scaleType="fitXY"
+            tools:srcCompat="@tools:sample/avatars">
+
+
+
+        </ImageView>
 
         <TextView
             android:id="@+id/text_view_1"

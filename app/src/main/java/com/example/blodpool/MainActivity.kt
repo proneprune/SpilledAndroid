@@ -3,31 +3,23 @@ package com.example.blodpool
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.blodpool.ui.theme.BlodpoolTheme
-
-import org.opencv.android.OpenCVLoader
-import org.opencv.android.Utils
-import org.opencv.core.Core.inRange
-import org.opencv.core.Mat
-import org.opencv.core.Scalar
-import org.opencv.imgproc.Imgproc
-import org.opencv.imgproc.Imgproc.COLOR_BGR2HSV
-import org.opencv.imgproc.Imgproc.COLOR_RGB2HSV
-
+import android.os.Environment
+import android.provider.MediaStore
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import org.opencv.core.Core
-import org.opencv.core.Core.bitwise_and
-import org.opencv.core.CvType.CV_8UC1
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.core.content.FileProvider
+import org.opencv.android.OpenCVLoader
+import org.opencv.android.Utils
+import org.opencv.core.Mat
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -36,6 +28,10 @@ import androidx.core.content.ContextCompat
 
 class MainActivity : ComponentActivity() {
 
+<<<<<<< HEAD
+=======
+    private lateinit var imageUri: Uri
+>>>>>>> 43ec5e6ccb78c9ded8f2ef84a6552a2b21896ee1
 
     external fun getTest() : String
 
@@ -83,6 +79,8 @@ class MainActivity : ComponentActivity() {
         System.loadLibrary("testcpp")
 
 
+
+
         displayFrontpage()
 
         OpenCVLoader.initDebug()
@@ -101,6 +99,27 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.activity_main)
         val button = findViewById<Button>(R.id.btn)
         val intent = Intent("android.media.action.IMAGE_CAPTURE")
+
+       // var f = createImageFile()
+
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val imageFileName = "JPEG_" + timeStamp + "_"
+        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val image = File.createTempFile(
+            imageFileName,  /* prefix */
+            ".jpg",  /* suffix */
+            storageDir /* directory */
+        )
+
+        var filePath = imageFileName
+
+        val mImageUri = FileProvider.getUriForFile(this,
+            "com.example.blodpool.fileprovider",
+            image);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
+        //startActivityForResult(intent, 0);
+
+        imageUri = mImageUri
 
         button.setOnClickListener{
             startActivityForResult(intent, 0)
@@ -122,11 +141,13 @@ class MainActivity : ComponentActivity() {
 
     }
 
-    fun selectObjectImage(initialImage: Bitmap, xPos: Int, yPoS: Int): Bitmap{
+    fun selectObjectImage(initialUri: Uri, xPos: Int, yPoS: Int): Bitmap{
+
+        var initialImage = Bitmap.createBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), initialUri));
+
 
         val mat = Mat()
         Utils.bitmapToMat(initialImage, mat)
-
 
         Toast.makeText(applicationContext,mat.toString(),Toast.LENGTH_LONG).show()
 
@@ -149,10 +170,14 @@ class MainActivity : ComponentActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
+        if(requestCode == 0 && resultCode == Activity.RESULT_OK){
            // Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
 
+
+
             setContentView(R.layout.captured_image_view)
+
+            Toast.makeText(applicationContext,"found res!",Toast.LENGTH_LONG).show()
 
             val mRelativeLayout = findViewById<RelativeLayout>(R.id.relative_layout_1)
 
@@ -162,11 +187,17 @@ class MainActivity : ComponentActivity() {
 
 
 
-            val bitmap = (data.extras?.get("data")) as Bitmap
+          //  val bitmap = (data?.extras?.get("data")) as Bitmap
 
-            image.setImageBitmap(bitmap)
+           // image.setImageBitmap(bitmap)
+            image.setImageURI(imageUri)
+
+          //  Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
 
             // When relative layout is touched
+
+
+
             mRelativeLayout.setOnTouchListener { _, motionEvent ->
                 val imageWidth = image.drawable.intrinsicWidth
                 val imageHeight = image.drawable.intrinsicHeight
@@ -191,12 +222,15 @@ class MainActivity : ComponentActivity() {
                 mTextViewX.text = "X: $imageX"
                 mTextViewY.text = "Y: $imageY"
 
-                val resultBitmap = selectObjectImage(bitmap, imageX, imageY)
+                val resultBitmap = selectObjectImage(imageUri, imageX, imageY)
 
                 image.setImageBitmap(resultBitmap)
+                //image.setRotation(90F);
 
                 true
             }
+
+
 
             
            // displayImagePage(resultBitmap)

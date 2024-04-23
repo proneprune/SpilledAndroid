@@ -21,7 +21,11 @@
 -- Configuring done
 -- Generating done
 <<<<<<< HEAD
+<<<<<<< HEAD
 -- Build files have been written to: C:/Users/jcull/OneDrive/Skrivbord/Kurser/II1305/blapp/blappAndroid/opencv/.cxx/Debug/2f6t2w56/x86
 =======
 -- Build files have been written to: C:/blappAndroid/opencv/.cxx/Debug/2f6t2w56/x86
 >>>>>>> 984c6bbf32e96fb9442d17501897c51e3afd7946
+=======
+-- Build files have been written to: C:/Users/Admin/Desktop/projCpp/blappAndroid/opencv/.cxx/Debug/2f6t2w56/x86
+>>>>>>> 43ec5e6ccb78c9ded8f2ef84a6552a2b21896ee1
