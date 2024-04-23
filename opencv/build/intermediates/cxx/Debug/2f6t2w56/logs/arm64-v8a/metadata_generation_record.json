@@ -2,11 +2,7 @@
   {
     "level_": 0,
     "message_": "Start JSON generation. Platform version: 21 min SDK version: arm64-v8a",
-<<<<<<< HEAD
     "file_": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\libcxx_helper\\CMakeLists.txt",
-=======
-    "file_": "C:\\blappAndroid\\opencv\\libcxx_helper\\CMakeLists.txt",
->>>>>>> 984c6bbf32e96fb9442d17501897c51e3afd7946
     "tag_": "debug|arm64-v8a",
     "diagnosticCode_": 0,
     "memoizedIsInitialized": 1,
@@ -18,13 +14,8 @@
   },
   {
     "level_": 0,
-<<<<<<< HEAD
     "message_": "JSON \u0027C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\.cxx\\Debug\\2f6t2w56\\arm64-v8a\\android_gradle_build.json\u0027 was up-to-date",
     "file_": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\libcxx_helper\\CMakeLists.txt",
-=======
-    "message_": "JSON \u0027C:\\blappAndroid\\opencv\\.cxx\\Debug\\2f6t2w56\\arm64-v8a\\android_gradle_build.json\u0027 was up-to-date",
-    "file_": "C:\\blappAndroid\\opencv\\libcxx_helper\\CMakeLists.txt",
->>>>>>> 984c6bbf32e96fb9442d17501897c51e3afd7946
     "tag_": "debug|arm64-v8a",
     "diagnosticCode_": 0,
     "memoizedIsInitialized": 1,
@@ -37,11 +28,7 @@
   {
     "level_": 0,
     "message_": "JSON generation completed without problems",
-<<<<<<< HEAD
     "file_": "C:\\Users\\jcull\\OneDrive\\Skrivbord\\Kurser\\II1305\\blapp\\blappAndroid\\opencv\\libcxx_helper\\CMakeLists.txt",
-=======
-    "file_": "C:\\blappAndroid\\opencv\\libcxx_helper\\CMakeLists.txt",
->>>>>>> 984c6bbf32e96fb9442d17501897c51e3afd7946
     "tag_": "debug|arm64-v8a",
     "diagnosticCode_": 0,
     "memoizedIsInitialized": 1,

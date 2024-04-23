@@ -1,6 +1,5 @@
 -- Merging decision tree log ---
 manifest
-<<<<<<< HEAD
 ADDED from C:\Users\jcull\OneDrive\Skrivbord\Kurser\II1305\blapp\blappAndroid\opencv\java\AndroidManifest.xml:2:1-4:12
 INJECTED from C:\Users\jcull\OneDrive\Skrivbord\Kurser\II1305\blapp\blappAndroid\opencv\java\AndroidManifest.xml:2:1-4:12
 	package
@@ -16,20 +15,3 @@ INJECTED from C:\Users\jcull\OneDrive\Skrivbord\Kurser\II1305\blapp\blappAndroid
 		INJECTED from C:\Users\jcull\OneDrive\Skrivbord\Kurser\II1305\blapp\blappAndroid\opencv\java\AndroidManifest.xml
 	android:minSdkVersion
 		INJECTED from C:\Users\jcull\OneDrive\Skrivbord\Kurser\II1305\blapp\blappAndroid\opencv\java\AndroidManifest.xml
-=======
-ADDED from C:\blappAndroid\opencv\java\AndroidManifest.xml:2:1-4:12
-INJECTED from C:\blappAndroid\opencv\java\AndroidManifest.xml:2:1-4:12
-	package
-		ADDED from C:\blappAndroid\opencv\java\AndroidManifest.xml:3:7-27
-		INJECTED from C:\blappAndroid\opencv\java\AndroidManifest.xml
-	xmlns:android
-		ADDED from C:\blappAndroid\opencv\java\AndroidManifest.xml:2:11-69
-uses-sdk
-INJECTED from C:\blappAndroid\opencv\java\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from C:\blappAndroid\opencv\java\AndroidManifest.xml
-INJECTED from C:\blappAndroid\opencv\java\AndroidManifest.xml
-	android:targetSdkVersion
-		INJECTED from C:\blappAndroid\opencv\java\AndroidManifest.xml
-	android:minSdkVersion
-		INJECTED from C:\blappAndroid\opencv\java\AndroidManifest.xml
->>>>>>> 984c6bbf32e96fb9442d17501897c51e3afd7946

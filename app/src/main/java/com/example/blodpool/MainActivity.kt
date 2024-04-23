@@ -36,6 +36,11 @@ import androidx.core.content.ContextCompat
 
 class MainActivity : ComponentActivity() {
 
+
+    external fun getTest() : String
+
+    external fun cvTest(mat_addy: Long, mat_addy_res: Long, x_addy: Int, y_addy: Int)
+
     private val CAMERA_PERMISSION_REQUEST_CODE = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,9 +93,7 @@ class MainActivity : ComponentActivity() {
 
 
 
-    external fun getTest() : String
 
-    external fun cvTest(mat_addy: Long, mat_addy_res: Long, x_addy: Int, y_addy: Int)
 
 
 
