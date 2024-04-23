@@ -143,7 +143,7 @@
         "rootBuildGradleFolder": "C:\\Users\\Admin\\Desktop\\projCpp\\blappAndroid",
         "sdkFolder": "C:\\Users\\Admin\\AppData\\Local\\Android\\Sdk",
         "isBuildOnlyTargetAbiEnabled": true,
-        "ideBuildTargetAbi": "arm64-v8a,armeabi-v7a,armeabi",
+        "ideBuildTargetAbi": "arm64-v8a",
         "isCmakeBuildCohabitationEnabled": false,
         "isPrefabEnabled": false
       },

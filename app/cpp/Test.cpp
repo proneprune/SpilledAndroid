@@ -440,14 +440,17 @@ int identifyObjectTest(cv::Mat image) {
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_example_blodpool_MainActivity_cvTest(JNIEnv *env, jobject thiz, jlong mat_addy, jlong mat_addy_res) {
+Java_com_example_blodpool_MainActivity_cvTest(JNIEnv *env, jobject thiz, jlong mat_addy, jlong mat_addy_res, jint x_addy, jint y_addy) {
 
     //cv::cvtColor(matIn, matOut, cv::COLOR_BGR2GRAY);
     cv::Mat &mat = *(cv::Mat*) mat_addy;
 
     cv::Mat &resMat = *(cv::Mat*) mat_addy_res;
 
-    resMat = identifyCenterObject(mat);
+    int x = static_cast<int>(x_addy);
+    int y = static_cast<int>(y_addy);
+
+    resMat = findObject(mat, x, y);
 }
 
 

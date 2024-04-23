@@ -23,6 +23,8 @@ import org.opencv.imgproc.Imgproc.COLOR_BGR2HSV
 import org.opencv.imgproc.Imgproc.COLOR_RGB2HSV
 
 import android.widget.Button
+import android.widget.RelativeLayout
+import android.widget.TextView
 import org.opencv.core.Core
 import org.opencv.core.Core.bitwise_and
 import org.opencv.core.CvType.CV_8UC1
@@ -32,12 +34,13 @@ class MainActivity : ComponentActivity() {
 
     external fun getTest() : String
 
-    external fun cvTest(mat_addy: Long, mat_addy_res: Long)
+    external fun cvTest(mat_addy: Long, mat_addy_res: Long, x_addy: Int, y_addy: Int)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         System.loadLibrary("testcpp")
+
 
         displayFrontpage()
 
@@ -73,6 +76,28 @@ class MainActivity : ComponentActivity() {
 
     }
 
+    fun selectObjectImage(initialImage: Bitmap, xPos: Int, yPoS: Int): Bitmap{
+
+        val mat = Mat()
+        Utils.bitmapToMat(initialImage, mat)
+
+
+        Toast.makeText(applicationContext,mat.toString(),Toast.LENGTH_LONG).show()
+
+        val resMat = Mat()
+
+        cvTest(mat.nativeObjAddr, resMat.nativeObjAddr, xPos, yPoS)
+
+
+        Toast.makeText(applicationContext,resMat.toString(),Toast.LENGTH_LONG).show()
+
+        val resultBitmap = Bitmap.createBitmap(resMat.cols(), resMat.rows(), Bitmap.Config.ARGB_8888)
+        Utils.matToBitmap(resMat, resultBitmap)
+
+        return resultBitmap
+    }
+
+
 
     //@Deprecated
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
@@ -81,43 +106,54 @@ class MainActivity : ComponentActivity() {
         if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
            // Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
 
+            setContentView(R.layout.captured_image_view)
+
+            val mRelativeLayout = findViewById<RelativeLayout>(R.id.relative_layout_1)
+
+            val mTextViewX = findViewById<TextView>(R.id.text_view_1)
+            val mTextViewY = findViewById<TextView>(R.id.text_view_2)
+            val image = findViewById<ImageView>(R.id.captured_image)
+
+
+
             val bitmap = (data.extras?.get("data")) as Bitmap
 
-            val mat = Mat()
-            Utils.bitmapToMat(bitmap, mat)
+            image.setImageBitmap(bitmap)
 
-            Toast.makeText(applicationContext,mat.toString(),Toast.LENGTH_LONG).show()
+            // When relative layout is touched
+            mRelativeLayout.setOnTouchListener { _, motionEvent ->
+                val imageWidth = image.drawable.intrinsicWidth
+                val imageHeight = image.drawable.intrinsicHeight
 
-            val resMat = Mat()
+                // X and Y values are fetched relative to the view (mRelativeLayout)
+                val mX = motionEvent.x
+                val mY = motionEvent.y
 
-            cvTest(mat.nativeObjAddr, resMat.nativeObjAddr)
+                // X and Y values are
+                // displayed in the TextView
+                // mTextViewX.text = "X: $mX"
+                // mTextViewY.text = "Y: $mY"
 
-            /*
-            val hsvMat = Mat()
-            Imgproc.cvtColor(mat, hsvMat, Imgproc.COLOR_RGB2HSV)
+                // Calculate the corresponding coordinates relative to the original image
+                val imageX = (mX / image.width.toFloat() * imageWidth).toInt()
+                val imageY = (mY / image.height.toFloat() * imageHeight).toInt()
 
-            val low_red = Scalar(0.0, 100.0, 100.0)
-            val high_red = Scalar(10.0, 255.0, 255.0)
-            val redMask = Mat()
-            Core.inRange(hsvMat, low_red, high_red, redMask)
+                println("X: $imageX")
+                println("Y: $imageY")
 
-            // Invert the mask
-            val invertedMask = Mat()
-            Core.bitwise_not(redMask, invertedMask)
+                // Display the coordinates relative to the original image
+                mTextViewX.text = "X: $imageX"
+                mTextViewY.text = "Y: $imageY"
 
-            // Set non-red areas to black
-            val resultMat = Mat()
-            mat.copyTo(resultMat)
-            resultMat.setTo(Scalar(0.0, 0.0, 0.0), invertedMask)
+                val resultBitmap = selectObjectImage(bitmap, imageX, imageY)
 
-             */
+                image.setImageBitmap(resultBitmap)
 
-            Toast.makeText(applicationContext,resMat.toString(),Toast.LENGTH_LONG).show()
+                true
+            }
 
-            val resultBitmap = Bitmap.createBitmap(resMat.cols(), resMat.rows(), Bitmap.Config.ARGB_8888)
-            Utils.matToBitmap(resMat, resultBitmap)
             
-            displayImagePage(resultBitmap)
+           // displayImagePage(resultBitmap)
 
         }
 
