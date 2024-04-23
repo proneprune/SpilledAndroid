@@ -10,7 +10,16 @@
         "moduleName": "opencv_jni_shared",
         "moduleHeaders": "C:\\blappAndroid\\opencv\\native\\jni\\include",
         "moduleExportLibraries": [],
-        "abis": []
+        "abis": [
+          {
+            "abiName": "arm64-v8a",
+            "abiApi": 21,
+            "abiNdkMajor": 25,
+            "abiStl": "c++_shared",
+            "abiLibrary": "C:\\blappAndroid\\opencv\\.cxx\\Debug\\2f6t2w56\\arm64-v8a\\libopencv_jni_shared.a",
+            "abiAndroidGradleBuildJsonFile": "C:\\blappAndroid\\opencv\\.cxx\\Debug\\2f6t2w56\\arm64-v8a\\android_gradle_build.json"
+          }
+        ]
       }
     ]
   }

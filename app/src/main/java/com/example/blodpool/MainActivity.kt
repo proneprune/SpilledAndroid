@@ -29,15 +29,51 @@ import org.opencv.core.Core
 import org.opencv.core.Core.bitwise_and
 import org.opencv.core.CvType.CV_8UC1
 
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 class MainActivity : ComponentActivity() {
 
-    external fun getTest() : String
-
-    external fun cvTest(mat_addy: Long, mat_addy_res: Long, x_addy: Int, y_addy: Int)
+    private val CAMERA_PERMISSION_REQUEST_CODE = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Check camera permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission is not granted
+            // Request the permission
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_PERMISSION_REQUEST_CODE
+            )
+        } else {
+            // Permission has already been granted
+            // You can now use the camera
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Camera permission granted, you can now use the camera
+            } else {
+                // Camera permission denied
+                // Close the app
+                finish()
+            }
+        }
 
         System.loadLibrary("testcpp")
 
@@ -48,8 +84,15 @@ class MainActivity : ComponentActivity() {
 
 
         Toast.makeText(applicationContext,getTest(),Toast.LENGTH_LONG).show()
-
     }
+
+
+
+    external fun getTest() : String
+
+    external fun cvTest(mat_addy: Long, mat_addy_res: Long, x_addy: Int, y_addy: Int)
+
+
 
     fun displayFrontpage(){
         setContentView(R.layout.activity_main)
