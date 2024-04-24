@@ -71,8 +71,9 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(project(":opencv"))
     implementation(libs.androidx.constraintlayout)
+    implementation(project(":opencv"))
+    //implementation("org.opencv:opencv-android:4.5.3")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
