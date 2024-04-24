@@ -6,9 +6,8 @@
 #include <jni.h>
 #include <string>
 
-#include <opencv2/opencv.hpp>
-#include <iostream>
 using namespace cv;
+
 
 int contourThickness(cv::Mat image) {
     int rows = image.rows;
@@ -19,6 +18,12 @@ int contourThickness(cv::Mat image) {
     thickness += (rows + cols) / 200;
 
     return thickness;
+}
+
+cv::Mat padImage(const cv::Mat& src, int padSize) {
+    cv::Mat padded;
+    cv::copyMakeBorder(src, padded, padSize, padSize, padSize, padSize, cv::BORDER_CONSTANT, 0);
+    return padded;
 }
 
 cv::Mat readImage(const std::string& imgPath) {
@@ -138,6 +143,23 @@ cv::Mat applyMask(const cv::Mat& image, const cv::Mat& mask) {
     return resultImage;
 }
 
+cv::Mat getEdges(cv::Mat image) {
+    cv::Mat gray;
+    cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
+
+    cv::Mat blurredImage;
+    cv::GaussianBlur(gray, blurredImage, cv::Size(5, 5), 1.5);
+
+    // Apply Canny edge detection
+    cv::Mat edges;
+    cv::Canny(blurredImage, edges, 50, 135);
+
+    cv::Mat dilatedEdges;
+    cv::dilate(edges, dilatedEdges, cv::Mat(), cv::Point(-1, -1), 8);
+
+    return dilatedEdges;
+}
+
 std::vector<std::vector<cv::Point>> getContours(cv::Mat& image, int invert, int retr) {
     //cv::Mat filteredImage;
     //cv::bilateralFilter(image, filteredImage, 9, 75, 75);  // Adjust parameters as needed
@@ -146,7 +168,12 @@ std::vector<std::vector<cv::Point>> getContours(cv::Mat& image, int invert, int 
     cv::Mat gray;
     cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
 
+    //cv::Mat equalizedImage;
+    //cv::equalizeHist(gray, equalizedImage);
+
     // Threshold the grayscale image to create a binary mask
+
+    /*
     cv::Mat mask;
     if (invert == 0){
         cv::threshold(gray, mask, 0, 255, cv::THRESH_OTSU);
@@ -154,13 +181,33 @@ std::vector<std::vector<cv::Point>> getContours(cv::Mat& image, int invert, int 
         cv::threshold(gray, mask, 0, 255, cv::THRESH_BINARY_INV | cv::THRESH_OTSU);
     }
 
+    int padSize = 1; // adjust the padding size as needed
+    cv::Mat paddedImage = padImage(mask, padSize);
+    */
+
+    cv::Mat blurredImage;
+
+    cv::GaussianBlur(gray, blurredImage, cv::Size(1, 1), 0, 0 );
+
+
+    // Apply Canny edge detection
+    cv::Mat edges;
+    cv::Canny(blurredImage, edges, 50, 135);
+
+    //cv::Rect roi(padSize, padSize, image.cols, image.rows);
+    //cv::Mat detectedEdges = edges(roi);
+
+    // Apply dilation to enhance edges
+    cv::Mat dilatedEdges;
+    cv::dilate(edges, dilatedEdges, cv::Mat(), cv::Point(-1, -1), 8);
+
     // Find contours in the mask
     std::vector<std::vector<cv::Point>> contours;
-    if (invert == 0) {
-        cv::findContours(mask, contours, cv::RETR_CCOMP, cv::CHAIN_APPROX_SIMPLE);
+    if (invert == 1) {
+        cv::findContours(dilatedEdges, contours, cv::RETR_CCOMP, cv::CHAIN_APPROX_SIMPLE);
     }
     else {
-        cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+        cv::findContours(dilatedEdges, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
     }
 
     std::vector<std::vector<cv::Point>> filteredContours;
@@ -261,8 +308,21 @@ int identifyAllObjectAreas(cv::Mat& image, int invert) {
 }
 
 int identifyCenterObjectArea(cv::Mat image) {
+    int rows = image.rows / 2;
+    int cols = image.cols / 2;
 
-    std::vector<std::vector<cv::Point>> contours = getContours(image,1 ,1);
+    int hsvValue = getAverageHSV(image, cols, rows);
+    int h = (hsvValue >> 16) & 0xFF;
+    int s = (hsvValue >> 8) & 0xFF;
+    int v = hsvValue & 0xFF;
+
+    std::vector<std::vector<cv::Point>> contours;
+    if (s < 60) {
+        contours = getContours(image, 0, 1);
+    }
+    else {
+        contours = getContours(image, 1, 1);
+    }
 
     // Calculate centroids of contours
     std::vector<cv::Moments> mu(contours.size());
@@ -290,9 +350,76 @@ int identifyCenterObjectArea(cv::Mat image) {
     return area;
 }
 
-cv::Mat identifyCenterObject(cv::Mat image) {
+std::string findCenterOfObject(cv::Mat image) {
+    int rows = image.rows / 2;
+    int cols = image.cols / 2;
 
-    std::vector<std::vector<cv::Point>> contours = getContours(image, 1, 1);
+    int hsvValue = getAverageHSV(image, cols, rows);
+    int h = (hsvValue >> 16) & 0xFF;
+    int s = (hsvValue >> 8) & 0xFF;
+    int v = hsvValue & 0xFF;
+
+    std::vector<std::vector<cv::Point>> contours;
+    if (s < 60) {
+        contours = getContours(image, 0, 1);
+    }
+    else {
+        contours = getContours(image, 1, 1);
+    }
+
+    // Calculate centroids of contours
+    std::vector<cv::Moments> mu(contours.size());
+    for (size_t i = 0; i < contours.size(); i++) {
+        mu[i] = cv::moments(contours[i]);
+    }
+
+    // Find the contour corresponding to the object closest to the center
+    cv::Point2f imageCenter(static_cast<float>(image.cols / 2), static_cast<float>(image.rows / 2));
+    int centerContourIndex = -1;
+    float minDist = std::numeric_limits<float>::max();
+
+    for (size_t i = 0; i < contours.size(); i++) {
+        cv::Point2f centroid(static_cast<float>(mu[i].m10 / mu[i].m00), static_cast<float>(mu[i].m01 / mu[i].m00));
+        float dist = cv::norm(imageCenter - centroid);
+
+        if (dist < minDist) {
+            minDist = dist;
+            centerContourIndex = static_cast<int>(i);
+        }
+    }
+
+    // Return the centroid of the closest object
+    cv::Point2f center;
+    if (centerContourIndex != -1) {
+        center = cv::Point2f(mu[centerContourIndex].m10 / mu[centerContourIndex].m00, mu[centerContourIndex].m01 / mu[centerContourIndex].m00);
+    }
+    else {
+        center = cv::Point2f(-1, -1); // Return invalid point if no object found
+    }
+
+    std::ostringstream oss;
+    oss << center.x << ", " << center.y;
+    std::string ret = oss.str();
+
+    return ret;
+}
+
+cv::Mat identifyCenterObject(cv::Mat image) {
+    int rows = image.rows / 2;
+    int cols = image.cols / 2;
+
+    int hsvValue = getAverageHSV(image, cols, rows);
+    int h = (hsvValue >> 16) & 0xFF;
+    int s = (hsvValue >> 8) & 0xFF;
+    int v = hsvValue & 0xFF;
+
+    std::vector<std::vector<cv::Point>> contours;
+    if (s < 60) {
+        contours = getContours(image, 0, 1);
+    }
+    else {
+        contours = getContours(image, 1, 1);
+    }
 
     // Calculate centroids of contours
     std::vector<cv::Moments> mu(contours.size());
@@ -304,8 +431,6 @@ cv::Mat identifyCenterObject(cv::Mat image) {
     cv::Point2f imageCenter(static_cast<float>(image.cols / 2), static_cast<float>(image.rows / 2));
     int centerContourIndex = -1;
     float minDist = std::numeric_limits<float>::max();
-
-    double area = 0;
 
     for (size_t i = 0; i < contours.size(); i++) {
         cv::Point2f centroid(static_cast<float>(mu[i].m10 / mu[i].m00), static_cast<float>(mu[i].m01 / mu[i].m00));
@@ -553,6 +678,8 @@ cv::Mat identifyColor(cv::Mat image, int x, int y) {
 }
 
 
+
+
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_example_blodpool_MainActivity_cvTest(JNIEnv *env, jobject thiz, jlong mat_addy, jlong mat_addy_res, jint x_addy, jint y_addy) {
@@ -569,6 +696,24 @@ Java_com_example_blodpool_MainActivity_cvTest(JNIEnv *env, jobject thiz, jlong m
     int y = static_cast<int>(y_addy);
 
     resMat = findObject(mat, x, y);
+
+    //resMat = getEdges(mat);
+}
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_example_blodpool_MainActivity_findArea(JNIEnv *env, jobject thiz, jlong mat_addy, jint x_addy, jint y_addy) {
+
+    cv::Mat &mat = *(cv::Mat*) mat_addy;
+
+    cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+
+    int x = static_cast<int>(x_addy);
+    int y = static_cast<int>(y_addy);
+
+    int pixels = findObjectArea(mat, x, y);
+
+    return pixels;
 }
 
 

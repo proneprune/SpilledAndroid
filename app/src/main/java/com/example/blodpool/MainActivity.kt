@@ -21,97 +21,36 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.pm.PackageManager
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 
 class MainActivity : ComponentActivity() {
-
 
     private lateinit var imageUri: Uri
 
     external fun getTest() : String
 
-    external fun cvTest(mat_addy: Long, mat_addy_res: Long, x_addy: Int, y_addy: Int)
+    external fun findArea(mat_addy: Long, x_addy: Int, y_addy: Int) : Int
 
-    private val CAMERA_PERMISSION_REQUEST_CODE = 100
+    external fun cvTest(mat_addy: Long, mat_addy_res: Long, x_addy: Int, y_addy: Int)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        // Check camera permission
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            // Permission is not granted
-            // Request the permission
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.CAMERA),
-                CAMERA_PERMISSION_REQUEST_CODE
-            )
-        } else {
-            // Permission has already been granted
-
-            System.loadLibrary("testcpp")
-
-
-
-
-            displayFrontpage()
-
-            OpenCVLoader.initDebug()
-
-
-            Toast.makeText(applicationContext,getTest(),Toast.LENGTH_LONG).show()
-            // You can now use the camera
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Camera permission granted, you can now use the camera
-            } else {
-                // Camera permission denied
-                // Close the app
-                finish()
-            }
-        }
         System.loadLibrary("testcpp")
-
-
-
 
         displayFrontpage()
 
         OpenCVLoader.initDebug()
 
-
         Toast.makeText(applicationContext,getTest(),Toast.LENGTH_LONG).show()
 
     }
-
-
-
-
-
-
 
     fun displayFrontpage(){
         setContentView(R.layout.activity_main)
         val button = findViewById<Button>(R.id.btn)
         val intent = Intent("android.media.action.IMAGE_CAPTURE")
 
-       // var f = createImageFile()
+        // var f = createImageFile()
 
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "JPEG_" + timeStamp + "_"
@@ -160,14 +99,14 @@ class MainActivity : ComponentActivity() {
         val mat = Mat()
         Utils.bitmapToMat(initialImage, mat)
 
-        Toast.makeText(applicationContext,mat.toString(),Toast.LENGTH_LONG).show()
+        //  Toast.makeText(applicationContext,mat.toString(),Toast.LENGTH_LONG).show()
 
         val resMat = Mat()
 
         cvTest(mat.nativeObjAddr, resMat.nativeObjAddr, xPos, yPoS)
 
 
-        Toast.makeText(applicationContext,resMat.toString(),Toast.LENGTH_LONG).show()
+        // Toast.makeText(applicationContext,resMat.toString(),Toast.LENGTH_LONG).show()
 
         val resultBitmap = Bitmap.createBitmap(resMat.cols(), resMat.rows(), Bitmap.Config.ARGB_8888)
         Utils.matToBitmap(resMat, resultBitmap)
@@ -175,15 +114,107 @@ class MainActivity : ComponentActivity() {
         return resultBitmap
     }
 
+    fun findObjectArea(initialUri: Uri, xPos: Int, yPoS: Int): Int{
+
+        var initialImage = Bitmap.createBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), initialUri));
+
+
+        val mat = Mat()
+        Utils.bitmapToMat(initialImage, mat)
+
+        return findArea(mat.nativeObjAddr, xPos, yPoS)
+
+    }
+
+
+    fun displaychooseblood(areaperpixel: Float ){
+        setContentView(R.layout.choose_blood)
+
+
+        val mRelativeLayout = findViewById<RelativeLayout>(R.id.relative_layout_1)
+
+        val mTextViewX = findViewById<TextView>(R.id.text_view_1)
+        val mTextViewY = findViewById<TextView>(R.id.text_view_2)
+        val image = findViewById<ImageView>(R.id.captured_image)
+
+
+
+        //  val bitmap = (data?.extras?.get("data")) as Bitmap
+
+        // image.setImageBitmap(bitmap)
+        image.setImageURI(imageUri)
+
+        //  Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
+
+        // When relative layout is touched
+        val buttontoconfirm = findViewById<Button>(R.id.button2)
+
+
+        mRelativeLayout.setOnTouchListener { _, motionEvent ->
+            val imageWidth = image.drawable.intrinsicWidth
+            val imageHeight = image.drawable.intrinsicHeight
+
+            // X and Y values are fetched relative to the view (mRelativeLayout)
+            val mX = motionEvent.x
+            val mY = motionEvent.y
+
+            // X and Y values are
+            // displayed in the TextView
+            // mTextViewX.text = "X: $mX"
+            // mTextViewY.text = "Y: $mY"
+
+            // Calculate the corresponding coordinates relative to the original image
+            val imageX = (mX / image.width.toFloat() * imageWidth).toInt()
+            val imageY = (mY / image.height.toFloat() * imageHeight).toInt()
+
+            println("X: $imageX")
+            println("Y: $imageY")
+
+            // Display the coordinates relative to the original image
+            mTextViewX.text = "X: $imageX"
+            mTextViewY.text = "Y: $imageY"
+
+            val resultBitmap = selectObjectImage(imageUri, imageX, imageY)
+
+            image.setImageBitmap(resultBitmap)
+            //image.setRotation(90F);
+
+            var pixels = findObjectArea(imageUri, imageX, imageY)
+
+
+            // Toast.makeText(applicationContext, "total pixels: " + pixels ,Toast.LENGTH_LONG).show()
+
+            buttontoconfirm.setOnClickListener(){
+                val bloodpoolarea = areaperpixel*pixels
+
+                setContentView(R.layout.area_of_blood)
+                val Textviewarea = findViewById<TextView>(R.id.textViewb)
+                Textviewarea.text = "The area of the bloodpool is $bloodpoolarea cm²"
+
+                //    Toast.makeText(applicationContext, "bloodpool area is: " + bloodpoolarea ,Toast.LENGTH_LONG).show()
+
+
+
+            }
+
+
+            true
+        }
+
+
+
+
+
+
+    }
 
 
     //@Deprecated
-    @SuppressLint("ClickableViewAccessibility")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == 0 && resultCode == Activity.RESULT_OK){
-           // Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
+            // Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
 
 
 
@@ -199,15 +230,15 @@ class MainActivity : ComponentActivity() {
 
 
 
-          //  val bitmap = (data?.extras?.get("data")) as Bitmap
+            //  val bitmap = (data?.extras?.get("data")) as Bitmap
 
-           // image.setImageBitmap(bitmap)
+            // image.setImageBitmap(bitmap)
             image.setImageURI(imageUri)
 
-          //  Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
+            //  Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
 
             // When relative layout is touched
-
+            val buttontoconfirm = findViewById<Button>(R.id.button2)
 
 
             mRelativeLayout.setOnTouchListener { _, motionEvent ->
@@ -239,19 +270,30 @@ class MainActivity : ComponentActivity() {
                 image.setImageBitmap(resultBitmap)
                 //image.setRotation(90F);
 
+                var pixels = findObjectArea(imageUri, imageX, imageY)
+                val areaperpixel = 46.75f/pixels
+
+                Toast.makeText(applicationContext, "total pixels: " + pixels ,Toast.LENGTH_LONG).show()
+
+                buttontoconfirm.setOnClickListener(){
+                    displaychooseblood(areaperpixel)
+
+
+                }
+
+
                 true
             }
 
 
 
-            
-           // displayImagePage(resultBitmap)
+
+
+
+            // displayImagePage(resultBitmap)
 
         }
 
 
     }
 }
-
-
-
