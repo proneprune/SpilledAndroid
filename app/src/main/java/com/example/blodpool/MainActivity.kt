@@ -32,6 +32,7 @@ class MainActivity : ComponentActivity() {
 
     external fun cvTest(mat_addy: Long, mat_addy_res: Long, x_addy: Int, y_addy: Int)
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -193,9 +194,16 @@ class MainActivity : ComponentActivity() {
 
                 //    Toast.makeText(applicationContext, "bloodpool area is: " + bloodpoolarea ,Toast.LENGTH_LONG).show()
 
+                //functionality for button to go back to start when an area has been found
+                val go_back_2 = findViewById<Button>(R.id.go_back_2)
+                go_back_2.setOnClickListener(){
+                    displayFrontpage()
+                }
 
 
             }
+
+
 
 
             true
