@@ -233,10 +233,12 @@ void clearContourList() {
 }
 
 // Function to remove the newest contour from the list (if not empty)
-void removeNewestContour() {
+void removeNewestContour(cv::Mat image) {
     if (!contoursList.empty()) {
         contoursList.pop_back(); // Remove the most recently added contour
     }
+
+    cv::drawContours(image, contoursList, -1, cv::Scalar(0, 255, 0), contourThickness(image));
 }
 
 
@@ -490,8 +492,13 @@ Java_com_example_blodpool_MainActivity_findArea(JNIEnv *env, jobject thiz, jlong
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_example_blodpool_MainActivity_Undo(JNIEnv *env, jobject thiz) {
-   removeNewestContour();
+Java_com_example_blodpool_MainActivity_Undo(JNIEnv *env, jobject thiz, jlong mat_addy) {
+
+    cv::Mat &mat = *(cv::Mat*) mat_addy;
+
+    cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+
+    removeNewestContour(mat);
 }
 
 extern "C"

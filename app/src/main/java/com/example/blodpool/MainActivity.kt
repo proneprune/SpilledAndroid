@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
 
     external fun getTest() : String
 
-    external fun Undo()
+    external fun Undo(mat_addy: Long)
     external fun removeAllContours()
 
     external fun findArea(mat_addy: Long, x_addy: Int, y_addy: Int) : Int
@@ -96,8 +96,25 @@ class MainActivity : ComponentActivity() {
         button.setOnClickListener{
             displayFrontpage()
         }
-
     }
+
+    fun undoBridge(initialUri: Uri) : Bitmap{
+
+        var initialImage = Bitmap.createBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), initialUri));
+
+        val mat = Mat()
+        Utils.bitmapToMat(initialImage, mat)
+
+
+        Undo(mat.nativeObjAddr)
+
+
+        val resultBitmap = Bitmap.createBitmap(mat.cols(), mat.rows(), Bitmap.Config.ARGB_8888)
+        Utils.matToBitmap(mat, resultBitmap)
+
+        return resultBitmap
+    }
+
 
     fun selectObjectImage(initialUri: Uri, xPos: Int, yPoS: Int): Bitmap{
 
@@ -220,15 +237,18 @@ class MainActivity : ComponentActivity() {
 
             val resultBitmap = selectObjectImage(imageUri, imageX, imageY)
 
-            image.setImageBitmap(resultBitmap)
+
             //image.setRotation(90F);
 
 
-
+            image.setImageBitmap(resultBitmap)
 
             buttonToUndo.setOnClickListener(){
-                Undo()
+                var resultBitmap = undoBridge(imageUri)
+                image.setImageBitmap(resultBitmap)
             }
+
+
 
             // Toast.makeText(applicationContext, "total pixels: " + pixels ,Toast.LENGTH_LONG).show()
 
@@ -330,8 +350,6 @@ class MainActivity : ComponentActivity() {
 
                 image.setImageBitmap(resultBitmap)
 
-
-
                 buttontoconfirm.setOnClickListener(){
 
 
@@ -342,10 +360,6 @@ class MainActivity : ComponentActivity() {
                     displaychooseblood(areaperpixel)
 
                 }
-
-
-
-
                 true
             }
 
