@@ -49,8 +49,6 @@ class MainActivity : ComponentActivity() {
 
         OpenCVLoader.initDebug()
 
-        Toast.makeText(applicationContext,getTest(),Toast.LENGTH_LONG).show()
-
     }
 
     fun displayFrontpage(){
