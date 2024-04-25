@@ -49,8 +49,6 @@ class MainActivity : ComponentActivity() {
 
         OpenCVLoader.initDebug()
 
-        Toast.makeText(applicationContext,getTest(),Toast.LENGTH_LONG).show()
-
     }
 
     fun displayFrontpage(){
@@ -192,7 +190,6 @@ class MainActivity : ComponentActivity() {
     fun displaychooseblood(areaperpixel: Float ){
         setContentView(R.layout.choose_blood)
 
-
         val mRelativeLayout = findViewById<RelativeLayout>(R.id.relative_layout_1)
 
         val mTextViewX = findViewById<TextView>(R.id.text_view_1)
@@ -200,11 +197,17 @@ class MainActivity : ComponentActivity() {
         val image = findViewById<ImageView>(R.id.captured_image)
 
 
-
         //  val bitmap = (data?.extras?.get("data")) as Bitmap
 
         // image.setImageBitmap(bitmap)
         image.setImageURI(imageUri)
+
+        mRelativeLayout.layoutParams.height = image.height
+        mRelativeLayout.layoutParams.width = image.width
+
+        mRelativeLayout.requestLayout()
+
+       // mRelativeLayout.layoutParams.height = image.height
 
         //  Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
 
@@ -225,8 +228,8 @@ class MainActivity : ComponentActivity() {
             // mTextViewY.text = "Y: $mY"
 
             // Calculate the corresponding coordinates relative to the original image
-            val imageX = (mX / image.width.toFloat() * imageWidth).toInt()
-            val imageY = (mY / image.height.toFloat() * imageHeight).toInt()
+            val imageX = (mX * (imageWidth.toFloat() / image.width.toFloat())).toInt()
+            val imageY = (mY * (imageHeight.toFloat() / image.height.toFloat())).toInt()
 
             println("X: $imageX")
             println("Y: $imageY")
@@ -258,9 +261,18 @@ class MainActivity : ComponentActivity() {
 
                 val bloodpoolarea = areaperpixel*pixels
 
+                val gravity = 9.82f
+                val densityBlood = 1060f
+                val surfaceTensionBlood = 0.058f
+
+                val volume = (2 * surfaceTensionBlood * 10000) / (densityBlood * gravity * 3.14159 * bloodpoolarea * 0.0001)
+                val formattedVolume = String.format("%.2f",volume)
+
+
+
                 setContentView(R.layout.area_of_blood)
                 val Textviewarea = findViewById<TextView>(R.id.textViewb)
-                Textviewarea.text = "The area of the bloodpool is $bloodpoolarea cm²"
+                Textviewarea.text = "The volume of the blood is $formattedVolume dl"
 
                 //    Toast.makeText(applicationContext, "bloodpool area is: " + bloodpoolarea ,Toast.LENGTH_LONG).show()
 
@@ -316,6 +328,16 @@ class MainActivity : ComponentActivity() {
             // image.setImageBitmap(bitmap)
             image.setImageURI(imageUri)
 
+
+            //image.layoutParams.width = 500
+            //image.layoutParams.height = 500
+
+            mRelativeLayout.layoutParams.height = image.height
+            mRelativeLayout.layoutParams.width = image.width
+
+            mRelativeLayout.requestLayout()
+
+
             //  Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
 
             // When relative layout is touched
@@ -336,15 +358,15 @@ class MainActivity : ComponentActivity() {
                 // mTextViewY.text = "Y: $mY"
 
                 // Calculate the corresponding coordinates relative to the original image
-                val imageX = (mX / image.width.toFloat() * imageWidth).toInt()
-                val imageY = (mY / image.height.toFloat() * imageHeight).toInt()
+                val imageX = (mX * (imageWidth.toFloat() / image.width.toFloat())).toInt()
+                val imageY = (mY * (imageHeight.toFloat() / image.height.toFloat())).toInt()
 
                 println("X: $imageX")
                 println("Y: $imageY")
 
                 // Display the coordinates relative to the original image
-                mTextViewX.text = "X: $imageX"
-                mTextViewY.text = "Y: $imageY"
+                mTextViewX.text = "X: ${imageX}"
+                mTextViewY.text = "Y: ${imageY}"
 
                 val resultBitmap = selectObjectImage(imageUri, imageX, imageY)
 
