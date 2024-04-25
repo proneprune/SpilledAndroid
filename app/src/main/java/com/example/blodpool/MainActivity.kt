@@ -27,7 +27,6 @@ class MainActivity : ComponentActivity() {
 
     //init of OpenCV functions
     private lateinit var imageUri: Uri
-    external fun getTest() : String
     external fun Undo(mat_addy: Long)
     external fun removeAllContours()
     external fun findArea(mat_addy: Long, x_addy: Int, y_addy: Int) : Int
@@ -293,12 +292,9 @@ class MainActivity : ComponentActivity() {
                 mTextViewY.text = "Y: $imageY"
 
                 val resultBitmap = selectObjectImage(imageUri, imageX, imageY)
-
                 image.setImageBitmap(resultBitmap)
 
                 buttontoconfirm.setOnClickListener(){
-
-
                     //var pixels = findObjectArea(imageUri, imageX, imageY)
                     var pixels = findAreaTwo()
                     val areaperpixel = 46.75f/pixels
