@@ -1,5 +1,6 @@
 package com.example.blodpool
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
 
     external fun getTest() : String
 
+    external fun Undo()
     external fun removeAllContours()
 
     external fun findArea(mat_addy: Long, x_addy: Int, y_addy: Int) : Int
@@ -191,8 +193,7 @@ class MainActivity : ComponentActivity() {
 
         // When relative layout is touched
         val buttontoconfirm = findViewById<Button>(R.id.button2)
-
-
+        val buttonToUndo = findViewById<Button>(R.id.button3)
         mRelativeLayout.setOnTouchListener { _, motionEvent ->
             val imageWidth = image.drawable.intrinsicWidth
             val imageHeight = image.drawable.intrinsicHeight
@@ -223,6 +224,11 @@ class MainActivity : ComponentActivity() {
             //image.setRotation(90F);
 
 
+
+
+            buttonToUndo.setOnClickListener(){
+                Undo()
+            }
 
             // Toast.makeText(applicationContext, "total pixels: " + pixels ,Toast.LENGTH_LONG).show()
 
@@ -261,7 +267,10 @@ class MainActivity : ComponentActivity() {
     }
 
 
+
+
     //@Deprecated
+    @SuppressLint("ClickableViewAccessibility")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -322,7 +331,9 @@ class MainActivity : ComponentActivity() {
                 image.setImageBitmap(resultBitmap)
 
 
+
                 buttontoconfirm.setOnClickListener(){
+
 
                     //var pixels = findObjectArea(imageUri, imageX, imageY)
                     var pixels = findAreaTwo()
@@ -331,6 +342,8 @@ class MainActivity : ComponentActivity() {
                     displaychooseblood(areaperpixel)
 
                 }
+
+
 
 
                 true

@@ -4,6 +4,7 @@ project("testcpp")
 
 set(OpenCV_STATIC ON)
 
+
 set(OpenCV_DIR C:/Users/Admin/Desktop/OpenCV-android-sdk/sdk/native/jni)
 
 find_package(OpenCV REQUIRED)

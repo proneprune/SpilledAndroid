@@ -1,13 +1,19 @@
-#include <opencv2/core.hpp>
-#include <iostream>
-#include <opencv2/imgproc.hpp>
-#include <opencv2/imgcodecs.hpp>
 #include <opencv2/opencv.hpp>
+#include <iostream>
 #include <jni.h>
-#include <string>
 
 using namespace cv;
 
+// Global vector to store contours
+std::vector<std::vector<cv::Point>> contoursList;
+
+// Function to add a contour to the list if it's not a duplicate
+void addContour(const std::vector<cv::Point>& contour) {
+    // Check for duplicate contours
+    if (std::find(contoursList.begin(), contoursList.end(), contour) == contoursList.end()) {
+        contoursList.push_back(contour);
+    }
+}
 
 // Global vector to store contours
 std::vector<std::vector<cv::Point>> contoursList;
@@ -171,7 +177,7 @@ std::vector<std::vector<cv::Point>> getContours(cv::Mat& image, int invert, int 
 
     // Apply dilation to enhance edges
     cv::Mat dilatedEdges;
-    cv::dilate(edges, dilatedEdges, cv::Mat(), cv::Point(-1, -1), 8);
+    cv::dilate(edges, dilatedEdges, cv::Mat(), cv::Point(-1, -1), 2);
 
     // Find contours in the mask
     std::vector<std::vector<cv::Point>> contours;
@@ -459,20 +465,20 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_example_blodpool_MainActivity_cvTest(JNIEnv *env, jobject thiz, jlong mat_addy, jlong mat_addy_res, jint x_addy, jint y_addy) {
 
-    //cv::cvtColor(matIn, matOut, cv::COLOR_BGR2GRAY);
-    cv::Mat &mat = *(cv::Mat*) mat_addy;
+//cv::cvtColor(matIn, matOut, cv::COLOR_BGR2GRAY);
+cv::Mat &mat = *(cv::Mat*) mat_addy;
 
-    cv::Mat &resMat = *(cv::Mat*) mat_addy_res;
+cv::Mat &resMat = *(cv::Mat*) mat_addy_res;
 
-    cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
-    cv::rotate(resMat, resMat, cv::ROTATE_90_CLOCKWISE);
+cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+cv::rotate(resMat, resMat, cv::ROTATE_90_CLOCKWISE);
 
-    int x = static_cast<int>(x_addy);
-    int y = static_cast<int>(y_addy);
+int x = static_cast<int>(x_addy);
+int y = static_cast<int>(y_addy);
 
-    resMat = findObject(mat, x, y);
+resMat = findObject(mat, x, y);
 
-    //resMat = getEdges(mat);
+//resMat = getEdges(mat);
 }
 
 extern "C"
@@ -493,6 +499,10 @@ Java_com_example_blodpool_MainActivity_findArea(JNIEnv *env, jobject thiz, jlong
 
 extern "C"
 JNIEXPORT void JNICALL
+Java_com_example_blodpool_MainActivity_Undo(JNIEnv *env, jobject thiz) {
+   removeNewestContour();
+}
+
 Java_com_example_blodpool_MainActivity_rotateMat(JNIEnv *env, jobject thiz, jlong mat_addy, jlong mat_addy_res) {
 
     //cv::cvtColor(matIn, matOut, cv::COLOR_BGR2GRAY);
