@@ -1,5 +1,6 @@
 package com.example.blodpool
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
 
     external fun getTest() : String
 
+    external fun Undo(mat_addy: Long)
     external fun removeAllContours()
 
     external fun findArea(mat_addy: Long, x_addy: Int, y_addy: Int) : Int
@@ -94,8 +96,25 @@ class MainActivity : ComponentActivity() {
         button.setOnClickListener{
             displayFrontpage()
         }
-
     }
+
+    fun undoBridge(initialUri: Uri) : Bitmap{
+
+        var initialImage = Bitmap.createBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), initialUri));
+
+        val mat = Mat()
+        Utils.bitmapToMat(initialImage, mat)
+
+
+        Undo(mat.nativeObjAddr)
+
+
+        val resultBitmap = Bitmap.createBitmap(mat.cols(), mat.rows(), Bitmap.Config.ARGB_8888)
+        Utils.matToBitmap(mat, resultBitmap)
+
+        return resultBitmap
+    }
+
 
     fun selectObjectImage(initialUri: Uri, xPos: Int, yPoS: Int): Bitmap{
 
@@ -191,8 +210,7 @@ class MainActivity : ComponentActivity() {
 
         // When relative layout is touched
         val buttontoconfirm = findViewById<Button>(R.id.button2)
-
-
+        val buttonToUndo = findViewById<Button>(R.id.button3)
         mRelativeLayout.setOnTouchListener { _, motionEvent ->
             val imageWidth = image.drawable.intrinsicWidth
             val imageHeight = image.drawable.intrinsicHeight
@@ -219,8 +237,16 @@ class MainActivity : ComponentActivity() {
 
             val resultBitmap = selectObjectImage(imageUri, imageX, imageY)
 
-            image.setImageBitmap(resultBitmap)
+
             //image.setRotation(90F);
+
+
+            image.setImageBitmap(resultBitmap)
+
+            buttonToUndo.setOnClickListener(){
+                var resultBitmap = undoBridge(imageUri)
+                image.setImageBitmap(resultBitmap)
+            }
 
 
 
@@ -261,7 +287,10 @@ class MainActivity : ComponentActivity() {
     }
 
 
+
+
     //@Deprecated
+    @SuppressLint("ClickableViewAccessibility")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -321,8 +350,8 @@ class MainActivity : ComponentActivity() {
 
                 image.setImageBitmap(resultBitmap)
 
-
                 buttontoconfirm.setOnClickListener(){
+
 
                     //var pixels = findObjectArea(imageUri, imageX, imageY)
                     var pixels = findAreaTwo()
@@ -331,8 +360,6 @@ class MainActivity : ComponentActivity() {
                     displaychooseblood(areaperpixel)
 
                 }
-
-
                 true
             }
 
