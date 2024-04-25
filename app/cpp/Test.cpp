@@ -15,6 +15,17 @@ void addContour(const std::vector<cv::Point>& contour) {
     }
 }
 
+// Global vector to store contours
+std::vector<std::vector<cv::Point>> contoursList;
+
+// Function to add a contour to the list if it's not a duplicate
+void addContour(const std::vector<cv::Point>& contour) {
+    // Check for duplicate contours
+    if (std::find(contoursList.begin(), contoursList.end(), contour) == contoursList.end()) {
+        contoursList.push_back(contour);
+    }
+}
+
 int contourThickness(cv::Mat image) {
     int rows = image.rows;
     int cols = image.cols;
@@ -491,6 +502,34 @@ JNIEXPORT void JNICALL
 Java_com_example_blodpool_MainActivity_Undo(JNIEnv *env, jobject thiz) {
    removeNewestContour();
 }
+
+Java_com_example_blodpool_MainActivity_rotateMat(JNIEnv *env, jobject thiz, jlong mat_addy, jlong mat_addy_res) {
+
+    //cv::cvtColor(matIn, matOut, cv::COLOR_BGR2GRAY);
+    cv::Mat &mat = *(cv::Mat*) mat_addy;
+
+    cv::Mat &resMat = *(cv::Mat*) mat_addy_res;
+
+    cv::rotate(mat, resMat, cv::ROTATE_90_CLOCKWISE);
+
+}
+
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_blodpool_MainActivity_removeAllContours(JNIEnv *env, jobject thiz) {
+
+    clearContourList();
+
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_com_example_blodpool_MainActivity_findAreaTwo(JNIEnv *env, jobject thiz) {
+
+    return findArea();
+
+}
+
 
 int main() {
 
