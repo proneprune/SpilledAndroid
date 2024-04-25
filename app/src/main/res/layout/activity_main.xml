@@ -9,10 +9,6 @@
     android:layout_height="match_parent">
 
     <!--creates the background rectangle -->
-
-    <!--creates the button with the text "Click to scan"-->
-
-    <!--creates the text for the name of the application "spilled"-->
     <View
         android:id="@+id/rectangle_1"
         android:layout_width="944dp"
@@ -24,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.48" />
 
+    <!--the button that is pressed to open camera-->
     <Button
         android:id="@+id/btn"
         android:layout_width="242dp"
@@ -41,6 +38,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.459" />
 
+    <!--creates the text for the name of the application "spilled"-->
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -54,15 +52,6 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="370dp"
-        android:layout_height="249dp"
-        tools:layout_editor_absoluteX="25dp"
-        tools:layout_editor_absoluteY="466dp"
-        tools:src="@tools:sample/avatars" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
