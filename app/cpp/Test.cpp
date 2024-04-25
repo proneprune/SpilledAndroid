@@ -1,13 +1,19 @@
-#include <opencv2/core.hpp>
-#include <iostream>
-#include <opencv2/imgproc.hpp>
-#include <opencv2/imgcodecs.hpp>
 #include <opencv2/opencv.hpp>
+#include <iostream>
 #include <jni.h>
-#include <string>
 
 using namespace cv;
 
+// Global vector to store contours
+std::vector<std::vector<cv::Point>> contoursList;
+
+// Function to add a contour to the list if it's not a duplicate
+void addContour(const std::vector<cv::Point>& contour) {
+    // Check for duplicate contours
+    if (std::find(contoursList.begin(), contoursList.end(), contour) == contoursList.end()) {
+        contoursList.push_back(contour);
+    }
+}
 
 int contourThickness(cv::Mat image) {
     int rows = image.rows;
@@ -124,31 +130,12 @@ int getAverageHSV(const cv::Mat& image, int x, int y) {
     return hsvValue;
 }
 
-cv::Mat createMask(const cv::Mat& inputImage, const cv::Scalar& lowerBound, const cv::Scalar& upperBound) {
-    // Convert image to HSV color space
-    cv::Mat inputImageHSV;
-    cv::cvtColor(inputImage, inputImageHSV, cv::COLOR_BGR2HSV);
-
-    // Create mask
-    cv::Mat mask;
-    cv::inRange(inputImageHSV, lowerBound, upperBound, mask);
-
-    return mask;
-}
-
-cv::Mat applyMask(const cv::Mat& image, const cv::Mat& mask) {
-    cv::Mat resultImage;
-    cv::bitwise_and(image, image, resultImage, mask);
-
-    return resultImage;
-}
-
 cv::Mat getEdges(cv::Mat image) {
     cv::Mat gray;
     cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
 
     cv::Mat blurredImage;
-    cv::GaussianBlur(gray, blurredImage, cv::Size(5, 5), 1.5);
+    cv::GaussianBlur(gray, blurredImage, cv::Size(1, 1), 0, 0);
 
     // Apply Canny edge detection
     cv::Mat edges;
@@ -156,6 +143,7 @@ cv::Mat getEdges(cv::Mat image) {
 
     cv::Mat dilatedEdges;
     cv::dilate(edges, dilatedEdges, cv::Mat(), cv::Point(-1, -1), 8);
+    //cv::dilate(edges, dilatedEdges, cv::Mat(), cv::Point(-1, -1), 2 + ((image.rows + image.cols) / 1500));
 
     return dilatedEdges;
 }
@@ -168,42 +156,21 @@ std::vector<std::vector<cv::Point>> getContours(cv::Mat& image, int invert, int 
     cv::Mat gray;
     cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
 
-    //cv::Mat equalizedImage;
-    //cv::equalizeHist(gray, equalizedImage);
-
     // Threshold the grayscale image to create a binary mask
-
-    /*
-    cv::Mat mask;
-    if (invert == 0){
-        cv::threshold(gray, mask, 0, 255, cv::THRESH_OTSU);
-    } else {
-        cv::threshold(gray, mask, 0, 255, cv::THRESH_BINARY_INV | cv::THRESH_OTSU);
-    }
-
-    int padSize = 1; // adjust the padding size as needed
-    cv::Mat paddedImage = padImage(mask, padSize);
-    */
-
     cv::Mat blurredImage;
-
-    cv::GaussianBlur(gray, blurredImage, cv::Size(1, 1), 0, 0 );
-
+    cv::GaussianBlur(gray, blurredImage, cv::Size(1, 1), 0, 0);
 
     // Apply Canny edge detection
     cv::Mat edges;
     cv::Canny(blurredImage, edges, 50, 135);
 
-    //cv::Rect roi(padSize, padSize, image.cols, image.rows);
-    //cv::Mat detectedEdges = edges(roi);
-
     // Apply dilation to enhance edges
     cv::Mat dilatedEdges;
-    cv::dilate(edges, dilatedEdges, cv::Mat(), cv::Point(-1, -1), 8);
+    cv::dilate(edges, dilatedEdges, cv::Mat(), cv::Point(-1, -1), 2);
 
     // Find contours in the mask
     std::vector<std::vector<cv::Point>> contours;
-    if (invert == 1) {
+    if (invert == 0) {
         cv::findContours(dilatedEdges, contours, cv::RETR_CCOMP, cv::CHAIN_APPROX_SIMPLE);
     }
     else {
@@ -243,14 +210,46 @@ cv::Mat findObject(cv::Mat image, int x, int y) {
     // Check if the specific pixel is within any contour
     for (const auto& contour : contours) {
         if (cv::pointPolygonTest(contour, point, false) >= 0) {
-            // Draw the contour containing the specific pixel
-            cv::drawContours(image, std::vector<std::vector<cv::Point>>{contour}, -1, cv::Scalar(0, 255, 0), contourThickness(image));
+
+            //cv::drawContours(image, std::vector<std::vector<cv::Point>>{contour}, -1, cv::Scalar(0, 255, 0), contourThickness(image));
+
+            //Add contour to the list
+            addContour(contour);
             cv::circle(image, point, 5, cv::Scalar(255, 0, 0), -1); // Draw the specific pixel
             break;
         }
     }
 
+    // Draw the contours containing the specific pixels
+    cv::drawContours(image, contoursList, -1, cv::Scalar(0, 255, 0), contourThickness(image));
+
     return image;
+}
+
+void clearContourList() {
+    contoursList.clear();
+}
+
+// Function to remove the newest contour from the list (if not empty)
+void removeNewestContour() {
+    if (!contoursList.empty()) {
+        contoursList.pop_back(); // Remove the most recently added contour
+    }
+}
+
+
+int findArea() {
+    double area = 0;
+
+    //Calculate total area of all contours
+    for (const auto& contour : contoursList) {
+        area += cv::contourArea(contour);
+    }
+
+    //Clear the global contour list
+    contoursList.clear();
+
+    return area;
 }
 
 int findObjectArea(cv::Mat image, int x, int y) {
@@ -448,235 +447,6 @@ cv::Mat identifyCenterObject(cv::Mat image) {
     return image;
 }
 
-void removeBackground(cv::Mat& image) {
-    // Convert the image to grayscale
-    cv::Mat gray;
-    cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
-
-    // Threshold the grayscale image to create a binary mask
-    cv::Mat mask;
-    cv::threshold(gray, mask, 0, 255, cv::THRESH_BINARY_INV | cv::THRESH_OTSU);
-
-    // Find contours in the mask
-    std::vector<std::vector<cv::Point>> contours;
-    cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-
-    // Create a mask for the contours
-    cv::Mat contourMask = cv::Mat::zeros(image.size(), CV_8UC1);
-    cv::drawContours(contourMask, contours, -1, cv::Scalar(255), cv::FILLED);
-
-    // Apply the mask to the original image to keep only the objects inside the contours
-    cv::Mat result;
-    image.copyTo(result, contourMask);
-
-    // Update the original image with the result
-    image = result;
-}
-
-cv::Mat identifyColor(cv::Mat image) {
-    int range = 4;
-    cv::Mat resultImage;
-    cv::Mat mask;
-
-    int hsvValue;
-
-    int rows = image.rows;
-    int cols = image.cols;
-
-    if (cols < 8 || rows < 8) {
-        hsvValue = getHSV(image);
-    }
-
-    hsvValue = getAverageHSV(image, cols / 2, rows / 2);
-
-    if (hsvValue != -1) {
-        int h = (hsvValue >> 16) & 0xFF;
-        int s = (hsvValue >> 8) & 0xFF;
-        int v = hsvValue & 0xFF;
-
-        int minSat, maxSat;
-        int minVal, maxVal;
-
-        if (s < 100) {
-            minSat = 0;
-            maxSat = s + 100;
-            if (s < 40) {
-                range = 30;
-                if (s < 20) {
-                    range = 60;
-                    if (s < 10) {
-                        range = 90;
-                    }
-                }
-            }
-        } else if (s > 155) {
-            minSat = s - 100;
-            maxSat = 255;
-        } else {
-            minSat = s - 100;
-            maxSat = s + 100;
-        }
-
-        if (v < 50) {
-            minVal = 0;
-            maxVal = v + 30;
-        } else {
-            minVal = 40;
-            maxVal = 255;
-        }
-
-        cv::Scalar lowerBound;
-        cv::Scalar upperBound;
-
-        if (h < range || h >(180 - range)) {
-
-            cv::Scalar lowerBound2;
-            cv::Scalar upperBound2;
-
-            cv::Mat mask1, mask2;
-
-            if (h < range) {
-                int minHue1 = 0, maxHue1 = h + range;
-                int minHue2 = 179 - (range - h), maxHue2 = 180;
-
-                lowerBound = cv::Scalar(minHue1, minSat, minVal);
-                upperBound = cv::Scalar(maxHue1, maxSat, maxVal);
-
-                lowerBound2 = cv::Scalar(minHue2, minSat, minVal);
-                upperBound2 = cv::Scalar(maxHue2, maxSat, maxVal);
-            }
-            else {
-                int minHue1 = h - range, maxHue1 = 180;
-                int minHue2 = 0, maxHue2 = range - (180 - h);
-
-                lowerBound = cv::Scalar(minHue1, minSat, minVal);
-                upperBound = cv::Scalar(maxHue1, maxSat, maxVal);
-
-                lowerBound2 = cv::Scalar(minHue2, minSat, minVal);
-                upperBound2 = cv::Scalar(maxHue2, maxSat, maxVal);
-            }
-
-            mask1 = createMask(image, lowerBound, upperBound);
-            mask2 = createMask(image, lowerBound2, upperBound2);
-
-            mask = mask1 | mask2;
-
-            resultImage = applyMask(image, mask);
-        }
-        else {
-            int minHue = h - range, maxHue = h + range;
-
-            lowerBound = cv::Scalar(minHue, minSat, minVal);
-            upperBound = cv::Scalar(maxHue, maxSat, maxVal);
-
-            mask = createMask(image, lowerBound, upperBound);
-
-            resultImage = applyMask(image, mask);
-        }
-    }
-
-    return resultImage;
-}
-
-cv::Mat identifyColor(cv::Mat image, int x, int y) {
-    int range = 4;
-    cv::Mat resultImage;
-    cv::Mat mask;
-
-    int hsvValue = getAverageHSV(image, x, y);
-
-    if (hsvValue != -1) {
-        int h = (hsvValue >> 16) & 0xFF;
-        int s = (hsvValue >> 8) & 0xFF;
-        int v = hsvValue & 0xFF;
-
-        int minSat, maxSat;
-        int minVal, maxVal;
-
-        if (s < 100) {
-            minSat = 0;
-            maxSat = s + 100;
-            if (s < 40) {
-                range = 30;
-                if (s < 20) {
-                    range = 60;
-                    if (s < 10) {
-                        range = 90;
-                    }
-                }
-            }
-        }
-        else if (s > 155) {
-            minSat = s - 100;
-            maxSat = 255;
-        }
-        else {
-            minSat = s - 100;
-            maxSat = s + 100;
-        }
-
-        if (v < 50) {
-            minVal = 0;
-            maxVal = v + 30;
-        }
-        else {
-            minVal = 40;
-            maxVal = 255;
-        }
-
-        cv::Scalar lowerBound;
-        cv::Scalar upperBound;
-
-        if (h < range || h >(180 - range)) {
-
-            cv::Scalar lowerBound2;
-            cv::Scalar upperBound2;
-
-            cv::Mat mask1, mask2;
-
-            if (h < range) {
-                int minHue1 = 0, maxHue1 = h + range;
-                int minHue2 = 179 - (range - h), maxHue2 = 180;
-
-                lowerBound = cv::Scalar(minHue1, minSat, minVal);
-                upperBound = cv::Scalar(maxHue1, maxSat, maxVal);
-
-                lowerBound2 = cv::Scalar(minHue2, minSat, minVal);
-                upperBound2 = cv::Scalar(maxHue2, maxSat, maxVal);
-            }
-            else {
-                int minHue1 = h - range, maxHue1 = 180;
-                int minHue2 = 0, maxHue2 = range - (180 - h);
-
-                lowerBound = cv::Scalar(minHue1, minSat, minVal);
-                upperBound = cv::Scalar(maxHue1, maxSat, maxVal);
-
-                lowerBound2 = cv::Scalar(minHue2, minSat, minVal);
-                upperBound2 = cv::Scalar(maxHue2, maxSat, maxVal);
-            }
-
-            mask1 = createMask(image, lowerBound, upperBound);
-            mask2 = createMask(image, lowerBound2, upperBound2);
-
-            mask = mask1 | mask2;
-
-            resultImage = applyMask(image, mask);
-        }
-        else {
-            int minHue = h - range, maxHue = h + range;
-
-            lowerBound = cv::Scalar(minHue, minSat, minVal);
-            upperBound = cv::Scalar(maxHue, maxSat, maxVal);
-
-            mask = createMask(image, lowerBound, upperBound);
-
-            resultImage = applyMask(image, mask);
-        }
-    }
-
-    return resultImage;
-}
-
 
 
 
@@ -684,20 +454,20 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_example_blodpool_MainActivity_cvTest(JNIEnv *env, jobject thiz, jlong mat_addy, jlong mat_addy_res, jint x_addy, jint y_addy) {
 
-    //cv::cvtColor(matIn, matOut, cv::COLOR_BGR2GRAY);
-    cv::Mat &mat = *(cv::Mat*) mat_addy;
+//cv::cvtColor(matIn, matOut, cv::COLOR_BGR2GRAY);
+cv::Mat &mat = *(cv::Mat*) mat_addy;
 
-    cv::Mat &resMat = *(cv::Mat*) mat_addy_res;
+cv::Mat &resMat = *(cv::Mat*) mat_addy_res;
 
-    cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
-    cv::rotate(resMat, resMat, cv::ROTATE_90_CLOCKWISE);
+cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+cv::rotate(resMat, resMat, cv::ROTATE_90_CLOCKWISE);
 
-    int x = static_cast<int>(x_addy);
-    int y = static_cast<int>(y_addy);
+int x = static_cast<int>(x_addy);
+int y = static_cast<int>(y_addy);
 
-    resMat = findObject(mat, x, y);
+resMat = findObject(mat, x, y);
 
-    //resMat = getEdges(mat);
+//resMat = getEdges(mat);
 }
 
 extern "C"
@@ -716,6 +486,11 @@ Java_com_example_blodpool_MainActivity_findArea(JNIEnv *env, jobject thiz, jlong
     return pixels;
 }
 
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_blodpool_MainActivity_Undo(JNIEnv *env, jobject thiz) {
+   removeNewestContour();
+}
 
 int main() {
 

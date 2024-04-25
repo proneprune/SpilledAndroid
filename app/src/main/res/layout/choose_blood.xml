@@ -38,6 +38,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="280dp"
+        android:layout_marginTop="670dp"
+        android:text="Undo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <RelativeLayout
         android:id="@+id/relative_layout_1"
         android:layout_width="match_parent"
@@ -84,5 +94,5 @@
             android:layout_marginTop="30sp"
             android:textSize="50sp" />
 
-    </RelativeLayout>
+        </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
