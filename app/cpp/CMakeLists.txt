@@ -11,8 +11,7 @@ find_package(OpenCV REQUIRED)
 
 add_library(
         ${CMAKE_PROJECT_NAME} SHARED
-        testcpp.cpp
-        Test.cpp
+        OpenCV_Func.cpp
 )
 
 find_library(jnigraphics-lib jnigraphics)
