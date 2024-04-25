@@ -4,16 +4,7 @@
 
 using namespace cv;
 
-// Global vector to store contours
-std::vector<std::vector<cv::Point>> contoursList;
 
-// Function to add a contour to the list if it's not a duplicate
-void addContour(const std::vector<cv::Point>& contour) {
-    // Check for duplicate contours
-    if (std::find(contoursList.begin(), contoursList.end(), contour) == contoursList.end()) {
-        contoursList.push_back(contour);
-    }
-}
 
 // Global vector to store contours
 std::vector<std::vector<cv::Point>> contoursList;
@@ -503,6 +494,8 @@ Java_com_example_blodpool_MainActivity_Undo(JNIEnv *env, jobject thiz) {
    removeNewestContour();
 }
 
+extern "C"
+JNIEXPORT void JNICALL
 Java_com_example_blodpool_MainActivity_rotateMat(JNIEnv *env, jobject thiz, jlong mat_addy, jlong mat_addy_res) {
 
     //cv::cvtColor(matIn, matOut, cv::COLOR_BGR2GRAY);
