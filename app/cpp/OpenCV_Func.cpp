@@ -304,7 +304,6 @@ extern "C" JNIEXPORT jint JNICALL
 Java_com_example_blodpool_MainActivity_findAreaTwo(JNIEnv *env, jobject thiz) {
 
     return findArea();
-
 }
 
 

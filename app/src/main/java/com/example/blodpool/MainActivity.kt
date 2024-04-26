@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -26,16 +25,21 @@ import java.util.Date
 
 class MainActivity : ComponentActivity() {
 
-    //init of OpenCV functions
     private lateinit var imageUri: Uri
+
+    external fun getTest() : String
+
     external fun Undo(mat_addy: Long)
     external fun removeAllContours()
+
     external fun findArea(mat_addy: Long, x_addy: Int, y_addy: Int) : Int
+
     external fun findAreaTwo() : Int
+
     external fun cvTest(mat_addy: Long, mat_addy_res: Long, x_addy: Int, y_addy: Int)
+
     external fun rotateMat(mat_addy: Long, mat_addy_res: Long)
 
-    //on startup loads OpenCV and displays frontpage
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,16 +48,16 @@ class MainActivity : ComponentActivity() {
         displayFrontpage()
 
         OpenCVLoader.initDebug()
+
     }
 
-    //function to display frontpage
     fun displayFrontpage(){
-        //sets the correct view, init button and starts camera
         setContentView(R.layout.activity_main)
-        val button = findViewById<ImageButton>(R.id.btn)
+        val button = findViewById<Button>(R.id.btn)
         val intent = Intent("android.media.action.IMAGE_CAPTURE")
 
-        //time format for picture to store it
+        // var f = createImageFile()
+
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "JPEG_" + timeStamp + "_"
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -69,6 +73,7 @@ class MainActivity : ComponentActivity() {
             "com.example.blodpool.fileprovider",
             image);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
+        //startActivityForResult(intent, 0);
 
         imageUri = mImageUri
 
@@ -79,7 +84,6 @@ class MainActivity : ComponentActivity() {
 
     fun displayImagePage(displayImage: Bitmap){
 
-        //function to display the image page
         setContentView(R.layout.display_image)
         val button = findViewById<Button>(R.id.button)
 
@@ -92,8 +96,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    //function that can undo a selected object and also redraws the image to
-    //display the correct objects. Removes the pixels from total count
     fun undoBridge(initialUri: Uri) : Bitmap{
 
         var initialImage = Bitmap.createBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), initialUri));
@@ -102,7 +104,7 @@ class MainActivity : ComponentActivity() {
         Utils.bitmapToMat(initialImage, mat)
 
 
-        Undo(mat.nativeObjAddr) //calls the undo c++ function
+        Undo(mat.nativeObjAddr)
 
 
         val resultBitmap = Bitmap.createBitmap(mat.cols(), mat.rows(), Bitmap.Config.ARGB_8888)
@@ -114,27 +116,34 @@ class MainActivity : ComponentActivity() {
 
     fun selectObjectImage(initialUri: Uri, xPos: Int, yPoS: Int): Bitmap{
 
-        //selects object and displays correct image of the objects
-        var initialImage = Bitmap.createBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), initialUri))
+        var initialImage = Bitmap.createBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), initialUri));
+
+
         val mat = Mat()
         Utils.bitmapToMat(initialImage, mat)
 
+        //  Toast.makeText(applicationContext,mat.toString(),Toast.LENGTH_LONG).show()
+
         val resMat = Mat()
+
         cvTest(mat.nativeObjAddr, resMat.nativeObjAddr, xPos, yPoS)
 
 
+        // Toast.makeText(applicationContext,resMat.toString(),Toast.LENGTH_LONG).show()
 
         val resultBitmap = Bitmap.createBitmap(resMat.cols(), resMat.rows(), Bitmap.Config.ARGB_8888)
         Utils.matToBitmap(resMat, resultBitmap)
+
         return resultBitmap
     }
 
     fun rotateMatKotlin(initialImage: Bitmap) : Bitmap{
-        //rotate image
+
         val mat = Mat()
         Utils.bitmapToMat(initialImage, mat)
 
         val resMat = Mat()
+
         rotateMat(mat.nativeObjAddr, resMat.nativeObjAddr)
 
 
@@ -146,13 +155,18 @@ class MainActivity : ComponentActivity() {
 
     fun selectObjectImage(initialImage: Bitmap, xPos: Int, yPoS: Int): Bitmap{
 
-        //Function to select objects in images
+
         val mat = Mat()
         Utils.bitmapToMat(initialImage, mat)
+
+        //  Toast.makeText(applicationContext,mat.toString(),Toast.LENGTH_LONG).show()
 
         val resMat = Mat()
 
         cvTest(mat.nativeObjAddr, resMat.nativeObjAddr, xPos, yPoS)
+
+
+        // Toast.makeText(applicationContext,resMat.toString(),Toast.LENGTH_LONG).show()
 
         val resultBitmap = Bitmap.createBitmap(resMat.cols(), resMat.rows(), Bitmap.Config.ARGB_8888)
         Utils.matToBitmap(resMat, resultBitmap)
@@ -161,7 +175,7 @@ class MainActivity : ComponentActivity() {
     }
 
     fun findObjectArea(initialUri: Uri, xPos: Int, yPoS: Int): Int{
-        //find the area of an object
+
         var initialImage = Bitmap.createBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), initialUri));
 
 
@@ -169,12 +183,12 @@ class MainActivity : ComponentActivity() {
         Utils.bitmapToMat(initialImage, mat)
 
         return findArea(mat.nativeObjAddr, xPos, yPoS)
+
     }
 
-    //function to display the chooseblood xml layout
+
     fun displaychooseblood(areaperpixel: Float ){
         setContentView(R.layout.choose_blood)
-
 
         val mRelativeLayout = findViewById<RelativeLayout>(R.id.relative_layout_1)
 
@@ -182,15 +196,24 @@ class MainActivity : ComponentActivity() {
         val mTextViewY = findViewById<TextView>(R.id.text_view_2)
         val image = findViewById<ImageView>(R.id.captured_image)
 
+
+        //  val bitmap = (data?.extras?.get("data")) as Bitmap
+
+        // image.setImageBitmap(bitmap)
         image.setImageURI(imageUri)
 
+        mRelativeLayout.layoutParams.height = image.height
+        mRelativeLayout.layoutParams.width = image.width
+
+        mRelativeLayout.requestLayout()
+
+       // mRelativeLayout.layoutParams.height = image.height
+
+        //  Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
 
         // When relative layout is touched
         val buttontoconfirm = findViewById<Button>(R.id.button2)
         val buttonToUndo = findViewById<Button>(R.id.button3)
-
-        //listener to find if the screen is being pressed to find
-        //coordinates of an object
         mRelativeLayout.setOnTouchListener { _, motionEvent ->
             val imageWidth = image.drawable.intrinsicWidth
             val imageHeight = image.drawable.intrinsicHeight
@@ -205,8 +228,8 @@ class MainActivity : ComponentActivity() {
             // mTextViewY.text = "Y: $mY"
 
             // Calculate the corresponding coordinates relative to the original image
-            val imageX = (mX / image.width.toFloat() * imageWidth).toInt()
-            val imageY = (mY / image.height.toFloat() * imageHeight).toInt()
+            val imageX = (mX * (imageWidth.toFloat() / image.width.toFloat())).toInt()
+            val imageY = (mY * (imageHeight.toFloat() / image.height.toFloat())).toInt()
 
             println("X: $imageX")
             println("Y: $imageY")
@@ -217,6 +240,10 @@ class MainActivity : ComponentActivity() {
 
             val resultBitmap = selectObjectImage(imageUri, imageX, imageY)
 
+
+            //image.setRotation(90F);
+
+
             image.setImageBitmap(resultBitmap)
 
             buttonToUndo.setOnClickListener(){
@@ -224,26 +251,55 @@ class MainActivity : ComponentActivity() {
                 image.setImageBitmap(resultBitmap)
             }
 
+
+
+            // Toast.makeText(applicationContext, "total pixels: " + pixels ,Toast.LENGTH_LONG).show()
+
             buttontoconfirm.setOnClickListener(){
 
                 var pixels = findAreaTwo()
 
                 val bloodpoolarea = areaperpixel*pixels
 
+                val gravity = 9.82f
+                val densityBlood = 1060f
+                val surfaceTensionBlood = 0.058f
+
+                val volume = (2 * surfaceTensionBlood * 10000) / (densityBlood * gravity * 3.14159 * bloodpoolarea * 0.0001)
+                val formattedVolume = String.format("%.2f",volume)
+
+
+
                 setContentView(R.layout.area_of_blood)
                 val Textviewarea = findViewById<TextView>(R.id.textViewb)
-                Textviewarea.text = "The area of the bloodpool is $bloodpoolarea cm²"
+                Textviewarea.text = "The area of the blood is $bloodpoolarea cm²"
 
+                //    Toast.makeText(applicationContext, "bloodpool area is: " + bloodpoolarea ,Toast.LENGTH_LONG).show()
 
                 //functionality for button to go back to start when an area has been found
                 val go_back_2 = findViewById<Button>(R.id.go_back_2)
                 go_back_2.setOnClickListener(){
                     displayFrontpage()
                 }
+
+
             }
+
+
+
+
             true
         }
+
+
+
+
+
+
     }
+
+
+
 
     //@Deprecated
     @SuppressLint("ClickableViewAccessibility")
@@ -251,6 +307,10 @@ class MainActivity : ComponentActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == 0 && resultCode == Activity.RESULT_OK){
+            // Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
+
+
+
             setContentView(R.layout.captured_image_view)
 
             Toast.makeText(applicationContext,"found res!",Toast.LENGTH_LONG).show()
@@ -262,7 +322,23 @@ class MainActivity : ComponentActivity() {
             val image = findViewById<ImageView>(R.id.captured_image)
 
 
+
+            //  val bitmap = (data?.extras?.get("data")) as Bitmap
+
+            // image.setImageBitmap(bitmap)
             image.setImageURI(imageUri)
+
+
+            //image.layoutParams.width = 500
+            //image.layoutParams.height = 500
+
+            mRelativeLayout.layoutParams.height = image.height
+            mRelativeLayout.layoutParams.width = image.width
+
+            mRelativeLayout.requestLayout()
+
+
+            //  Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
 
             // When relative layout is touched
             val buttontoconfirm = findViewById<Button>(R.id.button2)
@@ -282,28 +358,42 @@ class MainActivity : ComponentActivity() {
                 // mTextViewY.text = "Y: $mY"
 
                 // Calculate the corresponding coordinates relative to the original image
-                val imageX = (mX / image.width.toFloat() * imageWidth).toInt()
-                val imageY = (mY / image.height.toFloat() * imageHeight).toInt()
+                val imageX = (mX * (imageWidth.toFloat() / image.width.toFloat())).toInt()
+                val imageY = (mY * (imageHeight.toFloat() / image.height.toFloat())).toInt()
 
                 println("X: $imageX")
                 println("Y: $imageY")
 
                 // Display the coordinates relative to the original image
-                mTextViewX.text = "X: $imageX"
-                mTextViewY.text = "Y: $imageY"
+                mTextViewX.text = "X: ${imageX}"
+                mTextViewY.text = "Y: ${imageY}"
 
                 val resultBitmap = selectObjectImage(imageUri, imageX, imageY)
+
                 image.setImageBitmap(resultBitmap)
 
                 buttontoconfirm.setOnClickListener(){
+
+
                     //var pixels = findObjectArea(imageUri, imageX, imageY)
                     var pixels = findAreaTwo()
                     val areaperpixel = 46.75f/pixels
 
                     displaychooseblood(areaperpixel)
+
                 }
                 true
             }
+
+
+
+
+
+
+            // displayImagePage(resultBitmap)
+
         }
+
+
     }
 }
