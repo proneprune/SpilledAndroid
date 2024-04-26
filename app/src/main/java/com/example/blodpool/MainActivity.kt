@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -53,7 +54,7 @@ class MainActivity : ComponentActivity() {
 
     fun displayFrontpage(){
         setContentView(R.layout.activity_main)
-        val button = findViewById<Button>(R.id.btn)
+        val button = findViewById<ImageButton>(R.id.btn)
         val intent = Intent("android.media.action.IMAGE_CAPTURE")
 
         // var f = createImageFile()
