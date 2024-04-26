@@ -272,7 +272,7 @@ class MainActivity : ComponentActivity() {
 
                 setContentView(R.layout.area_of_blood)
                 val Textviewarea = findViewById<TextView>(R.id.textViewb)
-                Textviewarea.text = "The volume of the blood is $formattedVolume dl"
+                Textviewarea.text = "The area of the blood is $bloodpoolarea cm²"
 
                 //    Toast.makeText(applicationContext, "bloodpool area is: " + bloodpoolarea ,Toast.LENGTH_LONG).show()
 
