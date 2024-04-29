@@ -22,6 +22,11 @@ import org.opencv.core.Mat
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+
 
 
 class MainActivity : ComponentActivity() {
@@ -46,10 +51,38 @@ class MainActivity : ComponentActivity() {
 
         System.loadLibrary("testcpp")
 
-        displayFrontpage()
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted, request it
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 0)
+
+
+        } else {
+            displayFrontpage()
+            // Permission is already granted, proceed with your camera-related tasks
+        }
+
+
 
         OpenCVLoader.initDebug()
 
+    }
+
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            0 -> {
+                // If request is cancelled, the grantResults array will be empty
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission granted, proceed with your camera-related tasks
+                    displayFrontpage()
+                } else {
+                    // Permission denied, handle accordingly (e.g., display a message or disable camera functionality)
+                    setContentView(R.layout.permission_denied)
+                }
+
+            }
+        }
     }
 
     fun displayFrontpage(){
