@@ -23,12 +23,16 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.PackageManager
+import android.widget.EditText
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
 
-
+val gravity = 9.82f
+var densityBlood = 1060f
+var surfaceTensionBlood = 0.058f
 class MainActivity : ComponentActivity() {
 
     private lateinit var imageUri: Uri
@@ -85,10 +89,113 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    fun settings(){
+        setContentView(R.layout.settings)
+        val abtusbutton = findViewById<Button>(R.id.aboutus)
+        val liquidbutton = findViewById<Button>(R.id.liquid)
+
+
+        liquidbutton.setOnClickListener{
+            chooseLiquid()
+        }
+
+        abtusbutton.setOnClickListener{
+            val url = "https://www.udio.com/"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
+
+        }
+
+
+
+
+    }
+
+    fun chooseLiquid(){
+        setContentView(R.layout.choose_liquid)
+        val bloodbutton = findViewById<Button>(R.id.button5)
+        val waterbutton = findViewById<Button>(R.id.button6)
+        val custombutton = findViewById<Button>(R.id.button7)
+
+
+        bloodbutton.setOnClickListener{
+            displayFrontpage()
+
+
+        }
+        waterbutton.setOnClickListener{
+            densityBlood = 1000f
+            surfaceTensionBlood = 0.072f
+            displayFrontpage()
+
+        }
+        custombutton.setOnClickListener{
+
+            //val editTextDensity = findViewById<EditText>(R.id.editTextDensity)
+            //val buttonConfirmDensity = findViewById<Button>(R.id.buttonConfirmDensity)
+            //val editTextSurfaceTension = findViewById<EditText>(R.id.editTextSurfaceTension)
+            //val buttonConfirmSurfaceTension = findViewById<Button>(R.id.buttonConfirmSurfaceTension)
+            val densityInputDialog = AlertDialog.Builder(this)
+            val densityInputEditText = EditText(this)
+            densityInputDialog.setTitle("Insert Density in kg/m^3")
+            densityInputDialog.setView(densityInputEditText)
+            densityInputDialog.setPositiveButton("Confirm") { dialog, _ ->
+                val densityInput = densityInputEditText.text.toString().toFloat()
+                densityBlood = densityInput
+
+                if (densityInput != null) {
+                    // Density input is valid, proceed to surface tension input
+                    dialog.dismiss()
+
+                    // Show a dialog to input surface tension
+                    val surfaceTensionInputDialog = AlertDialog.Builder(this)
+                    val surfaceTensionInputEditText = EditText(this)
+                    surfaceTensionInputDialog.setTitle("Insert Surface Tension in N/m")
+                    surfaceTensionInputDialog.setView(surfaceTensionInputEditText)
+                    surfaceTensionInputDialog.setPositiveButton("Confirm") { _, _ ->
+                        val surfaceTensionInput = surfaceTensionInputEditText.text.toString().toFloat()
+                        surfaceTensionBlood = surfaceTensionInput
+                        if (surfaceTensionInput != null) {
+                            displayFrontpage()
+
+                        } else {
+                            // Invalid surface tension input
+                            Toast.makeText(this, "Invalid surface tension input", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    surfaceTensionInputDialog.show()
+                    displayFrontpage()
+
+                } else {
+                    // Invalid density input
+                    Toast.makeText(this, "Invalid density input", Toast.LENGTH_SHORT).show()
+                }
+            }
+            densityInputDialog.show()
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+    }
+
     fun displayFrontpage(){
         setContentView(R.layout.activity_main)
         val button = findViewById<ImageButton>(R.id.btn)
+        val settingsbutton = findViewById<Button>(R.id.buttonbog)
+        val turtorialbutton = findViewById<Button>(R.id.button10)
         val intent = Intent("android.media.action.IMAGE_CAPTURE")
+
 
         // var f = createImageFile()
 
@@ -114,6 +221,24 @@ class MainActivity : ComponentActivity() {
         button.setOnClickListener{
             startActivityForResult(intent, 0)
         }
+        settingsbutton.setOnClickListener{
+            settings()
+
+
+
+
+
+        }
+
+        turtorialbutton.setOnClickListener{
+
+
+        }
+
+
+
+
+
     }
 
     fun displayImagePage(displayImage: Bitmap){
@@ -295,9 +420,7 @@ class MainActivity : ComponentActivity() {
 
                 val bloodpoolarea = areaperpixel*pixels
 
-                val gravity = 9.82f
-                val densityBlood = 1060f
-                val surfaceTensionBlood = 0.058f
+
 
                 val volume = (2 * surfaceTensionBlood * 10000) / (densityBlood * gravity * 3.14159 * bloodpoolarea * 0.0001)
                 val formattedVolume = String.format("%.2f",volume)
@@ -306,7 +429,7 @@ class MainActivity : ComponentActivity() {
 
                 setContentView(R.layout.area_of_blood)
                 val Textviewarea = findViewById<TextView>(R.id.textViewb)
-                Textviewarea.text = "The area of the blood is $bloodpoolarea cm²"
+                Textviewarea.text = "The area of the blood is $formattedVolume cm²"
 
                 //    Toast.makeText(applicationContext, "bloodpool area is: " + bloodpoolarea ,Toast.LENGTH_LONG).show()
 
