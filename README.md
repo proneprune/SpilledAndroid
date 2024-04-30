@@ -22,7 +22,7 @@ into ```settings.gradle.kts```
 
 
 ## go into opencv
-```...\opencv-4.9.0-android-sdk(1)\OpenCV-android-sdk\sdk\native\libs```
+```...\OpenCV-android-sdk\sdk\native\libs```
 
 create new folder ```jniLibs``` in
 ```src/main```
