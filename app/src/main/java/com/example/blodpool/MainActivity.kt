@@ -1,33 +1,33 @@
 package com.example.blodpool
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.InputType
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import org.opencv.android.OpenCVLoader
 import org.opencv.android.Utils
 import org.opencv.core.Mat
 import java.io.File
-
-import android.Manifest
-import android.app.AlertDialog
-import android.content.pm.PackageManager
-import android.widget.EditText
-import android.widget.LinearLayout
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 
 
 val gravity = 9.82f
@@ -249,56 +249,48 @@ class MainActivity : ComponentActivity() {
              if(nameInput != null){
 
 
-            val densityInputDialog = AlertDialog.Builder(this)
-            val densityInputEditText = EditText(this)
-            densityInputDialog.setTitle("Insert Density in kg/m^3")
-            densityInputDialog.setView(densityInputEditText)
-            densityInputDialog.setPositiveButton("Confirm") { dialog, _ ->
-                val densityInput = densityInputEditText.text.toString().toFloat()
-                densityBlood = densityInput
+                 val densityInputDialog = AlertDialog.Builder(this)
+                 val densityInputEditText = EditText(this)
+                 densityInputDialog.setTitle("Insert Density in kg/m^3")
+                 densityInputDialog.setView(densityInputEditText)
+                 densityInputDialog.setPositiveButton("Confirm") { dialog, _ ->
+                     val densityInputString = densityInputEditText.text.toString()
+                     try {
+                         val densityInput = densityInputString.toFloat()
+                         if (densityInput != null) {
+                             // Density input is valid, proceed to surface tension input
+                             dialog.dismiss()
 
+                             // Show a dialog to input surface tension
+                             val surfaceTensionInputDialog = AlertDialog.Builder(this)
+                             val surfaceTensionInputEditText = EditText(this)
+                             surfaceTensionInputDialog.setTitle("Insert Surface Tension in N/m")
+                             surfaceTensionInputDialog.setView(surfaceTensionInputEditText)
+                             surfaceTensionInputDialog.setPositiveButton("Confirm") { _, _ ->
+                                 val surfaceTensionInput = surfaceTensionInputEditText.text.toString()
+                                 try {
+                                     val surfaceTensionFloat = surfaceTensionInput.toFloat()
+                                     surfaceTensionBlood = surfaceTensionFloat
 
+                                     // Valid surface tension input
+                                     val liquidManager = LiquidManager()
+                                     liquidManager.saveLiquid(nameInput, densityInput, surfaceTensionBlood, getExternalFilesDir(Environment.DIRECTORY_PICTURES))
+                                     displayCustomLiquids()
+                                 } catch (e: NumberFormatException) {
+                                     // Invalid surface tension input
+                                     Toast.makeText(this, "Invalid surface tension input", Toast.LENGTH_SHORT).show()
+                                 }
+                             }
+                             surfaceTensionInputDialog.show()
+                         }
+                     } catch (e: NumberFormatException) {
+                         // Invalid density input
+                         Toast.makeText(this, "Invalid density input", Toast.LENGTH_SHORT).show()
+                     }
+                 }
+                 densityInputDialog.show()
 
-                if (densityInput != null) {
-                    // Density input is valid, proceed to surface tension input
-                    dialog.dismiss()
-
-                    // Show a dialog to input surface tension
-                    val surfaceTensionInputDialog = AlertDialog.Builder(this)
-                    val surfaceTensionInputEditText = EditText(this)
-                    surfaceTensionInputDialog.setTitle("Insert Surface Tension in N/m")
-                    surfaceTensionInputDialog.setView(surfaceTensionInputEditText)
-                    surfaceTensionInputDialog.setPositiveButton("Confirm") { _, _ ->
-                        val surfaceTensionInput =
-                            surfaceTensionInputEditText.text.toString().toFloat()
-                        surfaceTensionBlood = surfaceTensionInput
-                        if (surfaceTensionInput != null) {
-
-
-
-                        } else {
-                            // Invalid surface tension input
-                            Toast.makeText(
-                                this,
-                                "Invalid surface tension input",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                        }
-                    }
-                    surfaceTensionInputDialog.show()
-                    val liquidManager = LiquidManager()
-                    liquidManager.saveLiquid(nameInput, densityInput, surfaceTensionBlood, getExternalFilesDir(Environment.DIRECTORY_PICTURES) )
-                    displayCustomLiquids()
-                    //displayFrontpage()
-
-                } else {
-                    // Invalid density input
-                    Toast.makeText(this, "Invalid density input", Toast.LENGTH_SHORT).show()
-                }
-            }
-            densityInputDialog.show()
-        }
+             }
             else{
                  Toast.makeText(this, "Invalid name input", Toast.LENGTH_SHORT).show()
 
