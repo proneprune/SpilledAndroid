@@ -45,7 +45,6 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var imageUri: Uri
 
-    external fun getTest() : String
 
     external fun Undo(mat_addy: Long)
     external fun removeAllContours()
@@ -237,7 +236,6 @@ class MainActivity : ComponentActivity() {
         val button = findViewById<ImageButton>(R.id.btn)
         val settingsbutton = findViewById<Button>(R.id.buttonbog)
         val turtorialbutton = findViewById<Button>(R.id.button10)
-        val button = findViewById<ImageButton>(R.id.btn)
 
         //deletePreviousPhotos()
 
