@@ -16,26 +16,18 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.core.content.FileProvider
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import org.opencv.android.OpenCVLoader
 import org.opencv.android.Utils
 import org.opencv.core.Mat
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
 
 import android.Manifest
 import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.widget.EditText
+import android.widget.LinearLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-
-import kotlin.time.Duration.Companion.milliseconds
-
 
 
 val gravity = 9.82f
@@ -101,16 +93,23 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.settings)
         val abtusbutton = findViewById<Button>(R.id.aboutus)
         val liquidbutton = findViewById<Button>(R.id.liquid)
+        val backbtn = findViewById<Button>(R.id.backbtn123)
 
 
         liquidbutton.setOnClickListener{
-            chooseLiquid()
+            displayCustomLiquids()
+
         }
 
         abtusbutton.setOnClickListener{
             val url = "https://www.udio.com/"
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             startActivity(intent)
+
+        }
+
+        backbtn.setOnClickListener{
+        displayFrontpage()
 
         }
 
@@ -127,6 +126,8 @@ class MainActivity : ComponentActivity() {
 
 
         bloodbutton.setOnClickListener{
+            densityBlood = 1060f
+            surfaceTensionBlood = 0.058f
             displayFrontpage()
 
 
@@ -143,6 +144,112 @@ class MainActivity : ComponentActivity() {
             //val buttonConfirmDensity = findViewById<Button>(R.id.buttonConfirmDensity)
             //val editTextSurfaceTension = findViewById<EditText>(R.id.editTextSurfaceTension)
             //val buttonConfirmSurfaceTension = findViewById<Button>(R.id.buttonConfirmSurfaceTension)
+
+            displayCustomLiquids()
+
+
+
+
+        }
+
+
+
+
+
+    }
+
+    fun displayIndividualCustom(liquid: LiquidManager.Liquid){
+        setContentView(R.layout.display_individual_custom)
+
+        val confirmliquidbutton = findViewById<Button>(R.id.conliq)
+        val deletliquidbutton = findViewById<Button>(R.id.delustomC1)
+        val backbutton = findViewById<Button>(R.id.goback)
+
+        val nametext = findViewById<TextView>(R.id.textViewname)
+        val dentext = findViewById<TextView>(R.id.textViewdensity)
+        val surftext = findViewById<TextView>(R.id.textViewsurfacetension)
+
+        nametext.text = liquid.name
+        dentext.text = liquid.density.toString()
+        surftext.text = liquid.surfaceTension.toString()
+
+        confirmliquidbutton.setOnClickListener{
+            densityBlood = liquid.density
+            surfaceTensionBlood = liquid.surfaceTension
+            displayFrontpage()
+        }
+
+        deletliquidbutton.setOnClickListener{
+            if(liquid.name != "Blood" && liquid.name != "Water") {
+                val liquidManager = LiquidManager()
+                liquidManager.removeLiquid(
+                    liquid,
+                    getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                )
+                displayCustomLiquids()
+            }
+
+
+        }
+
+        backbutton.setOnClickListener{
+
+            displayCustomLiquids()
+
+        }
+
+
+    }
+
+    fun displayCustomLiquids()
+    {
+        setContentView(R.layout.scroll_custom_liquid)
+
+        val liquidManager = LiquidManager()
+        //liquidManager.saveLiquid("blaba",100f,200f,getExternalFilesDir(Environment.DIRECTORY_PICTURES))
+        val liquids = liquidManager.loadLiquids(getExternalFilesDir(Environment.DIRECTORY_PICTURES))
+        val backbtn = findViewById<Button>(R.id.buttonback)
+        val newliquidbutton = findViewById<Button>(R.id.buttonhej)
+        newliquidbutton.setOnClickListener{
+            customliquids()
+        }
+        // Get reference to the layout container inside the ScrollView
+
+        val view = findViewById<LinearLayout>(R.id.linearlayout1)
+
+        for(liquid in liquids) {
+
+            val btn = Button(this)
+            btn.text = liquid.name
+
+            btn.setOnClickListener {
+                //set global variable: currentLiquid = it
+                displayIndividualCustom(liquid)
+
+
+            }
+
+            view.addView(btn)
+
+        }
+
+        backbtn.setOnClickListener{
+            settings()
+        }
+
+
+    }
+    private fun customliquids() {
+
+        val nameInputDialog = AlertDialog.Builder(this)
+        val nameInputEditText = EditText(this)
+        nameInputDialog.setTitle("Insert Liquid Name")
+        nameInputDialog.setView(nameInputEditText)
+        nameInputDialog.setPositiveButton("Confirm") { dialog, _ ->
+            val nameInput = nameInputEditText.text.toString()
+             if(nameInput != null){
+
+
             val densityInputDialog = AlertDialog.Builder(this)
             val densityInputEditText = EditText(this)
             densityInputDialog.setTitle("Insert Density in kg/m^3")
@@ -150,6 +257,8 @@ class MainActivity : ComponentActivity() {
             densityInputDialog.setPositiveButton("Confirm") { dialog, _ ->
                 val densityInput = densityInputEditText.text.toString().toFloat()
                 densityBlood = densityInput
+
+
 
                 if (densityInput != null) {
                     // Density input is valid, proceed to surface tension input
@@ -161,18 +270,28 @@ class MainActivity : ComponentActivity() {
                     surfaceTensionInputDialog.setTitle("Insert Surface Tension in N/m")
                     surfaceTensionInputDialog.setView(surfaceTensionInputEditText)
                     surfaceTensionInputDialog.setPositiveButton("Confirm") { _, _ ->
-                        val surfaceTensionInput = surfaceTensionInputEditText.text.toString().toFloat()
+                        val surfaceTensionInput =
+                            surfaceTensionInputEditText.text.toString().toFloat()
                         surfaceTensionBlood = surfaceTensionInput
                         if (surfaceTensionInput != null) {
-                            displayFrontpage()
+
+
 
                         } else {
                             // Invalid surface tension input
-                            Toast.makeText(this, "Invalid surface tension input", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this,
+                                "Invalid surface tension input",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
                         }
                     }
                     surfaceTensionInputDialog.show()
-                    displayFrontpage()
+                    val liquidManager = LiquidManager()
+                    liquidManager.saveLiquid(nameInput, densityInput, surfaceTensionBlood, getExternalFilesDir(Environment.DIRECTORY_PICTURES) )
+                    displayCustomLiquids()
+                    //displayFrontpage()
 
                 } else {
                     // Invalid density input
@@ -180,20 +299,14 @@ class MainActivity : ComponentActivity() {
                 }
             }
             densityInputDialog.show()
+        }
+            else{
+                 Toast.makeText(this, "Invalid name input", Toast.LENGTH_SHORT).show()
 
-
-
-
-
-
-
-
+            }
 
         }
-
-
-
-
+        nameInputDialog.show()
 
     }
 
@@ -237,7 +350,7 @@ class MainActivity : ComponentActivity() {
         val button = findViewById<ImageButton>(R.id.btn)
         val settingsbutton = findViewById<Button>(R.id.buttonbog)
         val turtorialbutton = findViewById<Button>(R.id.button10)
-        val button = findViewById<ImageButton>(R.id.btn)
+
 
         //deletePreviousPhotos()
 
