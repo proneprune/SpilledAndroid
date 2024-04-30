@@ -406,12 +406,11 @@ class MainActivity : ComponentActivity() {
             val imageX = (mX * (imageWidth.toFloat() / image.width.toFloat())).toInt()
             val imageY = (mY * (imageHeight.toFloat() / image.height.toFloat())).toInt()
 
-            println("X: $imageX")
-            println("Y: $imageY")
+
 
             // Display the coordinates relative to the original image
-            mTextViewX.text = "X: $imageX"
-            mTextViewY.text = "Y: $imageY"
+            //mTextViewX.text = "X: $imageX"
+            //mTextViewY.text = "Y: $imageY"
 
 
 
@@ -529,12 +528,11 @@ class MainActivity : ComponentActivity() {
                 val imageX = (mX * (imageWidth.toFloat() / image.width.toFloat())).toInt()
                 val imageY = (mY * (imageHeight.toFloat() / image.height.toFloat())).toInt()
 
-                println("X: $imageX")
-                println("Y: $imageY")
+
 
                 // Display the coordinates relative to the original image
-                mTextViewX.text = "X: ${imageX}"
-                mTextViewY.text = "Y: ${imageY}"
+                //mTextViewX.text = "X: ${imageX}"
+                //mTextViewY.text = "Y: ${imageY}"
 
                 val resultBitmap = selectObjectImage(imageUri, imageX, imageY)
 
