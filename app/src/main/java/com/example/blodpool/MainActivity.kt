@@ -16,6 +16,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.core.content.FileProvider
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.opencv.android.OpenCVLoader
 import org.opencv.android.Utils
 import org.opencv.core.Mat
@@ -53,6 +57,7 @@ class MainActivity : ComponentActivity() {
 
     }
 
+
     fun deletePreviousPhotos(){
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
@@ -63,11 +68,12 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+
     fun startCameraCapture(){
 
         val intent = Intent("android.media.action.IMAGE_CAPTURE")
 
-        val prefix = "tempUri"
+        val prefix = "tempPicture"
         val suffix = ".jpg"
         val directory = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
@@ -90,7 +96,7 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.activity_main)
         val button = findViewById<ImageButton>(R.id.btn)
 
-        deletePreviousPhotos()
+        //deletePreviousPhotos()
 
         button.setOnClickListener{
             startCameraCapture()
@@ -203,6 +209,7 @@ class MainActivity : ComponentActivity() {
     }
 
 
+
     fun displaychooseblood(areaperpixel: Float ){
         setContentView(R.layout.choose_blood)
 
@@ -293,7 +300,7 @@ class MainActivity : ComponentActivity() {
 
                 //functionality for button to go back to start when an area has been found
                 val go_back_2 = findViewById<Button>(R.id.go_back_2)
-                deletePreviousPhotos()
+                //deletePreviousPhotos()
 
 
                 go_back_2.setOnClickListener(){
