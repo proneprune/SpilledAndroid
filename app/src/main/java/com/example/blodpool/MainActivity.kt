@@ -16,12 +16,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.core.content.FileProvider
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.opencv.android.OpenCVLoader
 import org.opencv.android.Utils
 import org.opencv.core.Mat
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
+import kotlin.time.Duration.Companion.milliseconds
 
 
 class MainActivity : ComponentActivity() {
@@ -52,34 +57,49 @@ class MainActivity : ComponentActivity() {
 
     }
 
+
+    fun deletePreviousPhotos(){
+        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+
+        var filesInsidePath = storageDir?.listFiles()
+
+        filesInsidePath?.forEach {
+            it.delete()
+        }
+    }
+
+
+    fun startCameraCapture(){
+
+        val intent = Intent("android.media.action.IMAGE_CAPTURE")
+
+        val prefix = "tempPicture"
+        val suffix = ".jpg"
+        val directory = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+
+        val image = File.createTempFile(
+            prefix,
+            suffix,
+            directory
+        )
+
+        imageUri = FileProvider.getUriForFile(this,
+            "com.example.blodpool.fileprovider",
+            image);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+
+        startActivityForResult(intent, 0)
+
+    }
+
     fun displayFrontpage(){
         setContentView(R.layout.activity_main)
         val button = findViewById<ImageButton>(R.id.btn)
-        val intent = Intent("android.media.action.IMAGE_CAPTURE")
 
-        // var f = createImageFile()
-
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val imageFileName = "JPEG_" + timeStamp + "_"
-        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        val image = File.createTempFile(
-            imageFileName,  /* prefix */
-            ".jpg",  /* suffix */
-            storageDir /* directory */
-        )
-
-        var filePath = imageFileName
-
-        val mImageUri = FileProvider.getUriForFile(this,
-            "com.example.blodpool.fileprovider",
-            image);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
-        //startActivityForResult(intent, 0);
-
-        imageUri = mImageUri
+        //deletePreviousPhotos()
 
         button.setOnClickListener{
-            startActivityForResult(intent, 0)
+            startCameraCapture()
         }
     }
 
@@ -119,13 +139,14 @@ class MainActivity : ComponentActivity() {
 
         var initialImage = Bitmap.createBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), initialUri));
 
-
         val mat = Mat()
         Utils.bitmapToMat(initialImage, mat)
 
         //  Toast.makeText(applicationContext,mat.toString(),Toast.LENGTH_LONG).show()
 
         val resMat = Mat()
+
+
 
         cvTest(mat.nativeObjAddr, resMat.nativeObjAddr, xPos, yPoS)
 
@@ -188,6 +209,7 @@ class MainActivity : ComponentActivity() {
     }
 
 
+
     fun displaychooseblood(areaperpixel: Float ){
         setContentView(R.layout.choose_blood)
 
@@ -215,7 +237,11 @@ class MainActivity : ComponentActivity() {
         // When relative layout is touched
         val buttontoconfirm = findViewById<Button>(R.id.button2)
         val buttonToUndo = findViewById<Button>(R.id.button3)
+
+
         mRelativeLayout.setOnTouchListener { _, motionEvent ->
+
+
             val imageWidth = image.drawable.intrinsicWidth
             val imageHeight = image.drawable.intrinsicHeight
 
@@ -239,10 +265,9 @@ class MainActivity : ComponentActivity() {
             mTextViewX.text = "X: $imageX"
             mTextViewY.text = "Y: $imageY"
 
+
+
             val resultBitmap = selectObjectImage(imageUri, imageX, imageY)
-
-
-            //image.setRotation(90F);
 
 
             image.setImageBitmap(resultBitmap)
@@ -251,10 +276,6 @@ class MainActivity : ComponentActivity() {
                 var resultBitmap = undoBridge(imageUri)
                 image.setImageBitmap(resultBitmap)
             }
-
-
-
-            // Toast.makeText(applicationContext, "total pixels: " + pixels ,Toast.LENGTH_LONG).show()
 
             buttontoconfirm.setOnClickListener(){
 
@@ -273,22 +294,20 @@ class MainActivity : ComponentActivity() {
 
                 setContentView(R.layout.area_of_blood)
                 val Textviewarea = findViewById<TextView>(R.id.textViewb)
-                Textviewarea.text = "The area of the blood is $bloodpoolarea cm²"
+                Textviewarea.text = "The volume of the blood is $formattedVolume cm³"
 
                 //    Toast.makeText(applicationContext, "bloodpool area is: " + bloodpoolarea ,Toast.LENGTH_LONG).show()
 
                 //functionality for button to go back to start when an area has been found
                 val go_back_2 = findViewById<Button>(R.id.go_back_2)
+                //deletePreviousPhotos()
+
+
                 go_back_2.setOnClickListener(){
+
                     displayFrontpage()
                 }
-
-
             }
-
-
-
-
             true
         }
 
