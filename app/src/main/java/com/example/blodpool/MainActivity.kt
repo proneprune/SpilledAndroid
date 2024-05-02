@@ -29,6 +29,7 @@ import org.opencv.android.Utils
 import org.opencv.core.Mat
 import java.io.File
 
+import android.content.Context
 
 
 val gravity = 9.82f
@@ -410,7 +411,6 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.activity_main)
         val button = findViewById<ImageButton>(R.id.btn)
 
-        val turtorialbutton = findViewById<Button>(R.id.button10)
 
         val settingsbutton = findViewById<ImageButton>(R.id.buttonbog)
         val turtorialbutton = findViewById<ImageButton>(R.id.button10)
@@ -418,9 +418,7 @@ class MainActivity : ComponentActivity() {
 
 
         //deletePreviousPhotos()
-        chooseFromGalleryButton.setOnClickListener {
-            openGallery()
-        }
+
         button.setOnClickListener{
             startCameraCapture()
         }
