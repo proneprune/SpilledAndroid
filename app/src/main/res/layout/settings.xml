@@ -5,45 +5,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+    <ImageButton
         android:id="@+id/liquid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="186dp"
         android:layout_marginEnd="124dp"
-        android:text="Choose liquid"
+        android:background="@drawable/transparent_image"
+        android:src="@drawable/liquid"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/aboutus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="127dp"
         android:layout_marginEnd="160dp"
         android:layout_marginBottom="107dp"
-        android:text="About us"
+        android:background="@drawable/transparent_image"
+        android:src="@drawable/aboutus"
         app:layout_constraintBottom_toTopOf="@+id/language"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/liquid" />
 
-    <Button
+    <ImageButton
         android:id="@+id/language"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="149dp"
         android:layout_marginBottom="167dp"
-        android:text="CHOOSE UNIT"
+        android:background="@drawable/transparent_image"
+        android:src="@drawable/unit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/backbtn123"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="42dp"
         android:layout_marginEnd="162dp"
+        android:background="@drawable/transparent_image"
+        android:src="@drawable/back_button1024h"
         android:text="Back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/sitting_8"
+        tools:layout_editor_absoluteX="248dp"
+        tools:layout_editor_absoluteY="735dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
