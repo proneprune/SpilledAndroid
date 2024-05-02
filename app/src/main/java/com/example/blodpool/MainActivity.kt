@@ -28,6 +28,8 @@ import org.opencv.android.OpenCVLoader
 import org.opencv.android.Utils
 import org.opencv.core.Mat
 import java.io.File
+import kotlin.math.sqrt
+
 
 import android.content.Context
 
@@ -611,11 +613,16 @@ class MainActivity : ComponentActivity() {
 
                 var pixels = findAreaTwo()
 
-                val bloodpoolarea = areaperpixel*pixels
+                var bloodpoolarea = areaperpixel*pixels
 
 
 
-                val volume = ((2 * surfaceTensionBlood * 10000) / (densityBlood * gravity * 3.14159 * bloodpoolarea * 0.0001))* unitcalc
+                //val volume = ((2 * surfaceTensionBlood * 10000) / (densityBlood * gravity * 3.14159 * bloodpoolarea * 0.0001))* unitcalc
+                bloodpoolarea = bloodpoolarea * 0.0001f
+                var innerArg = surfaceTensionBlood / (densityBlood * gravity)
+                var depth = 2 * sqrt(innerArg)
+                var volume = depth * bloodpoolarea* 10000f
+
                 val formattedVolume = String.format("%.2f",volume)
 
 
