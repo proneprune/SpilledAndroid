@@ -33,6 +33,8 @@ import java.io.File
 val gravity = 9.82f
 var densityBlood = 1060f
 var surfaceTensionBlood = 0.058f
+var unitcalc = 1f
+var unittobedisplayed = "dl"
 class MainActivity : ComponentActivity() {
 
     private lateinit var imageUri: Uri
@@ -91,12 +93,53 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+
+    fun chooseUnit(){
+        setContentView(R.layout.choose_unit)
+        val dlbutton = findViewById<Button>(R.id.button4)
+        val flozbutton = findViewById<Button>(R.id.button8)
+        val backbutton = findViewById<Button>(R.id.buttonbaackk)
+        val unitused = findViewById<TextView>(R.id.textView3)
+
+        unitused.text = "current unit: $unittobedisplayed"
+
+
+        backbutton.setOnClickListener{
+        settings()
+
+        }
+
+        dlbutton.setOnClickListener{
+        unitcalc = 1f
+        unittobedisplayed = "dl"
+            chooseUnit()
+        }
+
+        flozbutton.setOnClickListener{
+        unitcalc = 3.38140227f
+        unittobedisplayed = "fl.oz"
+            chooseUnit()
+        }
+
+
+
+
+
+
+
+    }
+
     fun settings(){
         setContentView(R.layout.settings)
         val abtusbutton = findViewById<Button>(R.id.aboutus)
         val liquidbutton = findViewById<Button>(R.id.liquid)
         val backbtn = findViewById<Button>(R.id.backbtn123)
+        val unitbutton = findViewById<Button>(R.id.language)
 
+        unitbutton.setOnClickListener{
+        chooseUnit()
+
+        }
 
         liquidbutton.setOnClickListener{
             displayCustomLiquids()
@@ -541,7 +584,7 @@ class MainActivity : ComponentActivity() {
 
 
 
-                val volume = (2 * surfaceTensionBlood * 10000) / (densityBlood * gravity * 3.14159 * bloodpoolarea * 0.0001)
+                val volume = ((2 * surfaceTensionBlood * 10000) / (densityBlood * gravity * 3.14159 * bloodpoolarea * 0.0001))* unitcalc
                 val formattedVolume = String.format("%.2f",volume)
 
 
@@ -549,7 +592,7 @@ class MainActivity : ComponentActivity() {
                 setContentView(R.layout.area_of_blood)
                 val Textviewarea = findViewById<TextView>(R.id.textViewb)
 
-                Textviewarea.text = "The volume of the blood is $formattedVolume cm³"
+                Textviewarea.text = "The volume of the blood is $formattedVolume $unittobedisplayed"
 
 
                 //    Toast.makeText(applicationContext, "bloodpool area is: " + bloodpoolarea ,Toast.LENGTH_LONG).show()
