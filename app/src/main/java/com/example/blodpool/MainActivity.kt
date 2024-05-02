@@ -33,8 +33,10 @@ import android.content.pm.PackageManager
 import android.widget.EditText
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import android.content.ActivityNotFoundException
 
-import kotlin.time.Duration.Companion.milliseconds
+import android.content.Context
+import android.view.LayoutInflater
 
 
 
@@ -44,7 +46,9 @@ var surfaceTensionBlood = 0.058f
 class MainActivity : ComponentActivity() {
 
     private lateinit var imageUri: Uri
-
+    private val GALLERY_REQUEST_CODE = 100
+    private val PREFS_NAME = "MyPrefs"
+    private val PREF_TUTORIAL_SHOWN = "tutorialShown"
 
     external fun Undo(mat_addy: Long)
     external fun removeAllContours()
@@ -68,6 +72,10 @@ class MainActivity : ComponentActivity() {
 
 
         } else {
+            if (!isTutorialShown()) {
+                showTutorial()
+                markTutorialAsShown()
+            }
             displayFrontpage()
             // Permission is already granted, proceed with your camera-related tasks
         }
@@ -96,6 +104,16 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun openGallery() {
+        val intent2 = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intent2.type = "image/*"
+        try {
+            startActivityForResult(intent2, GALLERY_REQUEST_CODE)
+
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(this, "Gallery app not found", Toast.LENGTH_SHORT).show()
+        }
+    }
     fun settings(){
         setContentView(R.layout.settings)
         val abtusbutton = findViewById<Button>(R.id.aboutus)
@@ -207,6 +225,22 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun isTutorialShown(): Boolean {
+        val sharedPrefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return sharedPrefs.getBoolean(PREF_TUTORIAL_SHOWN, false)
+    }
+
+    private fun markTutorialAsShown() {
+        val sharedPrefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPrefs.edit()
+        editor.putBoolean(PREF_TUTORIAL_SHOWN, true)
+        editor.apply()
+    }
+
+    private fun showTutorial() {
+        val intent = Intent(this, TutorialActivity::class.java)
+        startActivity(intent)
+    }
 
     fun startCameraCapture(){
 
@@ -236,9 +270,13 @@ class MainActivity : ComponentActivity() {
         val button = findViewById<ImageButton>(R.id.btn)
         val settingsbutton = findViewById<Button>(R.id.buttonbog)
         val turtorialbutton = findViewById<Button>(R.id.button10)
+        val chooseFromGalleryButton = findViewById<Button>(R.id.button4)
+
 
         //deletePreviousPhotos()
-
+        chooseFromGalleryButton.setOnClickListener {
+            openGallery()
+        }
         button.setOnClickListener{
             startCameraCapture()
         }
@@ -247,7 +285,8 @@ class MainActivity : ComponentActivity() {
         }
 
         turtorialbutton.setOnClickListener{
-
+            val intent = Intent(this, TutorialActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -473,7 +512,7 @@ class MainActivity : ComponentActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == 0 && resultCode == Activity.RESULT_OK){
+        if((requestCode== 0 || requestCode==GALLERY_REQUEST_CODE) && resultCode == Activity.RESULT_OK && data != null ){
             // Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
 
 
@@ -487,8 +526,12 @@ class MainActivity : ComponentActivity() {
             val mTextViewX = findViewById<TextView>(R.id.text_view_1)
             val mTextViewY = findViewById<TextView>(R.id.text_view_2)
             val image = findViewById<ImageView>(R.id.captured_image)
+            val selectedImageUri: Uri? = data.data
 
 
+            if (selectedImageUri != null) {
+                imageUri = selectedImageUri
+            }
 
             //  val bitmap = (data?.extras?.get("data")) as Bitmap
 

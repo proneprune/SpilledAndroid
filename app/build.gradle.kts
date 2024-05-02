@@ -78,6 +78,9 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.constraintlayout)
     implementation(project(":opencv"))
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
     //implementation("org.opencv:opencv-android:4.5.3")
 
     testImplementation(libs.junit)

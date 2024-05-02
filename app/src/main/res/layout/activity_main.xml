@@ -13,6 +13,8 @@
     <!--creates the button with the text "Click to scan"-->
 
     <!--creates the text for the name of the application "spilled"-->
+
+
     <View
         android:id="@+id/rectangle_1"
         android:layout_width="944dp"
@@ -22,8 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.48" />
-
+        app:layout_constraintVertical_bias="0.561" />
 
     <TextView
         android:id="@+id/textView"
@@ -77,6 +78,15 @@
         android:text="Turtorial"
         app:layout_constraintEnd_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginBottom="-1160dp"
+        android:text="Gallery"
+        app:layout_constraintBottom_toTopOf="@+id/rectangle_1"
+        tools:layout_editor_absoluteX="161dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
