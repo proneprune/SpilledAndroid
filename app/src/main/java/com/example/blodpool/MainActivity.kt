@@ -131,10 +131,10 @@ class MainActivity : ComponentActivity() {
 
     fun settings(){
         setContentView(R.layout.settings)
-        val abtusbutton = findViewById<Button>(R.id.aboutus)
-        val liquidbutton = findViewById<Button>(R.id.liquid)
-        val backbtn = findViewById<Button>(R.id.backbtn123)
-        val unitbutton = findViewById<Button>(R.id.language)
+        val abtusbutton = findViewById<ImageButton>(R.id.aboutus)
+        val liquidbutton = findViewById<ImageButton>(R.id.liquid)
+        val backbtn = findViewById<ImageButton>(R.id.backbtn123)
+        val unitbutton = findViewById<ImageButton>(R.id.language)
 
         unitbutton.setOnClickListener{
         chooseUnit()
