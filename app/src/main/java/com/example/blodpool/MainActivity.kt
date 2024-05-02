@@ -119,14 +119,14 @@ class MainActivity : ComponentActivity() {
         }
 
         dlbutton.setOnClickListener{
-        unitcalc = 1f
-        unittobedisplayed = "dl"
+            unitcalc = 1f
+            unittobedisplayed = "dl"
             chooseUnit()
         }
 
         flozbutton.setOnClickListener{
-        unitcalc = 3.38140227f
-        unittobedisplayed = "fl.oz"
+            unitcalc = 3.38140227f
+            unittobedisplayed = "fl.oz"
             chooseUnit()
         }
 
@@ -262,8 +262,10 @@ class MainActivity : ComponentActivity() {
         val liquidManager = LiquidManager()
         //liquidManager.saveLiquid("blaba",100f,200f,getExternalFilesDir(Environment.DIRECTORY_PICTURES))
         val liquids = liquidManager.loadLiquids(getExternalFilesDir(Environment.DIRECTORY_PICTURES))
-        val backbtn = findViewById<Button>(R.id.buttonback123)
-        val newliquidbutton = findViewById<Button>(R.id.buttonhej)
+
+        val backbtn = findViewById<ImageButton>(R.id.buttonback123)
+        val newliquidbutton = findViewById<ImageButton>(R.id.buttonhej)
+
         newliquidbutton.setOnClickListener{
             customliquids()
         }
@@ -271,21 +273,21 @@ class MainActivity : ComponentActivity() {
 
         val view = findViewById<LinearLayout>(R.id.linearlayout1)
 
-        for(liquid in liquids) {
-
-            val btn = Button(this)
-            btn.text = liquid.name
-
-            btn.setOnClickListener {
-                //set global variable: currentLiquid = it
-                displayIndividualCustom(liquid)
-
-
+        for (liquid in liquids) {
+            val btn = ImageButton(this)
+            when (liquid.name) {
+                "Blood" -> btn.setImageResource(R.drawable.blood)
+                "Water" -> btn.setImageResource(R.drawable.water)
+                "Oil" -> btn.setImageResource(R.drawable.oil)
+                else -> btn.setImageResource(R.drawable.custom_add_button)
             }
-
+            btn.setOnClickListener {
+                // Assuming displayIndividualCustom() function takes ImageButton as input
+                displayIndividualCustom(liquid)
+            }
             view.addView(btn)
-
         }
+
 
         backbtn.setOnClickListener{
             settings()

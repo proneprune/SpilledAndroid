@@ -5,19 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/white">
 
     <!-- Horizontal ScrollView -->
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="410dp"
+        android:layout_height="113dp"
         android:background="#CCCCCC"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.1">
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <!-- Content inside ScrollView -->
         <LinearLayout
@@ -30,18 +31,19 @@
             <!-- Example content -->
 
 
-            <Button
+            <ImageButton
                 android:id="@+id/buttonback123"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Back" />
+                android:layout_height="match_parent"
+                android:background="@drawable/transparent_image"
+                android:src="@drawable/back_button1024h" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/buttonhej"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New liquid" />
-
+                android:layout_height="match_parent"
+                android:background="@drawable/transparent_image"
+                android:src="@drawable/custom" />
 
 
             <!-- Add more content as needed -->
@@ -56,5 +58,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.3" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:layout_marginBottom="56dp"
+        android:src="@drawable/standing_18"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
