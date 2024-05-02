@@ -1,48 +1,41 @@
 package com.example.blodpool
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.InputType
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import org.opencv.android.OpenCVLoader
 import org.opencv.android.Utils
 import org.opencv.core.Mat
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
-
-import android.Manifest
-import android.app.AlertDialog
-import android.content.pm.PackageManager
-import android.widget.EditText
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import android.content.ActivityNotFoundException
-
-import android.content.Context
-import android.view.LayoutInflater
 
 
 
 val gravity = 9.82f
 var densityBlood = 1060f
 var surfaceTensionBlood = 0.058f
+var unitcalc = 1f
+var unittobedisplayed = "dl"
 class MainActivity : ComponentActivity() {
 
     private lateinit var imageUri: Uri
@@ -65,6 +58,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         System.loadLibrary("testcpp")
+
+        //changes the background theme to the pinkish one
+        setTheme(R.style.Theme_Blodpool)
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted, request it
@@ -104,30 +100,69 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun openGallery() {
-        val intent2 = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        intent2.type = "image/*"
-        try {
-            startActivityForResult(intent2, GALLERY_REQUEST_CODE)
 
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(this, "Gallery app not found", Toast.LENGTH_SHORT).show()
+
+    fun chooseUnit(){
+        setContentView(R.layout.choose_unit)
+        val dlbutton = findViewById<Button>(R.id.button4)
+        val flozbutton = findViewById<Button>(R.id.button8)
+        val backbutton = findViewById<Button>(R.id.buttonbaackk)
+        val unitused = findViewById<TextView>(R.id.textView3)
+
+        unitused.text = "current unit: $unittobedisplayed"
+
+
+        backbutton.setOnClickListener{
+        settings()
+
         }
+
+        dlbutton.setOnClickListener{
+        unitcalc = 1f
+        unittobedisplayed = "dl"
+            chooseUnit()
+        }
+
+        flozbutton.setOnClickListener{
+        unitcalc = 3.38140227f
+        unittobedisplayed = "fl.oz"
+            chooseUnit()
+        }
+
+
+
+
+
+
+
     }
+
     fun settings(){
         setContentView(R.layout.settings)
-        val abtusbutton = findViewById<Button>(R.id.aboutus)
-        val liquidbutton = findViewById<Button>(R.id.liquid)
+        val abtusbutton = findViewById<ImageButton>(R.id.aboutus)
+        val liquidbutton = findViewById<ImageButton>(R.id.liquid)
+        val backbtn = findViewById<ImageButton>(R.id.backbtn123)
+        val unitbutton = findViewById<ImageButton>(R.id.language)
 
+        unitbutton.setOnClickListener{
+        chooseUnit()
+
+        }
 
         liquidbutton.setOnClickListener{
-            chooseLiquid()
+            displayCustomLiquids()
+
         }
 
         abtusbutton.setOnClickListener{
             val url = "https://www.udio.com/"
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             startActivity(intent)
+
+        }
+
+        backbtn.setOnClickListener{
+        displayFrontpage()
 
         }
 
@@ -144,6 +179,8 @@ class MainActivity : ComponentActivity() {
 
 
         bloodbutton.setOnClickListener{
+            densityBlood = 1060f
+            surfaceTensionBlood = 0.058f
             displayFrontpage()
 
 
@@ -160,48 +197,8 @@ class MainActivity : ComponentActivity() {
             //val buttonConfirmDensity = findViewById<Button>(R.id.buttonConfirmDensity)
             //val editTextSurfaceTension = findViewById<EditText>(R.id.editTextSurfaceTension)
             //val buttonConfirmSurfaceTension = findViewById<Button>(R.id.buttonConfirmSurfaceTension)
-            val densityInputDialog = AlertDialog.Builder(this)
-            val densityInputEditText = EditText(this)
-            densityInputDialog.setTitle("Insert Density in kg/m^3")
-            densityInputDialog.setView(densityInputEditText)
-            densityInputDialog.setPositiveButton("Confirm") { dialog, _ ->
-                val densityInput = densityInputEditText.text.toString().toFloat()
-                densityBlood = densityInput
 
-                if (densityInput != null) {
-                    // Density input is valid, proceed to surface tension input
-                    dialog.dismiss()
-
-                    // Show a dialog to input surface tension
-                    val surfaceTensionInputDialog = AlertDialog.Builder(this)
-                    val surfaceTensionInputEditText = EditText(this)
-                    surfaceTensionInputDialog.setTitle("Insert Surface Tension in N/m")
-                    surfaceTensionInputDialog.setView(surfaceTensionInputEditText)
-                    surfaceTensionInputDialog.setPositiveButton("Confirm") { _, _ ->
-                        val surfaceTensionInput = surfaceTensionInputEditText.text.toString().toFloat()
-                        surfaceTensionBlood = surfaceTensionInput
-                        if (surfaceTensionInput != null) {
-                            displayFrontpage()
-
-                        } else {
-                            // Invalid surface tension input
-                            Toast.makeText(this, "Invalid surface tension input", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    surfaceTensionInputDialog.show()
-                    displayFrontpage()
-
-                } else {
-                    // Invalid density input
-                    Toast.makeText(this, "Invalid density input", Toast.LENGTH_SHORT).show()
-                }
-            }
-            densityInputDialog.show()
-
-
-
-
-
+            displayCustomLiquids()
 
 
 
@@ -211,6 +208,150 @@ class MainActivity : ComponentActivity() {
 
 
 
+
+    }
+
+    fun displayIndividualCustom(liquid: LiquidManager.Liquid){
+        setContentView(R.layout.display_individual_custom)
+
+        val confirmliquidbutton = findViewById<Button>(R.id.conliq)
+        val deletliquidbutton = findViewById<Button>(R.id.delustomC1)
+        val backbutton = findViewById<Button>(R.id.goback)
+
+        val nametext = findViewById<TextView>(R.id.textViewname)
+        val dentext = findViewById<TextView>(R.id.textViewdensity)
+        val surftext = findViewById<TextView>(R.id.textViewsurfacetension)
+
+        nametext.text = liquid.name
+        dentext.text = liquid.density.toString()
+        surftext.text = liquid.surfaceTension.toString()
+
+        confirmliquidbutton.setOnClickListener{
+            densityBlood = liquid.density
+            surfaceTensionBlood = liquid.surfaceTension
+            displayFrontpage()
+        }
+
+        deletliquidbutton.setOnClickListener{
+            if(liquid.name != "Blood" && liquid.name != "Water") {
+                val liquidManager = LiquidManager()
+                liquidManager.removeLiquid(
+                    liquid,
+                    getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                )
+                displayCustomLiquids()
+            }
+
+
+        }
+
+        backbutton.setOnClickListener{
+
+            displayCustomLiquids()
+
+        }
+
+
+    }
+
+    fun displayCustomLiquids()
+    {
+        setContentView(R.layout.scroll_custom_liquid)
+
+        val liquidManager = LiquidManager()
+        //liquidManager.saveLiquid("blaba",100f,200f,getExternalFilesDir(Environment.DIRECTORY_PICTURES))
+        val liquids = liquidManager.loadLiquids(getExternalFilesDir(Environment.DIRECTORY_PICTURES))
+        val backbtn = findViewById<Button>(R.id.buttonback)
+        val newliquidbutton = findViewById<Button>(R.id.buttonhej)
+        newliquidbutton.setOnClickListener{
+            customliquids()
+        }
+        // Get reference to the layout container inside the ScrollView
+
+        val view = findViewById<LinearLayout>(R.id.linearlayout1)
+
+        for(liquid in liquids) {
+
+            val btn = Button(this)
+            btn.text = liquid.name
+
+            btn.setOnClickListener {
+                //set global variable: currentLiquid = it
+                displayIndividualCustom(liquid)
+
+
+            }
+
+            view.addView(btn)
+
+        }
+
+        backbtn.setOnClickListener{
+            settings()
+        }
+
+
+    }
+    private fun customliquids() {
+
+        val nameInputDialog = AlertDialog.Builder(this)
+        val nameInputEditText = EditText(this)
+        nameInputDialog.setTitle("Insert Liquid Name")
+        nameInputDialog.setView(nameInputEditText)
+        nameInputDialog.setPositiveButton("Confirm") { dialog, _ ->
+            val nameInput = nameInputEditText.text.toString()
+             if(nameInput != null){
+
+
+                 val densityInputDialog = AlertDialog.Builder(this)
+                 val densityInputEditText = EditText(this)
+                 densityInputDialog.setTitle("Insert Density in kg/m^3")
+                 densityInputDialog.setView(densityInputEditText)
+                 densityInputDialog.setPositiveButton("Confirm") { dialog, _ ->
+                     val densityInputString = densityInputEditText.text.toString()
+                     try {
+                         val densityInput = densityInputString.toFloat()
+                         if (densityInput != null) {
+                             // Density input is valid, proceed to surface tension input
+                             dialog.dismiss()
+
+                             // Show a dialog to input surface tension
+                             val surfaceTensionInputDialog = AlertDialog.Builder(this)
+                             val surfaceTensionInputEditText = EditText(this)
+                             surfaceTensionInputDialog.setTitle("Insert Surface Tension in N/m")
+                             surfaceTensionInputDialog.setView(surfaceTensionInputEditText)
+                             surfaceTensionInputDialog.setPositiveButton("Confirm") { _, _ ->
+                                 val surfaceTensionInput = surfaceTensionInputEditText.text.toString()
+                                 try {
+                                     val surfaceTensionFloat = surfaceTensionInput.toFloat()
+                                     surfaceTensionBlood = surfaceTensionFloat
+
+                                     // Valid surface tension input
+                                     val liquidManager = LiquidManager()
+                                     liquidManager.saveLiquid(nameInput, densityInput, surfaceTensionBlood, getExternalFilesDir(Environment.DIRECTORY_PICTURES))
+                                     displayCustomLiquids()
+                                 } catch (e: NumberFormatException) {
+                                     // Invalid surface tension input
+                                     Toast.makeText(this, "Invalid surface tension input", Toast.LENGTH_SHORT).show()
+                                 }
+                             }
+                             surfaceTensionInputDialog.show()
+                         }
+                     } catch (e: NumberFormatException) {
+                         // Invalid density input
+                         Toast.makeText(this, "Invalid density input", Toast.LENGTH_SHORT).show()
+                     }
+                 }
+                 densityInputDialog.show()
+
+             }
+            else{
+                 Toast.makeText(this, "Invalid name input", Toast.LENGTH_SHORT).show()
+
+            }
+
+        }
+        nameInputDialog.show()
 
     }
 
@@ -268,9 +409,12 @@ class MainActivity : ComponentActivity() {
     fun displayFrontpage(){
         setContentView(R.layout.activity_main)
         val button = findViewById<ImageButton>(R.id.btn)
-        val settingsbutton = findViewById<Button>(R.id.buttonbog)
+
         val turtorialbutton = findViewById<Button>(R.id.button10)
-        val chooseFromGalleryButton = findViewById<Button>(R.id.button4)
+
+        val settingsbutton = findViewById<ImageButton>(R.id.buttonbog)
+        val turtorialbutton = findViewById<ImageButton>(R.id.button10)
+
 
 
         //deletePreviousPhotos()
@@ -471,7 +615,7 @@ class MainActivity : ComponentActivity() {
 
 
 
-                val volume = (2 * surfaceTensionBlood * 10000) / (densityBlood * gravity * 3.14159 * bloodpoolarea * 0.0001)
+                val volume = ((2 * surfaceTensionBlood * 10000) / (densityBlood * gravity * 3.14159 * bloodpoolarea * 0.0001))* unitcalc
                 val formattedVolume = String.format("%.2f",volume)
 
 
@@ -479,7 +623,7 @@ class MainActivity : ComponentActivity() {
                 setContentView(R.layout.area_of_blood)
                 val Textviewarea = findViewById<TextView>(R.id.textViewb)
 
-                Textviewarea.text = "The volume of the blood is $formattedVolume cm³"
+                Textviewarea.text = "The volume of the blood is $formattedVolume $unittobedisplayed"
 
 
                 //    Toast.makeText(applicationContext, "bloodpool area is: " + bloodpoolarea ,Toast.LENGTH_LONG).show()

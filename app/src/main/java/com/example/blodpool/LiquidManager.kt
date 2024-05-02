@@ -15,7 +15,7 @@ class LiquidManager {
 
     @Serializable
     data class Liquid(val name: String, val density: Float, val surfaceTension: Float)
-    fun saveLiquid(name: String, density: Float, surfaceTension: Float, storageDir: File){
+    fun saveLiquid(name: String, density: Float, surfaceTension: Float, storageDir: File?){
 
         val liquidsFileName = "liquids.json"
 
@@ -39,7 +39,20 @@ class LiquidManager {
         return liquids
     }
 
-    fun loadLiquids(storageDir: File) : List<Liquid>{
+    fun removeLiquid(liquidToRemove: Liquid, storageDir: File?){
+        val liquidsFileName = "liquids.json"
+
+        val f = File(storageDir, liquidsFileName)
+
+        val liquids = loadLiquids(storageDir).toMutableList()
+
+        liquids.remove(liquidToRemove)
+
+        val updatedLiquidString = Json.encodeToString<List<Liquid>>(liquids)
+
+        f.writeText(updatedLiquidString)
+    }
+    fun loadLiquids(storageDir: File?) : List<Liquid>{
         val liquidsFileName = "liquids.json"
 
         val f = File(storageDir, liquidsFileName)
@@ -47,7 +60,7 @@ class LiquidManager {
         if(f.exists()){
             val json = f.readText()
             val liquids = Json.decodeFromString<List<Liquid>>(json)
-            return baseLiquids()
+            return liquids
         }
         else{
             f.createNewFile()

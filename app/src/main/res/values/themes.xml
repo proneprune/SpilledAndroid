@@ -5,7 +5,15 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/transparent_image</item>
-        <item name="android:windowBackground">@drawable/gradient_fill</item>
+         <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <!--the splashscreen theme-->
+    <style name="SplashScreenTheme">
+        <item name="android:windowBackground">@drawable/loading_screen2796h</item>
+    </style>
+
+    <style name="MainBackground" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/new_homescreen2796_1_</item>
     </style>
 </resources>
