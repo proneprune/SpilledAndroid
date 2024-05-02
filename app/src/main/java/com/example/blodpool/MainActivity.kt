@@ -119,14 +119,14 @@ class MainActivity : ComponentActivity() {
         }
 
         dlbutton.setOnClickListener{
-        unitcalc = 1f
-        unittobedisplayed = "dl"
+            unitcalc = 1f
+            unittobedisplayed = "dl"
             chooseUnit()
         }
 
         flozbutton.setOnClickListener{
-        unitcalc = 3.38140227f
-        unittobedisplayed = "fl.oz"
+            unitcalc = 3.38140227f
+            unittobedisplayed = "fl.oz"
             chooseUnit()
         }
 
@@ -257,13 +257,15 @@ class MainActivity : ComponentActivity() {
 
     fun displayCustomLiquids()
     {
-        setContentView(R.layout.scroll_custom_liquid)
+        setContentView(R.layout.horizontal_scroll_liquids)
 
         val liquidManager = LiquidManager()
         //liquidManager.saveLiquid("blaba",100f,200f,getExternalFilesDir(Environment.DIRECTORY_PICTURES))
         val liquids = liquidManager.loadLiquids(getExternalFilesDir(Environment.DIRECTORY_PICTURES))
-        val backbtn = findViewById<ImageButton>(R.id.buttonback)
+
+        val backbtn = findViewById<ImageButton>(R.id.buttonback123)
         val newliquidbutton = findViewById<ImageButton>(R.id.buttonhej)
+
         newliquidbutton.setOnClickListener{
             customliquids()
         }
