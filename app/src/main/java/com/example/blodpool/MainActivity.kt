@@ -278,6 +278,7 @@ class MainActivity : ComponentActivity() {
             when (liquid.name) {
                 "Blood" -> btn.setImageResource(R.drawable.blood)
                 "Water" -> btn.setImageResource(R.drawable.water)
+                "Oil" -> btn.setImageResource(R.drawable.oil)
                 else -> btn.setImageResource(R.drawable.custom_add_button)
             }
             btn.setOnClickListener {
