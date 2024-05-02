@@ -54,6 +54,9 @@ class MainActivity : ComponentActivity() {
 
         System.loadLibrary("testcpp")
 
+        //changes the background theme to the pinkish one
+        setTheme(R.style.Theme_Blodpool)
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted, request it
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 0)
