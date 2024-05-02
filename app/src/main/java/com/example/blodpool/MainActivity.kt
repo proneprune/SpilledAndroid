@@ -262,8 +262,8 @@ class MainActivity : ComponentActivity() {
         val liquidManager = LiquidManager()
         //liquidManager.saveLiquid("blaba",100f,200f,getExternalFilesDir(Environment.DIRECTORY_PICTURES))
         val liquids = liquidManager.loadLiquids(getExternalFilesDir(Environment.DIRECTORY_PICTURES))
-        val backbtn = findViewById<Button>(R.id.buttonback)
-        val newliquidbutton = findViewById<Button>(R.id.buttonhej)
+        val backbtn = findViewById<ImageButton>(R.id.buttonback)
+        val newliquidbutton = findViewById<ImageButton>(R.id.buttonhej)
         newliquidbutton.setOnClickListener{
             customliquids()
         }

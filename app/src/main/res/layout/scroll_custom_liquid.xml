@@ -23,17 +23,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Button
+            <ImageButton
                 android:id="@+id/buttonback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Back" />
+                android:background="@drawable/transparent_image"
+                android:src="@drawable/back_button1024h" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/buttonhej"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="New liquid" />
+                android:background="@drawable/transparent_image"
+                android:src="@drawable/custom" />
 
         </LinearLayout>
     </ScrollView>
