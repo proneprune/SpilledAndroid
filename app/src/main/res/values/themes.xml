@@ -12,4 +12,8 @@
     <style name="SplashScreenTheme">
         <item name="android:windowBackground">@drawable/loading_screen2796h</item>
     </style>
+
+    <style name="MainBackground" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/new_homescreen2796_1_</item>
+    </style>
 </resources>
