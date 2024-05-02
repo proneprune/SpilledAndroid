@@ -29,6 +29,8 @@ import org.opencv.android.Utils
 import org.opencv.core.Mat
 import java.io.File
 
+import android.content.Context
+
 
 val gravity = 9.82f
 var densityBlood = 1060f
@@ -38,7 +40,9 @@ var unittobedisplayed = "dl"
 class MainActivity : ComponentActivity() {
 
     private lateinit var imageUri: Uri
-
+    private val GALLERY_REQUEST_CODE = 100
+    private val PREFS_NAME = "MyPrefs"
+    private val PREF_TUTORIAL_SHOWN = "tutorialShown"
 
     external fun Undo(mat_addy: Long)
     external fun removeAllContours()
@@ -65,6 +69,10 @@ class MainActivity : ComponentActivity() {
 
 
         } else {
+            if (!isTutorialShown()) {
+                showTutorial()
+                markTutorialAsShown()
+            }
             displayFrontpage()
             // Permission is already granted, proceed with your camera-related tasks
         }
@@ -92,6 +100,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 
 
     fun chooseUnit(){
@@ -358,6 +367,22 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun isTutorialShown(): Boolean {
+        val sharedPrefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return sharedPrefs.getBoolean(PREF_TUTORIAL_SHOWN, false)
+    }
+
+    private fun markTutorialAsShown() {
+        val sharedPrefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPrefs.edit()
+        editor.putBoolean(PREF_TUTORIAL_SHOWN, true)
+        editor.apply()
+    }
+
+    private fun showTutorial() {
+        val intent = Intent(this, TutorialActivity::class.java)
+        startActivity(intent)
+    }
 
     fun startCameraCapture(){
 
@@ -385,8 +410,11 @@ class MainActivity : ComponentActivity() {
     fun displayFrontpage(){
         setContentView(R.layout.activity_main)
         val button = findViewById<ImageButton>(R.id.btn)
+
+
         val settingsbutton = findViewById<ImageButton>(R.id.buttonbog)
         val turtorialbutton = findViewById<ImageButton>(R.id.button10)
+
 
 
         //deletePreviousPhotos()
@@ -399,7 +427,8 @@ class MainActivity : ComponentActivity() {
         }
 
         turtorialbutton.setOnClickListener{
-
+            val intent = Intent(this, TutorialActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -625,7 +654,7 @@ class MainActivity : ComponentActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == 0 && resultCode == Activity.RESULT_OK){
+        if((requestCode== 0 || requestCode==GALLERY_REQUEST_CODE) && resultCode == Activity.RESULT_OK && data != null ){
             // Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
 
 
@@ -639,8 +668,12 @@ class MainActivity : ComponentActivity() {
             val mTextViewX = findViewById<TextView>(R.id.text_view_1)
             val mTextViewY = findViewById<TextView>(R.id.text_view_2)
             val image = findViewById<ImageView>(R.id.captured_image)
+            val selectedImageUri: Uri? = data.data
 
 
+            if (selectedImageUri != null) {
+                imageUri = selectedImageUri
+            }
 
             //  val bitmap = (data?.extras?.get("data")) as Bitmap
 

@@ -28,6 +28,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
 
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -78,6 +79,15 @@
         app:layout_constraintEnd_toStartOf="@+id/buttonbog"
         app:layout_constraintHorizontal_bias="0.022"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginBottom="-1160dp"
+        android:text="Gallery"
+        app:layout_constraintBottom_toTopOf="@+id/rectangle_1"
+        tools:layout_editor_absoluteX="161dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
