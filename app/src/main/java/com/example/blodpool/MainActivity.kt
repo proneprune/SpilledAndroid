@@ -273,21 +273,20 @@ class MainActivity : ComponentActivity() {
 
         val view = findViewById<LinearLayout>(R.id.linearlayout1)
 
-        for(liquid in liquids) {
-
-            val btn = Button(this)
-            btn.text = liquid.name
-
-            btn.setOnClickListener {
-                //set global variable: currentLiquid = it
-                displayIndividualCustom(liquid)
-
-
+        for (liquid in liquids) {
+            val btn = ImageButton(this)
+            when (liquid.name) {
+                "Blood" -> btn.setImageResource(R.drawable.blood)
+                "Water" -> btn.setImageResource(R.drawable.water)
+                else -> btn.setImageResource(R.drawable.custom_add_button)
             }
-
+            btn.setOnClickListener {
+                // Assuming displayIndividualCustom() function takes ImageButton as input
+                displayIndividualCustom(liquid)
+            }
             view.addView(btn)
-
         }
+
 
         backbtn.setOnClickListener{
             settings()
