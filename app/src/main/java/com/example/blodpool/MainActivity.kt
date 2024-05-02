@@ -342,8 +342,8 @@ class MainActivity : ComponentActivity() {
     fun displayFrontpage(){
         setContentView(R.layout.activity_main)
         val button = findViewById<ImageButton>(R.id.btn)
-        val settingsbutton = findViewById<Button>(R.id.buttonbog)
-        val turtorialbutton = findViewById<Button>(R.id.button10)
+        val settingsbutton = findViewById<ImageButton>(R.id.buttonbog)
+        val turtorialbutton = findViewById<ImageButton>(R.id.button10)
 
 
         //deletePreviousPhotos()

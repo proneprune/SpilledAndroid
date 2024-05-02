@@ -13,70 +13,71 @@
     <!--creates the button with the text "Click to scan"-->
 
     <!--creates the text for the name of the application "spilled"-->
+
+
     <View
         android:id="@+id/rectangle_1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="410dp"
+        android:layout_height="890dp"
         android:background="@drawable/new_homescreen2796_1_"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.48" />
+        app:layout_constraintVertical_bias="0.0" />
 
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
         android:fontFamily="@font/yusei_magic"
-        android:text="  Spilled  "
+        android:text="Spilled"
         android:textColor="@color/white"
-        android:textSize="96sp"
+        android:textSize="44sp"
+        app:layout_constraintBottom_toBottomOf="@+id/rectangle_1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.541"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="370dp"
-        android:layout_height="249dp"
-        tools:layout_editor_absoluteX="25dp"
-        tools:layout_editor_absoluteY="466dp"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.44" />
 
     <ImageButton
         android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="604dp"
+        android:layout_marginTop="652dp"
         android:background="@drawable/transparent_image"
-        android:src="@drawable/knapp2"
+        android:src="@drawable/kamera_knapp1024h"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/rectangle_1" />
 
-    <Button
+    <ImageButton
         android:id="@+id/buttonbog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="-100dp"
-        android:layout_marginTop="-50dp"
-        android:text="Settings"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/transparent_image"
+        android:src="@drawable/settings_knapp1024h"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/button10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-50dp"
-        android:layout_marginEnd="-100dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/transparent_image"
+        android:src="@drawable/information_knapp1024h"
         android:text="Turtorial"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonbog"
+        app:layout_constraintHorizontal_bias="0.022"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
