@@ -38,3 +38,6 @@ change
 
 make sure you are running java 11 in opencv
 
+need to follow this video to get the working rotation of the live camera
+https://www.youtube.com/watch?v=aWaJXkMxY0c
+
