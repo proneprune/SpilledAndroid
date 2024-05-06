@@ -11,8 +11,8 @@ std::vector<std::vector<cv::Point>> contoursList;
 cv::Scalar contourColor = cv::Scalar(222, 181, 255);
 
 
-int areaInfo;
-cv::Mat imageInfo;
+int areaInfo = 1;
+cv::Mat imageInfo(100, 100, CV_8UC3, cv::Scalar(255,255,255));
 cv::Point centerInfo;
 
 double getArea() {
@@ -413,12 +413,18 @@ Java_com_example_blodpool_MainActivity_findobjectinfo(JNIEnv *env, jobject thiz,
     int y = static_cast<int>(y_addy);
     cv::Mat &mat = *(cv::Mat*) mat_addy;
 
+    //cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+
+
     findObjectInfo(mat, x, y);
 }
 
 extern "C" JNIEXPORT void JNICALL
 Java_com_example_blodpool_MainActivity_centerobjectinfo(JNIEnv *env, jobject thiz, jlong mat_addy) {
     cv::Mat &mat = *(cv::Mat*) mat_addy;
+
+    //cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+
 
     centerObjectInfo(mat);
 }
@@ -427,6 +433,10 @@ Java_com_example_blodpool_MainActivity_centerobjectinfo(JNIEnv *env, jobject thi
 extern "C" JNIEXPORT void JNICALL
 Java_com_example_blodpool_MainActivity_getimage(JNIEnv *env, jobject thiz, jlong mat_addy) {
     cv::Mat &mat = *(cv::Mat*) mat_addy;
+
+    //cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+
+
 
     mat = getImage();
 }

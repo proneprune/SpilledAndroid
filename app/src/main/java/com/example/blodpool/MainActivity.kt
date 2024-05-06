@@ -30,7 +30,7 @@ import org.opencv.core.Mat
 import java.io.File
 import kotlin.math.sqrt
 
-
+import org.opencv.imgproc.Imgproc
 import android.content.Context
 import org.opencv.android.CameraActivity
 import org.opencv.android.CameraBridgeViewBase
@@ -93,7 +93,6 @@ class MainActivity : CameraActivity() {
         OpenCVLoader.initDebug()
 
         var currentMat = Mat()
-        OpenCVLoader.initDebug()
 
         setContentView(R.layout.livecameratest)
         viewBase = findViewById(R.id.javaCameraView)
@@ -115,6 +114,7 @@ class MainActivity : CameraActivity() {
                 findobjectinfo(tmp.nativeObjAddr, 400, 400)
                 //centerobjectinfo(tmp.nativeObjAddr)
                 getimage(tmp.nativeObjAddr)
+
                 return tmp
             }
         })
