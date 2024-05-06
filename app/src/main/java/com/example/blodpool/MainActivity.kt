@@ -62,6 +62,12 @@ class MainActivity : CameraActivity() {
 
     external fun rotateMat(mat_addy: Long, mat_addy_res: Long)
 
+    external fun findobjectinfo(mat_addy: Long, x_addy: Int, y_addy: Int)
+
+    external fun centerobjectinfo(mat_addy: Long)
+
+    external fun getimage(mat_addy: Long)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -84,6 +90,8 @@ class MainActivity : CameraActivity() {
             // Permission is already granted, proceed with your camera-related tasks
         }
 
+        OpenCVLoader.initDebug()
+
         var currentMat = Mat()
         OpenCVLoader.initDebug()
 
@@ -104,9 +112,10 @@ class MainActivity : CameraActivity() {
 
                 var tmp = inputFrame.rgba()
                 tmp.copyTo(currentMat)
-                //Undo(tmp.nativeObjAddr)
-                cvTest(tmp.nativeObjAddr, tmp.nativeObjAddr, 400, 400)
-                return tmp // Return the processed frame
+                findobjectinfo(tmp.nativeObjAddr, 400, 400)
+                //centerobjectinfo(tmp.nativeObjAddr)
+                getimage(tmp.nativeObjAddr)
+                return tmp
             }
         })
 
