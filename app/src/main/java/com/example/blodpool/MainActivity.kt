@@ -85,6 +85,7 @@ class MainActivity : CameraActivity() {
         }
 
         var currentMat = Mat()
+        OpenCVLoader.initDebug()
 
         setContentView(R.layout.livecameratest)
         viewBase = findViewById(R.id.javaCameraView)
@@ -111,7 +112,7 @@ class MainActivity : CameraActivity() {
 
 
 
-        OpenCVLoader.initDebug()
+
 
         viewBase.enableFpsMeter()
         viewBase.enableView()
