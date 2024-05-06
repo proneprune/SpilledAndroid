@@ -111,7 +111,8 @@ class MainActivity : CameraActivity() {
 
                 var tmp = inputFrame.rgba()
                 tmp.copyTo(currentMat)
-                findobjectinfo(tmp.nativeObjAddr, 400, 400)
+                findobjectinfo(tmp.nativeObjAddr, tmp.cols()/2, tmp.rows()/2)
+
                 //centerobjectinfo(tmp.nativeObjAddr)
                 getimage(tmp.nativeObjAddr)
 

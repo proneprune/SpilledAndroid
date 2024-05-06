@@ -313,6 +313,8 @@ void centerObjectInfo(cv::Mat image) {
         cv::Point2f centroid(static_cast<float>(mu[i].m10 / mu[i].m00), static_cast<float>(mu[i].m01 / mu[i].m00));
         float dist = cv::norm(imageCenter - centroid);
 
+
+
         if (dist < minDist) {
             minDist = dist;
             centerContourIndex = static_cast<int>(i);
@@ -323,6 +325,7 @@ void centerObjectInfo(cv::Mat image) {
     }
 
     // Draw the contour of the center object onto the image
+    cv::circle(image, cv::Point( image.cols/2,image.rows/2), 5, cv::Scalar(0, 0, 255), -1); // Draw the specific pixel
     drawWeightedContour(image, contours[centerContourIndex]);
 
     areaInfo = area;
