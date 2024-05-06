@@ -32,6 +32,9 @@ import kotlin.math.sqrt
 
 
 import android.content.Context
+import org.opencv.android.CameraActivity
+import org.opencv.android.CameraBridgeViewBase
+import java.util.Collections
 
 
 val gravity = 9.82f
@@ -39,12 +42,14 @@ var densityBlood = 1060f
 var surfaceTensionBlood = 0.058f
 var unitcalc = 1f
 var unittobedisplayed = "dl"
-class MainActivity : ComponentActivity() {
+class MainActivity : CameraActivity() {
 
     private lateinit var imageUri: Uri
     private val GALLERY_REQUEST_CODE = 100
     private val PREFS_NAME = "MyPrefs"
     private val PREF_TUTORIAL_SHOWN = "tutorialShown"
+
+    private lateinit var viewBase : CameraBridgeViewBase
 
     external fun Undo(mat_addy: Long)
     external fun removeAllContours()
@@ -71,20 +76,53 @@ class MainActivity : ComponentActivity() {
 
 
         } else {
-            if (!isTutorialShown()) {
-                showTutorial()
-                markTutorialAsShown()
-            }
-            displayFrontpage()
+            //if (!isTutorialShown()) {
+            //    showTutorial()
+            //    markTutorialAsShown()
+            //}
+            //displayFrontpage()
             // Permission is already granted, proceed with your camera-related tasks
         }
+
+        var currentMat = Mat()
+
+        setContentView(R.layout.livecameratest)
+        viewBase = findViewById(R.id.javaCameraView)
+
+        viewBase.setCvCameraViewListener(object : CameraBridgeViewBase.CvCameraViewListener2 {
+            override fun onCameraViewStarted(width: Int, height: Int) {
+                // Your implementation for camera view started
+            }
+
+            override fun onCameraViewStopped() {
+                // Your implementation for camera view stopped
+            }
+
+            override fun onCameraFrame(inputFrame: CameraBridgeViewBase.CvCameraViewFrame): Mat {
+                // Your implementation for camera frame processing
+
+                var tmp = inputFrame.rgba()
+                tmp.copyTo(currentMat)
+                //Undo(tmp.nativeObjAddr)
+                cvTest(tmp.nativeObjAddr, tmp.nativeObjAddr, 400, 400)
+                return tmp // Return the processed frame
+            }
+        })
 
 
 
         OpenCVLoader.initDebug()
 
+        viewBase.enableFpsMeter()
+        viewBase.enableView()
+        
+
     }
 
+
+    override fun getCameraViewList() : List<CameraBridgeViewBase> {
+        return Collections.singletonList(viewBase)
+    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
