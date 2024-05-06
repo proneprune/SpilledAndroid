@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <org.opencv.android.JavaCameraView
+        android:id="@+id/javaCameraView"
+        android:layout_width="367dp"
+        android:layout_height="715dp"
+        tools:layout_editor_absoluteX="18dp"
+        tools:layout_editor_absoluteY="7dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
