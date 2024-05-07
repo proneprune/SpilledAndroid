@@ -12,10 +12,11 @@
         android:layout_gravity="center"
         android:layout_marginTop="4dp"
         android:background="@drawable/rounded_button_background"
-        android:text="                                         Please choose your unit"
-        android:textSize="34sp"
         android:fontFamily="@font/poppins_thin"
+        android:text="&#xA;&#xA;Please choose your unit"
+        android:textAlignment="center"
         android:textColor="@color/spilledblack"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -57,7 +58,7 @@
         android:id="@+id/textView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="500dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
