@@ -38,6 +38,8 @@ var surfaceTensionBlood = 0.058f
 var unitcalc = 1f
 var unittobedisplayed = "dl"
 lateinit var BloodMat: Mat
+var BloodPixelArea : Float = 0.0f
+
 class MainActivity : ComponentActivity() {
 
     private lateinit var imageUri: Uri

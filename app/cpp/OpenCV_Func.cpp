@@ -445,6 +445,13 @@ Java_com_example_blodpool_LiveCamera_getimage(JNIEnv *env, jobject thiz, jlong m
 }
 
 
+extern "C" JNIEXPORT float JNICALL
+Java_com_example_blodpool_LiveCamera_getarea(JNIEnv *env, jobject thiz) {
+
+    return getArea();
+}
+
+
 int main() {
 
 

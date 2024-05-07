@@ -23,6 +23,8 @@ class LiveCamera : CameraActivity() {
 
     external fun getimage(mat_addy: Long)
 
+    external fun getarea() : Float
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         System.loadLibrary("testcpp")
@@ -51,6 +53,7 @@ class LiveCamera : CameraActivity() {
 
                         //centerobjectinfo(tmp.nativeObjAddr)
                         getimage(tmp.nativeObjAddr)
+                        BloodPixelArea = getarea()
                         tmp.copyTo(currentMat)
 
                         return tmp
