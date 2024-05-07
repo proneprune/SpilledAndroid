@@ -356,6 +356,7 @@ int y = static_cast<int>(y_addy);
 resMat = findObject(mat, x, y);
 
 //resMat = getEdges(mat);
+
 }
 
 extern "C"
@@ -450,6 +451,47 @@ Java_com_example_blodpool_LiveCamera_getimage(JNIEnv *env, jobject thiz, jlong m
 
 extern "C" JNIEXPORT float JNICALL
 Java_com_example_blodpool_LiveCamera_getarea(JNIEnv *env, jobject thiz) {
+
+    return getArea();
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_blodpool_MainActivity_findobjectinfo(JNIEnv *env, jobject thiz, jlong mat_addy, jint x_addy, jint y_addy) {
+    int x = static_cast<int>(x_addy);
+    int y = static_cast<int>(y_addy);
+    cv::Mat &mat = *(cv::Mat*) mat_addy;
+
+    //cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+
+
+    findObjectInfo(mat, x, y);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_blodpool_MainActivity_centerobjectinfo(JNIEnv *env, jobject thiz, jlong mat_addy) {
+    cv::Mat &mat = *(cv::Mat*) mat_addy;
+
+    //cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+
+
+    centerObjectInfo(mat);
+}
+
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_blodpool_MainActivity_getimage(JNIEnv *env, jobject thiz, jlong mat_addy) {
+    cv::Mat &mat = *(cv::Mat*) mat_addy;
+
+    //cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+
+
+
+    mat = getImage();
+}
+
+
+extern "C" JNIEXPORT float JNICALL
+Java_com_example_blodpool_MainActivity_getarea(JNIEnv *env, jobject thiz) {
 
     return getArea();
 }

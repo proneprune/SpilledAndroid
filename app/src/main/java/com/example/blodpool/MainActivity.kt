@@ -42,6 +42,8 @@ lateinit var BloodMat: Mat
 lateinit var BloodMatOriginal: Mat
 var BloodPixelArea : Float = 0.0f
 
+
+
 class MainActivity : ComponentActivity() {
 
     private lateinit var imageUri: Uri
@@ -61,7 +63,13 @@ class MainActivity : ComponentActivity() {
 
     external fun rotateMat(mat_addy: Long, mat_addy_res: Long)
 
+    external fun findobjectinfo(mat_addy: Long, x_addy: Int, y_addy: Int)
 
+    external fun centerobjectinfo(mat_addy: Long)
+
+    external fun getimage(mat_addy: Long)
+
+    external fun getarea() : Float
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -569,6 +577,33 @@ class MainActivity : ComponentActivity() {
         return resultBitmap
     }
 
+    fun findObjectInfo(initialImage: Bitmap, xPos: Int, yPoS: Int){
+
+
+        val mat = Mat()
+        Utils.bitmapToMat(initialImage, mat)
+
+        //  Toast.makeText(applicationContext,mat.toString(),Toast.LENGTH_LONG).show()
+
+        val resMat = Mat()
+
+        findobjectinfo(mat.nativeObjAddr, xPos, yPoS)
+
+    }
+
+    fun getImageBitmap() : Bitmap{
+
+
+
+        var resMat = Mat()
+        getimage(resMat.nativeObjAddr)
+
+        val resultBitmap = Bitmap.createBitmap(resMat.cols(), resMat.rows(), Bitmap.Config.ARGB_8888)
+        Utils.matToBitmap(resMat, resultBitmap)
+
+        return resultBitmap
+    }
+
     fun findObjectArea(initialUri: Uri, xPos: Int, yPoS: Int): Int{
 
         var initialImage = Bitmap.createBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), initialUri));
@@ -760,7 +795,9 @@ class MainActivity : ComponentActivity() {
                 //mTextViewX.text = "X: ${imageX}"
                 //mTextViewY.text = "Y: ${imageY}"
 
-                val resultBitmap = selectObjectImage(bitmap, imageX, imageY)
+
+                findObjectInfo(bitmap, imageX, imageY)
+                var resultBitmap = getImageBitmap()
 
                 image.setImageBitmap(resultBitmap)
 
@@ -768,7 +805,7 @@ class MainActivity : ComponentActivity() {
 
 
                     //var pixels = findObjectArea(imageUri, imageX, imageY)
-                    var pixels = findAreaTwo()
+                    var pixels = getarea()
                     val areaperpixel = 46.75f/pixels
                     println(BloodPixelArea)
 
