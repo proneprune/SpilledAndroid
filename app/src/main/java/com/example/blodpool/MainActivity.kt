@@ -282,7 +282,7 @@ class MainActivity : ComponentActivity() {
 
         val confirmliquidbutton = findViewById<Button>(R.id.conliq)
         val deletliquidbutton = findViewById<Button>(R.id.delustomC1)
-        val backbutton = findViewById<Button>(R.id.goback)
+        val backbutton = findViewById<ImageButton>(R.id.goback)
 
         val nametext = findViewById<TextView>(R.id.textViewname)
         val dentext = findViewById<TextView>(R.id.textViewdensity)

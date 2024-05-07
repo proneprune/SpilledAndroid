@@ -29,4 +29,78 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/standing_10" />
+
+    <LinearLayout
+        android:layout_width="418dp"
+        android:layout_height="375dp"
+        android:layout_marginTop="36dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView21">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="275dp"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_margin="10dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:background="@drawable/rounded_button_background"
+                    android:text="TextView"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_margin="10dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:background="@drawable/rounded_button_background"
+                    android:text="TextView"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_margin="10dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:background="@drawable/rounded_button_background"
+                    android:text="TextView"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/poppins_thin"
+        android:text="Tutorial"
+        android:textAlignment="center"
+        android:textColor="@color/spilledblack"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
