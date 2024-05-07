@@ -37,6 +37,7 @@ var densityBlood = 1060f
 var surfaceTensionBlood = 0.058f
 var unitcalc = 1f
 var unittobedisplayed = "dl"
+lateinit var BloodMat: Mat
 class MainActivity : ComponentActivity() {
 
     private lateinit var imageUri: Uri
@@ -393,7 +394,7 @@ class MainActivity : ComponentActivity() {
     }
     private fun LiveCamera(){
         val intent = Intent(this, LiveCamera::class.java)
-        startActivity(intent)
+        startActivityForResult(intent, 5)
     }
 
     fun deletePreviousPhotos(){
@@ -697,6 +698,10 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == 5 && resultCode == Activity.RESULT_OK){
+            println("GUSTAV!!")
+        }
 
         if((requestCode== 0 || requestCode==GALLERY_REQUEST_CODE) && resultCode == Activity.RESULT_OK && data != null ){
             // Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()

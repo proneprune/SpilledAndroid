@@ -1,7 +1,10 @@
 package com.example.blodpool
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.widget.Button
 import android.widget.ImageButton
 import com.example.blodpool.MainActivity
 import com.example.blodpool.R
@@ -60,7 +63,16 @@ class LiveCamera : CameraActivity() {
         button.setOnClickListener{
             finish()
         }
-        
+        val backbutton = findViewById<Button>(R.id.Captured_Button)
+
+        backbutton.setOnClickListener{
+            "test!!"
+            BloodMat = currentMat
+            val resIntent = Intent()
+            setResult(Activity.RESULT_OK, resIntent)
+            finish()
+        }
+
     }
 
 
