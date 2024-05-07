@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:fontFamily="@font/yusei_magic"
-        android:text="Press Blood"
+        android:text="Press Liquid"
         android:textColor="@color/button_fill_color"
         android:textSize="24sp"
         android:textStyle="bold"
