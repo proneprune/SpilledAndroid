@@ -35,6 +35,7 @@ import org.opencv.core.Core
 
 val gravity = 9.82f
 var densityBlood = 1060f
+var liquidname = "Blood"
 var surfaceTensionBlood = 0.058f
 var unitcalc = 1f
 var unittobedisplayed = "dl"
@@ -244,6 +245,7 @@ class MainActivity : ComponentActivity() {
         bloodbutton.setOnClickListener{
             densityBlood = 1060f
             surfaceTensionBlood = 0.058f
+            liquidname = "Blood"
             displayFrontpage()
 
 
@@ -251,6 +253,7 @@ class MainActivity : ComponentActivity() {
         waterbutton.setOnClickListener{
             densityBlood = 1000f
             surfaceTensionBlood = 0.072f
+            liquidname = "Water"
             displayFrontpage()
 
         }
@@ -292,6 +295,7 @@ class MainActivity : ComponentActivity() {
         confirmliquidbutton.setOnClickListener{
             densityBlood = liquid.density
             surfaceTensionBlood = liquid.surfaceTension
+            liquidname = liquid.name
             displayFrontpage()
         }
 
@@ -390,6 +394,7 @@ class MainActivity : ComponentActivity() {
                                  try {
                                      val surfaceTensionFloat = surfaceTensionInput.toFloat()
                                      surfaceTensionBlood = surfaceTensionFloat
+
 
                                      // Valid surface tension input
                                      val liquidManager = LiquidManager()
@@ -772,21 +777,21 @@ class MainActivity : ComponentActivity() {
             image.setImageBitmap(bitmap)
             //image.rotation = 90f
 
-            image.requestLayout()
 
             //button to take new picutre
             val newpicture = findViewById<ImageButton>(R.id.New_Picture)
-            newpicture.setOnClickListener{
-                displayFrontpage()
-            }
+
             mRelativeLayout.layoutParams.height = image.height
             mRelativeLayout.layoutParams.width = image.width
             mRelativeLayout.requestLayout()
-
+            newpicture.setOnClickListener(){
+                displayFrontpage()
+            }
 
             val buttontoconfirm = findViewById<Button>(R.id.button2)
 
             mRelativeLayout.setOnTouchListener { _, motionEvent ->
+
                 val imageWidth = image.drawable.intrinsicWidth
                 val imageHeight = image.drawable.intrinsicHeight
 
@@ -815,6 +820,7 @@ class MainActivity : ComponentActivity() {
 
                 image.setImageBitmap(resultBitmap)
 
+
                 buttontoconfirm.setOnClickListener(){
 
                     //var pixels = findObjectArea(imageUri, imageX, imageY)
@@ -834,7 +840,11 @@ class MainActivity : ComponentActivity() {
                     setContentView(R.layout.area_of_blood)
                     val Textviewarea = findViewById<TextView>(R.id.textViewb)
 
-                    Textviewarea.text = "The volume of the blood is $formattedVolume $unittobedisplayed"
+                    val liquidtext = findViewById<TextView>(R.id.liquidtext)
+
+                    liquidtext.text = "$liquidname"
+
+                    Textviewarea.text = "Volume \n $formattedVolume $unittobedisplayed"
 
                     val go_back_2 = findViewById<ImageButton>(R.id.go_back_2)
 
@@ -862,8 +872,7 @@ class MainActivity : ComponentActivity() {
 
             val mRelativeLayout = findViewById<RelativeLayout>(R.id.relative_layout_1)
 
-            val mTextViewX = findViewById<TextView>(R.id.text_view_1)
-            val mTextViewY = findViewById<TextView>(R.id.text_view_2)
+
             val image = findViewById<ImageView>(R.id.captured_image)
             val selectedImageUri: Uri? = data.data
 

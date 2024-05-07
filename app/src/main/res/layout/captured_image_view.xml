@@ -6,30 +6,9 @@
     android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/blood_select"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Please select reference"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="625dp" />
 
 
-    <ImageButton
-        android:id="@+id/New_Picture"
-        android:layout_width="72dp"
-        android:layout_height="73dp"
-        android:src="@drawable/kamera_knapp1024h"
-        android:background="@drawable/transparent_image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.046"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.968" />
+
 
     <Button
         android:id="@+id/button2"
@@ -37,7 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="168dp"
         android:layout_marginTop="800dp"
-
         android:background="@drawable/rounded_button_background"
         android:text="confirm"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,24 +50,20 @@
 
         </ImageView>
 
-        <TextView
-            android:id="@+id/text_view_1"
-            android:layout_width="wrap_content"
-            android:layout_height="60sp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="50sp"
-            android:textSize="50sp" />
-
-        <TextView
-            android:id="@+id/text_view_2"
-            android:layout_width="wrap_content"
-            android:layout_height="60sp"
-            android:layout_below="@id/text_view_1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30sp"
-            android:textSize="50sp" />
 
     </RelativeLayout>
-
+    <ImageButton
+        android:id="@+id/New_Picture"
+        android:layout_width="72dp"
+        android:layout_height="73dp"
+        android:src="@drawable/kamera_knapp1024h"
+        android:background="@drawable/transparent_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.046"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.968"
+        android:contentDescription="go back home" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

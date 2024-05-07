@@ -10,7 +10,7 @@
         android:layout_width="138dp"
         android:layout_height="72dp"
         android:layout_gravity="center"
-        android:background="@color/pink"
+        android:background="@drawable/rounded_button_background"
         android:fontFamily="@font/poppins_thin"
         android:text="Your Text Here"
         android:textAlignment="center"
@@ -43,9 +43,9 @@
         android:layout_marginTop="528dp"
         android:layout_marginBottom="14dp"
         android:fontFamily="@font/poppins_thin"
-        android:text="Volume"
+        android:text="Results"
         android:textColor="@color/spilledblack"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textViewb"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,5 +61,54 @@
         android:src="@drawable/sitting_4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="212dp"
+        android:fontFamily="@font/poppins_thin"
+        android:text="More"
+        android:textColor="@color/spilledblack"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/liquidtext"
+        android:layout_width="231dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginBottom="152dp"
+        android:background="@drawable/rounded_button_background"
+        android:fontFamily="@font/poppins_thin"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/spilledblack"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView11" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="89dp"
+        android:layout_height="87dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/circle"
+        android:fontFamily="@font/poppins_thin"
+        android:text="&#xA;Liquid"
+        android:textAlignment="center"
+        android:textColor="@color/spilledblack"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
