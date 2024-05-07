@@ -30,6 +30,7 @@ import java.io.File
 import kotlin.math.sqrt
 
 import android.content.Context
+import org.opencv.core.Core
 
 
 val gravity = 9.82f
@@ -38,7 +39,10 @@ var surfaceTensionBlood = 0.058f
 var unitcalc = 1f
 var unittobedisplayed = "dl"
 lateinit var BloodMat: Mat
+lateinit var BloodMatOriginal: Mat
 var BloodPixelArea : Float = 0.0f
+
+
 
 class MainActivity : ComponentActivity() {
 
@@ -59,7 +63,13 @@ class MainActivity : ComponentActivity() {
 
     external fun rotateMat(mat_addy: Long, mat_addy_res: Long)
 
+    external fun findobjectinfo(mat_addy: Long, x_addy: Int, y_addy: Int)
 
+    external fun centerobjectinfo(mat_addy: Long)
+
+    external fun getimage(mat_addy: Long)
+
+    external fun getarea() : Float
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -582,6 +592,33 @@ class MainActivity : ComponentActivity() {
         return resultBitmap
     }
 
+    fun findObjectInfo(initialImage: Bitmap, xPos: Int, yPoS: Int){
+
+
+        val mat = Mat()
+        Utils.bitmapToMat(initialImage, mat)
+
+        //  Toast.makeText(applicationContext,mat.toString(),Toast.LENGTH_LONG).show()
+
+        val resMat = Mat()
+
+        findobjectinfo(mat.nativeObjAddr, xPos, yPoS)
+
+    }
+
+    fun getImageBitmap() : Bitmap{
+
+
+
+        var resMat = Mat()
+        getimage(resMat.nativeObjAddr)
+
+        val resultBitmap = Bitmap.createBitmap(resMat.cols(), resMat.rows(), Bitmap.Config.ARGB_8888)
+        Utils.matToBitmap(resMat, resultBitmap)
+
+        return resultBitmap
+    }
+
     fun findObjectArea(initialUri: Uri, xPos: Int, yPoS: Int): Int{
 
         var initialImage = Bitmap.createBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), initialUri));
@@ -722,8 +759,13 @@ class MainActivity : ComponentActivity() {
             setContentView(R.layout.captured_image_view)
             val mRelativeLayout = findViewById<RelativeLayout>(R.id.relative_layout_1)
             val image = findViewById<ImageView>(R.id.captured_image)
-            val bitmap  = Bitmap.createBitmap(BloodMat.cols(), BloodMat.rows(), Bitmap.Config.ARGB_8888)
 
+            //BloodMat = BloodMatOriginal
+
+            Core.transpose(BloodMat, BloodMat);
+            Core.flip(BloodMat, BloodMat, 1);
+
+            val bitmap  = Bitmap.createBitmap(BloodMat.cols(), BloodMat.rows(), Bitmap.Config.ARGB_8888)
             Utils.matToBitmap(BloodMat, bitmap)
 
 
@@ -767,14 +809,16 @@ class MainActivity : ComponentActivity() {
                 //mTextViewX.text = "X: ${imageX}"
                 //mTextViewY.text = "Y: ${imageY}"
 
-                val resultBitmap = selectObjectImage(bitmap, imageX, imageY)
+
+                findObjectInfo(bitmap, imageX, imageY)
+                var resultBitmap = getImageBitmap()
 
                 image.setImageBitmap(resultBitmap)
 
                 buttontoconfirm.setOnClickListener(){
 
                     //var pixels = findObjectArea(imageUri, imageX, imageY)
-                    var pixels = findAreaTwo()
+                    var pixels = getarea()
                     val areaperpixel = 46.75f/pixels
                     println(BloodPixelArea)
 
