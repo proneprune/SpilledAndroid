@@ -17,15 +17,19 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="625dp" />
 
+
     <Button
         android:id="@+id/New_Picture"
         android:layout_width="65dp"
         android:layout_height="40dp"
         android:text="new picture"
         android:textSize="8sp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.046"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.968" />
 
     <Button
         android:id="@+id/button2"

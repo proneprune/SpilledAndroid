@@ -344,8 +344,8 @@ cv::Mat &mat = *(cv::Mat*) mat_addy;
 
 cv::Mat &resMat = *(cv::Mat*) mat_addy_res;
 
-cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
-cv::rotate(resMat, resMat, cv::ROTATE_90_CLOCKWISE);
+//cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+//cv::rotate(resMat, resMat, cv::ROTATE_90_CLOCKWISE);
 
 int x = static_cast<int>(x_addy);
 int y = static_cast<int>(y_addy);

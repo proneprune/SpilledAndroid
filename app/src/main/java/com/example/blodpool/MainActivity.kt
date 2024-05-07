@@ -701,6 +701,76 @@ class MainActivity : ComponentActivity() {
 
         if(requestCode == 5 && resultCode == Activity.RESULT_OK){
             println("GUSTAV!!")
+
+            //sätter upp att hitta referens
+            setContentView(R.layout.captured_image_view)
+            val mRelativeLayout = findViewById<RelativeLayout>(R.id.relative_layout_1)
+            val image = findViewById<ImageView>(R.id.captured_image)
+            val bitmap  = Bitmap.createBitmap(BloodMat.cols(), BloodMat.rows(), Bitmap.Config.ARGB_8888)
+
+            Utils.matToBitmap(BloodMat, bitmap)
+
+
+            image.setImageBitmap(bitmap)
+            image.rotation = 90f
+
+            image.requestLayout()
+
+            //button to take new picutre
+            val newpicture = findViewById<Button>(R.id.New_Picture)
+            newpicture.setOnClickListener{
+                displayFrontpage()
+            }
+            mRelativeLayout.layoutParams.height = image.height
+            mRelativeLayout.layoutParams.width = image.width
+            mRelativeLayout.requestLayout()
+
+
+            val buttontoconfirm = findViewById<Button>(R.id.button2)
+
+            mRelativeLayout.setOnTouchListener { _, motionEvent ->
+                val imageWidth = image.drawable.intrinsicWidth
+                val imageHeight = image.drawable.intrinsicHeight
+
+                // X and Y values are fetched relative to the view (mRelativeLayout)
+                val mX = motionEvent.x
+                val mY = motionEvent.y
+
+                // X and Y values are
+                // displayed in the TextView
+                // mTextViewX.text = "X: $mX"
+                // mTextViewY.text = "Y: $mY"
+
+                // Calculate the corresponding coordinates relative to the original image
+                val imageX = (mX * (imageWidth.toFloat() / image.width.toFloat())).toInt()
+                val imageY = (mY * (imageHeight.toFloat() / image.height.toFloat())).toInt()
+
+
+
+                // Display the coordinates relative to the original image
+                //mTextViewX.text = "X: ${imageX}"
+                //mTextViewY.text = "Y: ${imageY}"
+
+                val resultBitmap = selectObjectImage(bitmap, imageX, imageY)
+
+                image.setImageBitmap(resultBitmap)
+
+                buttontoconfirm.setOnClickListener(){
+
+
+                    //var pixels = findObjectArea(imageUri, imageX, imageY)
+                    var pixels = findAreaTwo()
+                    val areaperpixel = 46.75f/pixels
+
+                    displaychooseblood(areaperpixel)
+
+                }
+                true
+            }
+
+
+
+
         }
 
         if((requestCode== 0 || requestCode==GALLERY_REQUEST_CODE) && resultCode == Activity.RESULT_OK && data != null ){
