@@ -7,10 +7,15 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="409dp"
+        android:layout_height="147dp"
         android:layout_gravity="center"
-        android:text="Please choose a volume unit to be displayed"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rounded_button_background"
+        android:fontFamily="@font/poppins_thin"
+        android:text="&#xA;&#xA;Please choose your unit"
+        android:textAlignment="center"
+        android:textColor="@color/spilledblack"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,38 +25,41 @@
         android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="124dp"
-        android:text="dl"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        android:layout_marginStart="72dp"
+        android:layout_marginBottom="164dp"
+        android:text="Metric"
+        android:background="@drawable/rounded_button_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="159dp"
-        android:layout_marginBottom="360dp"
-        android:text="fl oz"
+        android:layout_marginEnd="72dp"
+        android:layout_marginBottom="164dp"
+        android:text="Imperial"
+        android:background="@drawable/rounded_button_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/buttonbaackk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="162dp"
-        android:layout_marginBottom="114dp"
-        android:text="Back"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/transparent_image"
+        android:src="@drawable/back_button1024h"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
-        android:layout_marginEnd="234dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

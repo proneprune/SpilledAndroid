@@ -7,40 +7,53 @@
 
     <TextView
         android:id="@+id/textViewname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="244dp"
-        android:layout_marginEnd="176dp"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="460dp"
+        android:layout_marginEnd="172dp"
+        android:background="@drawable/rounded_button_background"
+        android:fontFamily="@font/yusei_magic"
         android:text="TextView"
+        android:textAlignment="center"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewdensity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="135dp"
-        android:layout_marginEnd="177dp"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="460dp"
+        android:layout_marginEnd="276dp"
+        android:background="@drawable/rounded_button_background"
+        android:fontFamily="@font/yusei_magic"
         android:text="TextView"
+        android:textAlignment="center"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewsurfacetension"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="172dp"
-        android:layout_marginBottom="288dp"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="460dp"
+        android:layout_marginEnd="60dp"
+        android:background="@drawable/rounded_button_background"
+        android:fontFamily="@font/yusei_magic"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/conliq"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="132dp"
+        android:layout_marginTop="812dp"
+        android:background="@drawable/rounded_button_background"
         android:text="Use this liquid"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -49,18 +62,21 @@
         android:id="@+id/delustomC1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="27dp"
+        android:layout_marginTop="812dp"
+        android:layout_marginEnd="60dp"
+        android:background="@drawable/rounded_button_background"
         android:text="Delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/goback"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginBottom="71dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/transparent_image"
+        android:src="@drawable/back_button1024h"
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

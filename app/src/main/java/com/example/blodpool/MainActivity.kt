@@ -11,7 +11,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.text.InputType
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -30,21 +29,29 @@ import org.opencv.core.Mat
 import java.io.File
 import kotlin.math.sqrt
 
-
 import android.content.Context
+import org.opencv.core.Core
 
 
 val gravity = 9.82f
 var densityBlood = 1060f
+var liquidname = "Blood"
 var surfaceTensionBlood = 0.058f
 var unitcalc = 1f
 var unittobedisplayed = "dl"
+lateinit var BloodMat: Mat
+lateinit var BloodMatOriginal: Mat
+var BloodPixelArea : Float = 0.0f
+
+
+
 class MainActivity : ComponentActivity() {
 
     private lateinit var imageUri: Uri
     private val GALLERY_REQUEST_CODE = 100
     private val PREFS_NAME = "MyPrefs"
     private val PREF_TUTORIAL_SHOWN = "tutorialShown"
+
 
     external fun Undo(mat_addy: Long)
     external fun removeAllContours()
@@ -56,6 +63,14 @@ class MainActivity : ComponentActivity() {
     external fun cvTest(mat_addy: Long, mat_addy_res: Long, x_addy: Int, y_addy: Int)
 
     external fun rotateMat(mat_addy: Long, mat_addy_res: Long)
+
+    external fun findobjectinfo(mat_addy: Long, x_addy: Int, y_addy: Int)
+
+    external fun centerobjectinfo(mat_addy: Long)
+
+    external fun getimage(mat_addy: Long)
+
+    external fun getarea() : Float
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,11 +94,42 @@ class MainActivity : ComponentActivity() {
             // Permission is already granted, proceed with your camera-related tasks
         }
 
-
-
         OpenCVLoader.initDebug()
 
+        /*var currentMat = Mat()
+
+        setContentView(R.layout.livecameratest)
+        viewBase = findViewById(R.id.javaCameraView)
+
+        viewBase.setCvCameraViewListener(object : CameraBridgeViewBase.CvCameraViewListener2 {
+            override fun onCameraViewStarted(width: Int, height: Int) {
+                // Your implementation for camera view started
+            }
+
+            override fun onCameraViewStopped() {
+                // Your implementation for camera view stopped
+            }
+
+            override fun onCameraFrame(inputFrame: CameraBridgeViewBase.CvCameraViewFrame): Mat {
+                // Your implementation for camera frame processing
+
+                var tmp = inputFrame.rgba()
+                tmp.copyTo(currentMat)
+                findobjectinfo(tmp.nativeObjAddr, tmp.cols()/2, tmp.rows()/2)
+
+                //centerobjectinfo(tmp.nativeObjAddr)
+                getimage(tmp.nativeObjAddr)
+
+                return tmp
+            }
+        })
+        viewBase.enableFpsMeter()
+        viewBase.enableView()*/
     }
+
+
+
+
 
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -105,11 +151,12 @@ class MainActivity : ComponentActivity() {
 
 
 
+    @SuppressLint("SetTextI18n")
     fun chooseUnit(){
         setContentView(R.layout.choose_unit)
         val dlbutton = findViewById<Button>(R.id.button4)
         val flozbutton = findViewById<Button>(R.id.button8)
-        val backbutton = findViewById<Button>(R.id.buttonbaackk)
+        val backbutton = findViewById<ImageButton>(R.id.buttonbaackk)
         val unitused = findViewById<TextView>(R.id.textView3)
 
         unitused.text = "current unit: $unittobedisplayed"
@@ -158,9 +205,7 @@ class MainActivity : ComponentActivity() {
         }
 
         abtusbutton.setOnClickListener{
-            val url = "https://www.udio.com/"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(intent)
+            aboutus()
 
         }
 
@@ -173,7 +218,23 @@ class MainActivity : ComponentActivity() {
 
 
     }
+    fun aboutus(){
 
+        setContentView(R.layout.aboutus)
+        val go_back = findViewById<ImageButton>(R.id.imageButton)
+        go_back.setOnClickListener{
+            settings()
+        }
+
+        val website = findViewById<ImageButton>(R.id.imageButton3)
+
+        website.setOnClickListener{
+            val url = "https://spilledowner.wixsite.com/spilled"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
+        }
+
+    }
     fun chooseLiquid(){
         setContentView(R.layout.choose_liquid)
         val bloodbutton = findViewById<Button>(R.id.button5)
@@ -184,6 +245,7 @@ class MainActivity : ComponentActivity() {
         bloodbutton.setOnClickListener{
             densityBlood = 1060f
             surfaceTensionBlood = 0.058f
+            liquidname = "Blood"
             displayFrontpage()
 
 
@@ -191,6 +253,7 @@ class MainActivity : ComponentActivity() {
         waterbutton.setOnClickListener{
             densityBlood = 1000f
             surfaceTensionBlood = 0.072f
+            liquidname = "Water"
             displayFrontpage()
 
         }
@@ -219,7 +282,7 @@ class MainActivity : ComponentActivity() {
 
         val confirmliquidbutton = findViewById<Button>(R.id.conliq)
         val deletliquidbutton = findViewById<Button>(R.id.delustomC1)
-        val backbutton = findViewById<Button>(R.id.goback)
+        val backbutton = findViewById<ImageButton>(R.id.goback)
 
         val nametext = findViewById<TextView>(R.id.textViewname)
         val dentext = findViewById<TextView>(R.id.textViewdensity)
@@ -232,6 +295,7 @@ class MainActivity : ComponentActivity() {
         confirmliquidbutton.setOnClickListener{
             densityBlood = liquid.density
             surfaceTensionBlood = liquid.surfaceTension
+            liquidname = liquid.name
             displayFrontpage()
         }
 
@@ -331,6 +395,7 @@ class MainActivity : ComponentActivity() {
                                      val surfaceTensionFloat = surfaceTensionInput.toFloat()
                                      surfaceTensionBlood = surfaceTensionFloat
 
+
                                      // Valid surface tension input
                                      val liquidManager = LiquidManager()
                                      liquidManager.saveLiquid(nameInput, densityInput, surfaceTensionBlood, getExternalFilesDir(Environment.DIRECTORY_PICTURES))
@@ -359,7 +424,10 @@ class MainActivity : ComponentActivity() {
         nameInputDialog.show()
 
     }
-
+    private fun LiveCamera(){
+        val intent = Intent(this, LiveCamera::class.java)
+        startActivityForResult(intent, 5)
+    }
 
     fun deletePreviousPhotos(){
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -424,7 +492,7 @@ class MainActivity : ComponentActivity() {
         //deletePreviousPhotos()
 
         button.setOnClickListener{
-            startCameraCapture()
+            LiveCamera()
         }
         settingsbutton.setOnClickListener{
             settings()
@@ -522,6 +590,33 @@ class MainActivity : ComponentActivity() {
 
 
         // Toast.makeText(applicationContext,resMat.toString(),Toast.LENGTH_LONG).show()
+
+        val resultBitmap = Bitmap.createBitmap(resMat.cols(), resMat.rows(), Bitmap.Config.ARGB_8888)
+        Utils.matToBitmap(resMat, resultBitmap)
+
+        return resultBitmap
+    }
+
+    fun findObjectInfo(initialImage: Bitmap, xPos: Int, yPoS: Int){
+
+
+        val mat = Mat()
+        Utils.bitmapToMat(initialImage, mat)
+
+        //  Toast.makeText(applicationContext,mat.toString(),Toast.LENGTH_LONG).show()
+
+        val resMat = Mat()
+
+        findobjectinfo(mat.nativeObjAddr, xPos, yPoS)
+
+    }
+
+    fun getImageBitmap() : Bitmap{
+
+
+
+        var resMat = Mat()
+        getimage(resMat.nativeObjAddr)
 
         val resultBitmap = Bitmap.createBitmap(resMat.cols(), resMat.rows(), Bitmap.Config.ARGB_8888)
         Utils.matToBitmap(resMat, resultBitmap)
@@ -636,7 +731,7 @@ class MainActivity : ComponentActivity() {
                 //    Toast.makeText(applicationContext, "bloodpool area is: " + bloodpoolarea ,Toast.LENGTH_LONG).show()
 
                 //functionality for button to go back to start when an area has been found
-                val go_back_2 = findViewById<Button>(R.id.go_back_2)
+                val go_back_2 = findViewById<ImageButton>(R.id.go_back_2)
                 //deletePreviousPhotos()
 
 
@@ -663,6 +758,109 @@ class MainActivity : ComponentActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
 
+        if(requestCode == 5 && resultCode == Activity.RESULT_OK){
+
+            //sätter upp att hitta referens
+            setContentView(R.layout.captured_image_view)
+            val mRelativeLayout = findViewById<RelativeLayout>(R.id.relative_layout_1)
+            val image = findViewById<ImageView>(R.id.captured_image)
+
+            //BloodMat = BloodMatOriginal
+
+            Core.transpose(BloodMat, BloodMat);
+            Core.flip(BloodMat, BloodMat, 1);
+
+            val bitmap  = Bitmap.createBitmap(BloodMat.cols(), BloodMat.rows(), Bitmap.Config.ARGB_8888)
+            Utils.matToBitmap(BloodMat, bitmap)
+
+
+            image.setImageBitmap(bitmap)
+            //image.rotation = 90f
+
+
+            //button to take new picutre
+            val newpicture = findViewById<ImageButton>(R.id.New_Picture)
+
+            mRelativeLayout.layoutParams.height = image.height
+            mRelativeLayout.layoutParams.width = image.width
+            mRelativeLayout.requestLayout()
+            newpicture.setOnClickListener(){
+                displayFrontpage()
+            }
+
+            val buttontoconfirm = findViewById<Button>(R.id.button2)
+
+            mRelativeLayout.setOnTouchListener { _, motionEvent ->
+
+                val imageWidth = image.drawable.intrinsicWidth
+                val imageHeight = image.drawable.intrinsicHeight
+
+                // X and Y values are fetched relative to the view (mRelativeLayout)
+                val mX = motionEvent.x
+                val mY = motionEvent.y
+
+                // X and Y values are
+                // displayed in the TextView
+                // mTextViewX.text = "X: $mX"
+                // mTextViewY.text = "Y: $mY"
+
+                // Calculate the corresponding coordinates relative to the original image
+                val imageX = (mX * (imageWidth.toFloat() / image.width.toFloat())).toInt()
+                val imageY = (mY * (imageHeight.toFloat() / image.height.toFloat())).toInt()
+
+
+
+                // Display the coordinates relative to the original image
+                //mTextViewX.text = "X: ${imageX}"
+                //mTextViewY.text = "Y: ${imageY}"
+
+
+                findObjectInfo(bitmap, imageX, imageY)
+                var resultBitmap = getImageBitmap()
+
+                image.setImageBitmap(resultBitmap)
+
+
+                buttontoconfirm.setOnClickListener(){
+
+                    //var pixels = findObjectArea(imageUri, imageX, imageY)
+                    var pixels = getarea()
+                    val areaperpixel = 46.75f/pixels
+                    println(BloodPixelArea)
+
+                    var bloodpoolarea = areaperpixel * BloodPixelArea
+
+                    bloodpoolarea = bloodpoolarea * 0.0001f
+                    var innerArg = surfaceTensionBlood / (densityBlood * gravity)
+                    var depth = 2 * sqrt(innerArg)
+                    var volume = depth * bloodpoolarea * 10000f
+
+                    val formattedVolume = String.format("%.2f", volume)
+
+                    setContentView(R.layout.area_of_blood)
+                    val Textviewarea = findViewById<TextView>(R.id.textViewb)
+
+                    val liquidtext = findViewById<TextView>(R.id.liquidtext)
+
+                    liquidtext.text = "$liquidname"
+
+                    Textviewarea.text = "Volume \n $formattedVolume $unittobedisplayed"
+
+                    val go_back_2 = findViewById<ImageButton>(R.id.go_back_2)
+
+                    go_back_2.setOnClickListener(){
+                        displayFrontpage()
+                    }
+
+                }
+                true
+            }
+
+
+
+
+        }
+
         if((requestCode== 0 || requestCode==GALLERY_REQUEST_CODE) && resultCode == Activity.RESULT_OK && data != null ){
             // Toast.makeText(applicationContext,"took photo!",Toast.LENGTH_LONG).show()
 
@@ -674,8 +872,7 @@ class MainActivity : ComponentActivity() {
 
             val mRelativeLayout = findViewById<RelativeLayout>(R.id.relative_layout_1)
 
-            val mTextViewX = findViewById<TextView>(R.id.text_view_1)
-            val mTextViewY = findViewById<TextView>(R.id.text_view_2)
+
             val image = findViewById<ImageView>(R.id.captured_image)
             val selectedImageUri: Uri? = data.data
 

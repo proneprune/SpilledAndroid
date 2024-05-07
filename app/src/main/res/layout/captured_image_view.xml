@@ -6,37 +6,17 @@
     android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/blood_select"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Please select reference"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="625dp" />
-
-    <Button
-        android:id="@+id/New_Picture"
-        android:layout_width="65dp"
-        android:layout_height="40dp"
-        android:text="new picture"
-        android:textSize="8sp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
-
-
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="670dp"
         android:background="@drawable/rounded_button_background"
         android:text="confirm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97" />
 
     <RelativeLayout
         android:id="@+id/relative_layout_1"
@@ -67,22 +47,21 @@
 
         </ImageView>
 
-        <TextView
-            android:id="@+id/text_view_1"
-            android:layout_width="wrap_content"
-            android:layout_height="60sp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="50sp"
-            android:textSize="50sp" />
-
-        <TextView
-            android:id="@+id/text_view_2"
-            android:layout_width="wrap_content"
-            android:layout_height="60sp"
-            android:layout_below="@id/text_view_1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30sp"
-            android:textSize="50sp" />
 
     </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/New_Picture"
+        android:layout_width="72dp"
+        android:layout_height="73dp"
+        android:background="@drawable/transparent_image"
+        android:contentDescription="go back home"
+        android:src="@drawable/back_button1024h"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -71,8 +71,8 @@
         android:layout_marginTop="76dp"
         android:fontFamily="@font/poppins_thin"
         android:text="Settings"
-        android:textColor="#000000"
-        android:textSize="24sp"
+        android:textColor="@color/spilledblack"
+        android:textSize="48sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -1,5 +1,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <corners android:radius="8dp" /> <!-- Adjust the radius as needed -->
-    <solid android:color="@color/button_fill_color" /> <!-- Set your desired background color -->
+    <solid android:color="@color/pink" /> <!-- Set your desired background color -->
 </shape>

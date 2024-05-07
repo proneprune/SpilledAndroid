@@ -29,4 +29,126 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/standing_10" />
+
+    <LinearLayout
+        android:layout_width="418dp"
+        android:layout_height="375dp"
+        android:layout_marginTop="36dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView21">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="275dp"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+                <RelativeLayout
+                    android:id="@+id/step1Layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="0dp">
+
+                    <ImageView
+                        android:id="@+id/step1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/step_1" />
+
+                    <TextView
+                        android:id="@+id/step1Text"
+                        android:layout_width="255dp"
+                        android:layout_height="121dp"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/poppins_thin"
+                        android:text="Take a picture of the blood puddle and make sure that the reference object is visible in the picture"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/step2Layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="0dp">
+
+                    <ImageView
+                        android:id="@+id/step2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/step_2" />
+
+                    <TextView
+                        android:id="@+id/step2Text"
+                        android:layout_width="222dp"
+                        android:layout_height="134dp"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/poppins_thin"
+                        android:text="In the picture preivew, click on the reference object and continue by pressing 'Confirm'"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/step3Layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="0dp">
+
+                    <ImageView
+                        android:id="@+id/step3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/step_3" />
+
+                    <TextView
+                        android:id="@+id/step3Text"
+                        android:layout_width="250dp"
+                        android:layout_height="122dp"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/poppins_thin"
+                        android:text="Click on the liquid that you want to scan and click on &quot;Confirm&quot;"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/poppins_thin"
+        android:text="Tutorial"
+        android:textAlignment="center"
+        android:textColor="@color/spilledblack"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

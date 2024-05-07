@@ -8,6 +8,41 @@ using namespace cv;
 
 // Global vector to store contours
 std::vector<std::vector<cv::Point>> contoursList;
+cv::Scalar contourColor = cv::Scalar(222, 181, 255);
+
+
+int areaInfo = 1;
+cv::Mat imageInfo(100, 100, CV_8UC3, cv::Scalar(255,255,255));
+cv::Point centerInfo;
+
+double getArea() {
+    return areaInfo;
+}
+
+cv::Mat getImage() {
+    return imageInfo;
+}
+
+cv::Point getCenter() {
+    return centerInfo;
+}
+
+void drawWeightedContour(cv::Mat image, std::vector<cv::Point> contour) {
+    cv::Mat mask = cv::Mat::zeros(image.size(), CV_8UC1);
+    std::vector<std::vector<cv::Point>> contours = { contour };
+    cv::drawContours(mask, contours, -1, cv::Scalar(255), cv::FILLED);
+
+    // Create an opaque version of the original image
+    cv::Mat overlayedImage = image.clone();
+
+    // Apply the mask to the overlayed image
+    overlayedImage.setTo(contourColor, mask);
+
+    // Blend the overlayed image with the original image
+    double alpha = 0.4;
+    cv::addWeighted(overlayedImage, alpha, image, 1.0 - alpha, 0, image);
+    cv::drawContours(image, contours, -1, contourColor, 1 + ((image.rows + image.cols) / 400));
+}
 
 // Function to add a contour to the list if it's not a duplicate
 void addContour(const std::vector<cv::Point>& contour) {
@@ -91,15 +126,12 @@ int getAverageHSV(const cv::Mat& image, int x, int y) {
 
 
 
-std::vector<std::vector<cv::Point>> getContours(cv::Mat& image, int invert, int retr) {
-    //cv::Mat filteredImage;
-    //cv::bilateralFilter(image, filteredImage, 9, 75, 75);  // Adjust parameters as needed
-    //image = filteredImage;
+
+std::vector<std::vector<cv::Point>> getContours(cv::Mat& image) {
 
     cv::Mat gray;
     cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
 
-    // Threshold the grayscale image to create a binary mask
     cv::Mat blurredImage;
     cv::GaussianBlur(gray, blurredImage, cv::Size(1, 1), 0, 0);
 
@@ -109,19 +141,14 @@ std::vector<std::vector<cv::Point>> getContours(cv::Mat& image, int invert, int 
 
     // Apply dilation to enhance edges
     cv::Mat dilatedEdges;
-    cv::dilate(edges, dilatedEdges, cv::Mat(), cv::Point(-1, -1), 2);
+    cv::dilate(edges, dilatedEdges, cv::Mat(), cv::Point(-1, -1), 2 + ((image.rows + image.cols) / 1500));
 
     // Find contours in the mask
     std::vector<std::vector<cv::Point>> contours;
-    if (invert == 0) {
-        cv::findContours(dilatedEdges, contours, cv::RETR_CCOMP, cv::CHAIN_APPROX_SIMPLE);
-    }
-    else {
-        cv::findContours(dilatedEdges, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-    }
+    cv::findContours(dilatedEdges, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 
     std::vector<std::vector<cv::Point>> filteredContours;
-    int minArea = 1000;
+    int minArea = 2000;
 
     for (const auto& contour : contours) {
         double area = contourArea(contour);
@@ -145,9 +172,9 @@ cv::Mat findObject(cv::Mat image, int x, int y) {
 
     std::vector<std::vector<cv::Point>> contours;
     if (s < 60) {
-        contours = getContours(image, 0, 1);
+        contours = getContours(image);
     } else {
-        contours = getContours(image, 1, 1);
+        contours = getContours(image);
     }
 
     // Check if the specific pixel is within any contour
@@ -208,10 +235,10 @@ int findObjectArea(cv::Mat image, int x, int y) {
 
     std::vector<std::vector<cv::Point>> contours;
     if (s < 50) {
-        contours = getContours(image, 0, 1);
+        contours = getContours(image);
     }
     else {
-        contours = getContours(image, 1, 1);
+        contours = getContours(image);
     }
     double area = 0;
 
@@ -229,6 +256,85 @@ int findObjectArea(cv::Mat image, int x, int y) {
 }
 
 
+void findObjectInfo(cv::Mat image, int x, int y) {
+    imageInfo = image;
+
+    // Create a point for the specific pixel
+    cv::Point point(x, y);
+
+    std::vector<std::vector<cv::Point>> contours = getContours(image);
+    double area = 0;
+    cv::Point center(0, 0);
+
+    // Check if the specific pixel is within any contour
+    for (const auto& contour : contours) {
+        if (cv::pointPolygonTest(contour, point, false) >= 0) {
+
+            // Calculate the area
+            area = cv::contourArea(contour);
+
+            // Draw the contour containing the specific pixel
+            drawWeightedContour(image, contour);
+            cv::circle(image, point, 5, cv::Scalar(0, 0, 255), -1); // Draw the specific pixel
+
+            // Calculate center
+            center = cv::Point(0, 0);
+            for (const auto& p : contour) {
+                center += p;
+            }
+            center.x /= contour.size();
+            center.y /= contour.size();
+
+            areaInfo = area;
+            imageInfo = image;
+            centerInfo = center;
+
+            break;
+        }
+    }
+}
+
+void centerObjectInfo(cv::Mat image) {
+
+    std::vector<std::vector<cv::Point>> contours = getContours(image);
+    double area = 0;
+    cv::Point center(0, 0);
+
+    // Calculate centroids of contours
+    std::vector<cv::Moments> mu(contours.size());
+    for (size_t i = 0; i < contours.size(); i++) {
+        mu[i] = cv::moments(contours[i]);
+    }
+
+    // Find the contour corresponding to the object in the center
+    cv::Point2f imageCenter(static_cast<float>(image.cols / 2), static_cast<float>(image.rows / 2));
+    int centerContourIndex = -1;
+    float minDist = std::numeric_limits<float>::max();
+
+    for (size_t i = 0; i < contours.size(); i++) {
+        cv::Point2f centroid(static_cast<float>(mu[i].m10 / mu[i].m00), static_cast<float>(mu[i].m01 / mu[i].m00));
+        float dist = cv::norm(imageCenter - centroid);
+
+
+
+        if (dist < minDist) {
+            minDist = dist;
+            centerContourIndex = static_cast<int>(i);
+            center.x = mu[i].m10 / mu[i].m00;
+            center.y = mu[i].m01 / mu[i].m00;
+            area = cv::contourArea(contours[i]);
+        }
+    }
+
+    // Draw the contour of the center object onto the image
+    cv::circle(image, cv::Point( image.cols/2,image.rows/2), 5, cv::Scalar(0, 0, 255), -1); // Draw the specific pixel
+    drawWeightedContour(image, contours[centerContourIndex]);
+
+    areaInfo = area;
+    imageInfo = image;
+    centerInfo = center;
+}
+
 
 
 extern "C"
@@ -240,8 +346,8 @@ cv::Mat &mat = *(cv::Mat*) mat_addy;
 
 cv::Mat &resMat = *(cv::Mat*) mat_addy_res;
 
-cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
-cv::rotate(resMat, resMat, cv::ROTATE_90_CLOCKWISE);
+//cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+//cv::rotate(resMat, resMat, cv::ROTATE_90_CLOCKWISE);
 
 int x = static_cast<int>(x_addy);
 int y = static_cast<int>(y_addy);
@@ -249,6 +355,7 @@ int y = static_cast<int>(y_addy);
 resMat = findObject(mat, x, y);
 
 //resMat = getEdges(mat);
+
 }
 
 extern "C"
@@ -304,6 +411,88 @@ extern "C" JNIEXPORT jint JNICALL
 Java_com_example_blodpool_MainActivity_findAreaTwo(JNIEnv *env, jobject thiz) {
 
     return findArea();
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_blodpool_LiveCamera_findobjectinfo(JNIEnv *env, jobject thiz, jlong mat_addy, jint x_addy, jint y_addy) {
+    int x = static_cast<int>(x_addy);
+    int y = static_cast<int>(y_addy);
+    cv::Mat &mat = *(cv::Mat*) mat_addy;
+
+    //cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+
+
+    findObjectInfo(mat, x, y);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_blodpool_LiveCamera_centerobjectinfo(JNIEnv *env, jobject thiz, jlong mat_addy) {
+    cv::Mat &mat = *(cv::Mat*) mat_addy;
+
+    //cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+
+
+    centerObjectInfo(mat);
+}
+
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_blodpool_LiveCamera_getimage(JNIEnv *env, jobject thiz, jlong mat_addy) {
+    cv::Mat &mat = *(cv::Mat*) mat_addy;
+
+    //cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+
+
+
+    mat = getImage();
+}
+
+
+extern "C" JNIEXPORT float JNICALL
+Java_com_example_blodpool_LiveCamera_getarea(JNIEnv *env, jobject thiz) {
+
+    return getArea();
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_blodpool_MainActivity_findobjectinfo(JNIEnv *env, jobject thiz, jlong mat_addy, jint x_addy, jint y_addy) {
+    int x = static_cast<int>(x_addy);
+    int y = static_cast<int>(y_addy);
+    cv::Mat &mat = *(cv::Mat*) mat_addy;
+
+    //cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+
+
+    findObjectInfo(mat, x, y);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_blodpool_MainActivity_centerobjectinfo(JNIEnv *env, jobject thiz, jlong mat_addy) {
+    cv::Mat &mat = *(cv::Mat*) mat_addy;
+
+    //cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+
+
+    centerObjectInfo(mat);
+}
+
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_blodpool_MainActivity_getimage(JNIEnv *env, jobject thiz, jlong mat_addy) {
+    cv::Mat &mat = *(cv::Mat*) mat_addy;
+
+    //cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
+
+
+
+    mat = getImage();
+}
+
+
+extern "C" JNIEXPORT float JNICALL
+Java_com_example_blodpool_MainActivity_getarea(JNIEnv *env, jobject thiz) {
+
+    return getArea();
 }
 
 
