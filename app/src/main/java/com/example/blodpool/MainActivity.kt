@@ -193,9 +193,7 @@ class MainActivity : ComponentActivity() {
         }
 
         abtusbutton.setOnClickListener{
-            val url = "https://www.udio.com/"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(intent)
+            aboutus()
 
         }
 
@@ -208,7 +206,15 @@ class MainActivity : ComponentActivity() {
 
 
     }
+    fun aboutus(){
 
+        setContentView(R.layout.aboutus)
+        val go_back = findViewById<ImageButton>(R.id.imageButton)
+        go_back.setOnClickListener{
+            settings()
+        }
+
+    }
     fun chooseLiquid(){
         setContentView(R.layout.choose_liquid)
         val bloodbutton = findViewById<Button>(R.id.button5)
