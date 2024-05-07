@@ -257,7 +257,6 @@ int findObjectArea(cv::Mat image, int x, int y) {
 
 
 void findObjectInfo(cv::Mat image, int x, int y) {
-
     imageInfo = image;
 
     // Create a point for the specific pixel

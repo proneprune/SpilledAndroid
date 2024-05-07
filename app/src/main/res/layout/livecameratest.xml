@@ -16,12 +16,14 @@
 
     <Button
         android:id="@+id/Captured_Button"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="459dp"
+        android:layout_height="774dp"
+        android:layout_marginBottom="128dp"
         android:background="@drawable/transparent_image"
-        android:text="Button"
-        tools:layout_editor_absoluteX="101dp"
-        tools:layout_editor_absoluteY="127dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/javaCameraView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/Live_Back_Button"
@@ -42,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:fontFamily="@font/yusei_magic"
-        android:text="Press Blood"
+        android:text="Press Liquid"
         android:textColor="@color/button_fill_color"
         android:textSize="24sp"
         android:textStyle="bold"

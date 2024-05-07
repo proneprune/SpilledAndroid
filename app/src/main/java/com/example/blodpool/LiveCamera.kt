@@ -59,7 +59,6 @@ class LiveCamera : CameraActivity() {
                         return tmp
                     }
                 })
-                viewBase.enableFpsMeter()
                 viewBase.enableView()
 
         val button = findViewById<ImageButton>(R.id.Live_Back_Button)

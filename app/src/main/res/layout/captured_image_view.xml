@@ -18,12 +18,12 @@
         tools:layout_editor_absoluteY="625dp" />
 
 
-    <Button
+    <ImageButton
         android:id="@+id/New_Picture"
-        android:layout_width="65dp"
-        android:layout_height="40dp"
-        android:text="new picture"
-        android:textSize="8sp"
+        android:layout_width="72dp"
+        android:layout_height="73dp"
+        android:src="@drawable/kamera_knapp1024h"
+        android:background="@drawable/transparent_image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.046"
@@ -35,8 +35,9 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="670dp"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="800dp"
+
         android:background="@drawable/rounded_button_background"
         android:text="confirm"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,4 +90,6 @@
             android:textSize="50sp" />
 
     </RelativeLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

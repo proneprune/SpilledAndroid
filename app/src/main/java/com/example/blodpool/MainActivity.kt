@@ -150,11 +150,12 @@ class MainActivity : ComponentActivity() {
 
 
 
+    @SuppressLint("SetTextI18n")
     fun chooseUnit(){
         setContentView(R.layout.choose_unit)
         val dlbutton = findViewById<Button>(R.id.button4)
         val flozbutton = findViewById<Button>(R.id.button8)
-        val backbutton = findViewById<Button>(R.id.buttonbaackk)
+        val backbutton = findViewById<ImageButton>(R.id.buttonbaackk)
         val unitused = findViewById<TextView>(R.id.textView3)
 
         unitused.text = "current unit: $unittobedisplayed"
@@ -203,9 +204,7 @@ class MainActivity : ComponentActivity() {
         }
 
         abtusbutton.setOnClickListener{
-            val url = "https://www.udio.com/"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(intent)
+            aboutus()
 
         }
 
@@ -218,7 +217,23 @@ class MainActivity : ComponentActivity() {
 
 
     }
+    fun aboutus(){
 
+        setContentView(R.layout.aboutus)
+        val go_back = findViewById<ImageButton>(R.id.imageButton)
+        go_back.setOnClickListener{
+            settings()
+        }
+
+        val website = findViewById<ImageButton>(R.id.imageButton3)
+
+        website.setOnClickListener{
+            val url = "https://spilledowner.wixsite.com/spilled"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
+        }
+
+    }
     fun chooseLiquid(){
         setContentView(R.layout.choose_liquid)
         val bloodbutton = findViewById<Button>(R.id.button5)
@@ -711,7 +726,7 @@ class MainActivity : ComponentActivity() {
                 //    Toast.makeText(applicationContext, "bloodpool area is: " + bloodpoolarea ,Toast.LENGTH_LONG).show()
 
                 //functionality for button to go back to start when an area has been found
-                val go_back_2 = findViewById<Button>(R.id.go_back_2)
+                val go_back_2 = findViewById<ImageButton>(R.id.go_back_2)
                 //deletePreviousPhotos()
 
 
@@ -739,7 +754,6 @@ class MainActivity : ComponentActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == 5 && resultCode == Activity.RESULT_OK){
-            println("GUSTAV!!")
 
             //sätter upp att hitta referens
             setContentView(R.layout.captured_image_view)
@@ -761,7 +775,7 @@ class MainActivity : ComponentActivity() {
             image.requestLayout()
 
             //button to take new picutre
-            val newpicture = findViewById<Button>(R.id.New_Picture)
+            val newpicture = findViewById<ImageButton>(R.id.New_Picture)
             newpicture.setOnClickListener{
                 displayFrontpage()
             }
@@ -803,7 +817,6 @@ class MainActivity : ComponentActivity() {
 
                 buttontoconfirm.setOnClickListener(){
 
-
                     //var pixels = findObjectArea(imageUri, imageX, imageY)
                     var pixels = getarea()
                     val areaperpixel = 46.75f/pixels
@@ -823,7 +836,7 @@ class MainActivity : ComponentActivity() {
 
                     Textviewarea.text = "The volume of the blood is $formattedVolume $unittobedisplayed"
 
-                    val go_back_2 = findViewById<Button>(R.id.go_back_2)
+                    val go_back_2 = findViewById<ImageButton>(R.id.go_back_2)
 
                     go_back_2.setOnClickListener(){
                         displayFrontpage()
