@@ -29,7 +29,6 @@ class LiveCamera : CameraActivity() {
         super.onCreate(savedInstanceState)
         System.loadLibrary("testcpp")
         OpenCVLoader.initDebug()
-
         var currentMat = Mat()
 
                 setContentView(R.layout.livecameratest)
@@ -48,6 +47,7 @@ class LiveCamera : CameraActivity() {
                         // Your implementation for camera frame processing
 
                         var tmp = inputFrame.rgba()
+                        //tmp.copyTo(BloodMatOriginal)
                         //tmp.copyTo(currentMat)
                         findobjectinfo(tmp.nativeObjAddr, tmp.cols()/2, tmp.rows()/2)
 

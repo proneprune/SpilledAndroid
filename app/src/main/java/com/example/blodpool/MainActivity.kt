@@ -30,6 +30,7 @@ import java.io.File
 import kotlin.math.sqrt
 
 import android.content.Context
+import org.opencv.core.Core
 
 
 val gravity = 9.82f
@@ -38,6 +39,7 @@ var surfaceTensionBlood = 0.058f
 var unitcalc = 1f
 var unittobedisplayed = "dl"
 lateinit var BloodMat: Mat
+lateinit var BloodMatOriginal: Mat
 var BloodPixelArea : Float = 0.0f
 
 class MainActivity : ComponentActivity() {
@@ -708,8 +710,13 @@ class MainActivity : ComponentActivity() {
             setContentView(R.layout.captured_image_view)
             val mRelativeLayout = findViewById<RelativeLayout>(R.id.relative_layout_1)
             val image = findViewById<ImageView>(R.id.captured_image)
-            val bitmap  = Bitmap.createBitmap(BloodMat.cols(), BloodMat.rows(), Bitmap.Config.ARGB_8888)
 
+            //BloodMat = BloodMatOriginal
+
+            Core.transpose(BloodMat, BloodMat);
+            Core.flip(BloodMat, BloodMat, 1);
+
+            val bitmap  = Bitmap.createBitmap(BloodMat.cols(), BloodMat.rows(), Bitmap.Config.ARGB_8888)
             Utils.matToBitmap(BloodMat, bitmap)
 
 
