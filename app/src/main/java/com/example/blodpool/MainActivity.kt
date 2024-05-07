@@ -714,7 +714,7 @@ class MainActivity : ComponentActivity() {
 
 
             image.setImageBitmap(bitmap)
-            image.rotation = 90f
+            //image.rotation = 90f
 
             image.requestLayout()
 
@@ -763,8 +763,27 @@ class MainActivity : ComponentActivity() {
                     //var pixels = findObjectArea(imageUri, imageX, imageY)
                     var pixels = findAreaTwo()
                     val areaperpixel = 46.75f/pixels
+                    println(BloodPixelArea)
 
-                    displaychooseblood(areaperpixel)
+                    var bloodpoolarea = areaperpixel * BloodPixelArea
+
+                    bloodpoolarea = bloodpoolarea * 0.0001f
+                    var innerArg = surfaceTensionBlood / (densityBlood * gravity)
+                    var depth = 2 * sqrt(innerArg)
+                    var volume = depth * bloodpoolarea * 10000f
+
+                    val formattedVolume = String.format("%.2f", volume)
+
+                    setContentView(R.layout.area_of_blood)
+                    val Textviewarea = findViewById<TextView>(R.id.textViewb)
+
+                    Textviewarea.text = "The volume of the blood is $formattedVolume $unittobedisplayed"
+
+                    val go_back_2 = findViewById<Button>(R.id.go_back_2)
+
+                    go_back_2.setOnClickListener(){
+                        displayFrontpage()
+                    }
 
                 }
                 true
