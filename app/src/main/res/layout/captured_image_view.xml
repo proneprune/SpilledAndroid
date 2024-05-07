@@ -35,8 +35,9 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="670dp"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="800dp"
+
         android:background="@drawable/rounded_button_background"
         android:text="confirm"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,4 +90,6 @@
             android:textSize="50sp" />
 
     </RelativeLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

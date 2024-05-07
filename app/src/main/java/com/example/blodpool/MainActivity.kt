@@ -717,7 +717,6 @@ class MainActivity : ComponentActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == 5 && resultCode == Activity.RESULT_OK){
-            println("GUSTAV!!")
 
             //sätter upp att hitta referens
             setContentView(R.layout.captured_image_view)
@@ -773,7 +772,6 @@ class MainActivity : ComponentActivity() {
                 image.setImageBitmap(resultBitmap)
 
                 buttontoconfirm.setOnClickListener(){
-
 
                     //var pixels = findObjectArea(imageUri, imageX, imageY)
                     var pixels = findAreaTwo()
