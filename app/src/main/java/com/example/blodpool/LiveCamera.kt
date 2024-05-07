@@ -29,7 +29,6 @@ class LiveCamera : CameraActivity() {
         super.onCreate(savedInstanceState)
         System.loadLibrary("testcpp")
         OpenCVLoader.initDebug()
-
         var currentMat = Mat()
 
                 setContentView(R.layout.livecameratest)
@@ -59,7 +58,6 @@ class LiveCamera : CameraActivity() {
                         return tmp
                     }
                 })
-                viewBase.enableFpsMeter()
                 viewBase.enableView()
 
         val button = findViewById<ImageButton>(R.id.Live_Back_Button)

@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="button_fill_color">#FF8C9F</color> <!-- Change this to your desired fill color -->
     <color name="button_outline_color">#40000000</color> <!-- Change this to your desired outline color -->
+    <color name="pink">#FFD6ED</color>
 </resources>

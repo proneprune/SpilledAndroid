@@ -674,7 +674,7 @@ class MainActivity : ComponentActivity() {
                 //    Toast.makeText(applicationContext, "bloodpool area is: " + bloodpoolarea ,Toast.LENGTH_LONG).show()
 
                 //functionality for button to go back to start when an area has been found
-                val go_back_2 = findViewById<Button>(R.id.go_back_2)
+                val go_back_2 = findViewById<ImageButton>(R.id.go_back_2)
                 //deletePreviousPhotos()
 
 
@@ -719,7 +719,7 @@ class MainActivity : ComponentActivity() {
             image.requestLayout()
 
             //button to take new picutre
-            val newpicture = findViewById<Button>(R.id.New_Picture)
+            val newpicture = findViewById<ImageButton>(R.id.New_Picture)
             newpicture.setOnClickListener{
                 displayFrontpage()
             }
@@ -779,7 +779,7 @@ class MainActivity : ComponentActivity() {
 
                     Textviewarea.text = "The volume of the blood is $formattedVolume $unittobedisplayed"
 
-                    val go_back_2 = findViewById<Button>(R.id.go_back_2)
+                    val go_back_2 = findViewById<ImageButton>(R.id.go_back_2)
 
                     go_back_2.setOnClickListener(){
                         displayFrontpage()
