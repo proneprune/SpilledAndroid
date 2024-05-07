@@ -140,11 +140,12 @@ class MainActivity : ComponentActivity() {
 
 
 
+    @SuppressLint("SetTextI18n")
     fun chooseUnit(){
         setContentView(R.layout.choose_unit)
         val dlbutton = findViewById<Button>(R.id.button4)
         val flozbutton = findViewById<Button>(R.id.button8)
-        val backbutton = findViewById<Button>(R.id.buttonbaackk)
+        val backbutton = findViewById<ImageButton>(R.id.buttonbaackk)
         val unitused = findViewById<TextView>(R.id.textView3)
 
         unitused.text = "current unit: $unittobedisplayed"
@@ -212,6 +213,14 @@ class MainActivity : ComponentActivity() {
         val go_back = findViewById<ImageButton>(R.id.imageButton)
         go_back.setOnClickListener{
             settings()
+        }
+
+        val website = findViewById<ImageButton>(R.id.imageButton3)
+
+        website.setOnClickListener{
+            val url = "https://spilledowner.wixsite.com/spilled"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
         }
 
     }

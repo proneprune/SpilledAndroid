@@ -14,6 +14,7 @@
         android:fontFamily="@font/poppins_thin"
         android:text="Your Text Here"
         android:textAlignment="center"
+        android:textColor="@color/spilledblack"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +36,6 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
-
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
@@ -44,6 +44,7 @@
         android:layout_marginBottom="14dp"
         android:fontFamily="@font/poppins_thin"
         android:text="Volume"
+        android:textColor="@color/spilledblack"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textViewb"
@@ -53,12 +54,12 @@
 
     <ImageView
         android:id="@+id/sitting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
-        android:layout_marginEnd="68dp"
+        android:layout_width="344dp"
+        android:layout_height="407dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="32dp"
+        android:src="@drawable/sitting_4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/sitting_4" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
