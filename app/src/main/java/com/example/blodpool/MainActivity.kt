@@ -11,7 +11,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.text.InputType
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -30,11 +29,7 @@ import org.opencv.core.Mat
 import java.io.File
 import kotlin.math.sqrt
 
-import org.opencv.imgproc.Imgproc
 import android.content.Context
-import org.opencv.android.CameraActivity
-import org.opencv.android.CameraBridgeViewBase
-import java.util.Collections
 
 
 val gravity = 9.82f
@@ -42,14 +37,13 @@ var densityBlood = 1060f
 var surfaceTensionBlood = 0.058f
 var unitcalc = 1f
 var unittobedisplayed = "dl"
-class MainActivity : CameraActivity() {
+class MainActivity : ComponentActivity() {
 
     private lateinit var imageUri: Uri
     private val GALLERY_REQUEST_CODE = 100
     private val PREFS_NAME = "MyPrefs"
     private val PREF_TUTORIAL_SHOWN = "tutorialShown"
 
-    private lateinit var viewBase : CameraBridgeViewBase
 
     external fun Undo(mat_addy: Long)
     external fun removeAllContours()
@@ -62,11 +56,7 @@ class MainActivity : CameraActivity() {
 
     external fun rotateMat(mat_addy: Long, mat_addy_res: Long)
 
-    external fun findobjectinfo(mat_addy: Long, x_addy: Int, y_addy: Int)
 
-    external fun centerobjectinfo(mat_addy: Long)
-
-    external fun getimage(mat_addy: Long)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,17 +72,17 @@ class MainActivity : CameraActivity() {
 
 
         } else {
-            //if (!isTutorialShown()) {
-            //    showTutorial()
-            //    markTutorialAsShown()
-            //}
-            //displayFrontpage()
+            if (!isTutorialShown()) {
+                showTutorial()
+                markTutorialAsShown()
+            }
+            displayFrontpage()
             // Permission is already granted, proceed with your camera-related tasks
         }
 
         OpenCVLoader.initDebug()
 
-        var currentMat = Mat()
+        /*var currentMat = Mat()
 
         setContentView(R.layout.livecameratest)
         viewBase = findViewById(R.id.javaCameraView)
@@ -119,21 +109,14 @@ class MainActivity : CameraActivity() {
                 return tmp
             }
         })
-
-
-
-
-
         viewBase.enableFpsMeter()
-        viewBase.enableView()
-        
-
+        viewBase.enableView()*/
     }
 
 
-    override fun getCameraViewList() : List<CameraBridgeViewBase> {
-        return Collections.singletonList(viewBase)
-    }
+
+
+
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -408,7 +391,10 @@ class MainActivity : CameraActivity() {
         nameInputDialog.show()
 
     }
-
+    private fun LiveCamera(){
+        val intent = Intent(this, LiveCamera::class.java)
+        startActivity(intent)
+    }
 
     fun deletePreviousPhotos(){
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -473,7 +459,7 @@ class MainActivity : CameraActivity() {
         //deletePreviousPhotos()
 
         button.setOnClickListener{
-            startCameraCapture()
+            LiveCamera()
         }
         settingsbutton.setOnClickListener{
             settings()
