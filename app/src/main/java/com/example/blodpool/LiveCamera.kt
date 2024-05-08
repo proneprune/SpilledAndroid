@@ -3,11 +3,8 @@ package com.example.blodpool
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.widget.Button
 import android.widget.ImageButton
-import com.example.blodpool.MainActivity
-import com.example.blodpool.R
 import org.opencv.android.CameraActivity
 import org.opencv.android.CameraBridgeViewBase
 import org.opencv.android.OpenCVLoader
@@ -31,10 +28,10 @@ class LiveCamera : CameraActivity() {
         OpenCVLoader.initDebug()
         var currentMat = Mat()
 
-                setContentView(R.layout.livecameratest)
-                viewBase = findViewById(R.id.javaCameraView)
+        setContentView(R.layout.live_camera_page)
+        viewBase = findViewById(R.id.javaCameraView)
 
-                viewBase.setCvCameraViewListener(object : CameraBridgeViewBase.CvCameraViewListener2 {
+        viewBase.setCvCameraViewListener(object : CameraBridgeViewBase.CvCameraViewListener2 {
                     override fun onCameraViewStarted(width: Int, height: Int) {
                         // Your implementation for camera view started
                     }
@@ -47,13 +44,9 @@ class LiveCamera : CameraActivity() {
                         // Your implementation for camera frame processing
 
                         var tmp = inputFrame.rgba()
-                        //tmp.copyTo(BloodMatOriginal)
-                        //tmp.copyTo(currentMat)
                         findobjectinfo(tmp.nativeObjAddr, tmp.cols()/2, tmp.rows()/2)
 
-                        //centerobjectinfo(tmp.nativeObjAddr)
                         getimage(tmp.nativeObjAddr)
-                        BloodPixelArea = getarea()
                         tmp.copyTo(currentMat)
 
                         return tmp
@@ -69,7 +62,7 @@ class LiveCamera : CameraActivity() {
         val backbutton = findViewById<Button>(R.id.Captured_Button)
 
         backbutton.setOnClickListener{
-            "test!!"
+            BloodPixelArea = getarea()
             BloodMat = currentMat
             val resIntent = Intent()
             setResult(Activity.RESULT_OK, resIntent)
