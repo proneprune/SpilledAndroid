@@ -5,6 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="280sp"
+        android:layout_height="70sp"
+        android:layout_marginTop="600dp"
+        android:fontFamily="@font/yusei_magic"
+        android:singleLine="false"
+        android:text="Press on the reference object and press confirm when it's highlighted"
+        android:textAlignment="center"
+        android:textColor="@color/button_fill_color"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button2"
