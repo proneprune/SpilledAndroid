@@ -54,16 +54,16 @@ class LiveCamera : CameraActivity() {
                 })
                 viewBase.enableView()
 
-        val button = findViewById<ImageButton>(R.id.Live_Back_Button)
+        val goToLandingPageButton = findViewById<ImageButton>(R.id.Live_Back_Button)
 
-        button.setOnClickListener{
+        goToLandingPageButton.setOnClickListener{
             finish()
         }
         val backbutton = findViewById<Button>(R.id.Captured_Button)
 
         backbutton.setOnClickListener{
-            BloodPixelArea = getarea()
-            BloodMat = currentMat
+            selectedImageLiquidArea = getarea()
+            SelectedImage = currentMat
             val resIntent = Intent()
             setResult(Activity.RESULT_OK, resIntent)
             finish()

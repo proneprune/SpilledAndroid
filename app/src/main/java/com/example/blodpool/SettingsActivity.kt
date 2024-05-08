@@ -142,7 +142,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     fun displayCustomLiquids() {
-        setContentView(R.layout.horizontal_scroll_liquids)
+        setContentView(R.layout.display_liquids)
 
         val liquidManager = LiquidManager()
 
@@ -180,7 +180,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     fun displayIndividualCustom(liquid: LiquidManager.Liquid){
-        setContentView(R.layout.display_individual_custom)
+        setContentView(R.layout.display_liquid_info)
 
         val confirmliquidbutton = findViewById<Button>(R.id.conliq)
         val deletliquidbutton = findViewById<Button>(R.id.delustomC1)
