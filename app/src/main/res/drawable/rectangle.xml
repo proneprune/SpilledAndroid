@@ -2,12 +2,9 @@
     android:shape="rectangle">
 
     <!-- Set the solid color of the rectangle -->
-    <solid android:color="@color/pink" /> <!-- Change the color code as needed -->
+    <solid android:color="@color/white" /> <!-- Change the color code as needed -->
 
-    <!-- Set the stroke (border) properties -->
-    <stroke
-        android:width="2dp"
-        android:color="#000000" /> <!-- Border color code -->
+   
 
     <!-- Set the corner radius of the rectangle -->
     <corners android:radius="8dp" /> <!-- Change the radius as needed -->
