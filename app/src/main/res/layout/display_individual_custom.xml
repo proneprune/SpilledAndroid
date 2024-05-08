@@ -10,7 +10,7 @@
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:layout_marginTop="460dp"
-        android:layout_marginEnd="172dp"
+        android:layout_marginEnd="164dp"
         android:background="@drawable/rounded_button_background"
         android:fontFamily="@font/yusei_magic"
         android:text="TextView"
@@ -24,7 +24,7 @@
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:layout_marginTop="460dp"
-        android:layout_marginEnd="276dp"
+        android:layout_marginEnd="272dp"
         android:background="@drawable/rounded_button_background"
         android:fontFamily="@font/yusei_magic"
         android:text="TextView"
@@ -80,4 +80,49 @@
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/poppins_thin"
+        android:text="Surface Tension"
+        android:textAlignment="center"
+        android:textColor="@color/spilledblack"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textViewdensity"
+        app:layout_constraintEnd_toStartOf="@+id/textView13"
+        app:layout_constraintHorizontal_bias="0.014"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="76dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/poppins_thin"
+        android:text="Density"
+        android:textAlignment="center"
+        android:textColor="@color/spilledblack"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textViewsurfacetension"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/poppins_thin"
+        android:text="Liquid"
+        android:textAlignment="center"
+        android:textColor="@color/spilledblack"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textViewname"
+        app:layout_constraintEnd_toStartOf="@+id/textView13"
+        app:layout_constraintHorizontal_bias="0.357"
+        app:layout_constraintStart_toEndOf="@+id/textView12" />
 </androidx.constraintlayout.widget.ConstraintLayout>
