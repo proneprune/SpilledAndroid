@@ -335,84 +335,6 @@ void centerObjectInfo(cv::Mat image) {
     centerInfo = center;
 }
 
-
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_example_blodpool_MainActivity_cvTest(JNIEnv *env, jobject thiz, jlong mat_addy, jlong mat_addy_res, jint x_addy, jint y_addy) {
-
-//cv::cvtColor(matIn, matOut, cv::COLOR_BGR2GRAY);
-cv::Mat &mat = *(cv::Mat*) mat_addy;
-
-cv::Mat &resMat = *(cv::Mat*) mat_addy_res;
-
-//cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
-//cv::rotate(resMat, resMat, cv::ROTATE_90_CLOCKWISE);
-
-int x = static_cast<int>(x_addy);
-int y = static_cast<int>(y_addy);
-
-resMat = findObject(mat, x, y);
-
-//resMat = getEdges(mat);
-
-}
-
-extern "C"
-JNIEXPORT jint JNICALL
-Java_com_example_blodpool_MainActivity_findArea(JNIEnv *env, jobject thiz, jlong mat_addy, jint x_addy, jint y_addy) {
-
-    cv::Mat &mat = *(cv::Mat*) mat_addy;
-
-    cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
-
-    int x = static_cast<int>(x_addy);
-    int y = static_cast<int>(y_addy);
-
-    int pixels = findObjectArea(mat, x, y);
-
-    return pixels;
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_example_blodpool_MainActivity_Undo(JNIEnv *env, jobject thiz, jlong mat_addy) {
-
-    cv::Mat &mat = *(cv::Mat*) mat_addy;
-
-    cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
-
-    removeNewestContour(mat);
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_example_blodpool_MainActivity_rotateMat(JNIEnv *env, jobject thiz, jlong mat_addy, jlong mat_addy_res) {
-
-    //cv::cvtColor(matIn, matOut, cv::COLOR_BGR2GRAY);
-    cv::Mat &mat = *(cv::Mat*) mat_addy;
-
-    cv::Mat &resMat = *(cv::Mat*) mat_addy_res;
-
-    cv::rotate(mat, resMat, cv::ROTATE_90_CLOCKWISE);
-
-}
-
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_example_blodpool_MainActivity_removeAllContours(JNIEnv *env, jobject thiz) {
-
-    clearContourList();
-
-}
-
-extern "C" JNIEXPORT jint JNICALL
-Java_com_example_blodpool_MainActivity_findAreaTwo(JNIEnv *env, jobject thiz) {
-
-    return findArea();
-}
-
 extern "C" JNIEXPORT void JNICALL
 Java_com_example_blodpool_LiveCamera_findobjectinfo(JNIEnv *env, jobject thiz, jlong mat_addy, jint x_addy, jint y_addy) {
     int x = static_cast<int>(x_addy);
@@ -455,7 +377,7 @@ Java_com_example_blodpool_LiveCamera_getarea(JNIEnv *env, jobject thiz) {
 }
 
 extern "C" JNIEXPORT void JNICALL
-Java_com_example_blodpool_MainActivity_findobjectinfo(JNIEnv *env, jobject thiz, jlong mat_addy, jint x_addy, jint y_addy) {
+Java_com_example_blodpool_ClickReferenceActivity_findobjectinfo(JNIEnv *env, jobject thiz, jlong mat_addy, jint x_addy, jint y_addy) {
     int x = static_cast<int>(x_addy);
     int y = static_cast<int>(y_addy);
     cv::Mat &mat = *(cv::Mat*) mat_addy;
@@ -467,7 +389,7 @@ Java_com_example_blodpool_MainActivity_findobjectinfo(JNIEnv *env, jobject thiz,
 }
 
 extern "C" JNIEXPORT void JNICALL
-Java_com_example_blodpool_MainActivity_centerobjectinfo(JNIEnv *env, jobject thiz, jlong mat_addy) {
+Java_com_example_blodpool_ClickReferenceActivity_centerobjectinfo(JNIEnv *env, jobject thiz, jlong mat_addy) {
     cv::Mat &mat = *(cv::Mat*) mat_addy;
 
     //cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
@@ -478,7 +400,7 @@ Java_com_example_blodpool_MainActivity_centerobjectinfo(JNIEnv *env, jobject thi
 
 
 extern "C" JNIEXPORT void JNICALL
-Java_com_example_blodpool_MainActivity_getimage(JNIEnv *env, jobject thiz, jlong mat_addy) {
+Java_com_example_blodpool_ClickReferenceActivity_getimage(JNIEnv *env, jobject thiz, jlong mat_addy) {
     cv::Mat &mat = *(cv::Mat*) mat_addy;
 
     //cv::rotate(mat, mat, cv::ROTATE_90_CLOCKWISE);
@@ -490,7 +412,7 @@ Java_com_example_blodpool_MainActivity_getimage(JNIEnv *env, jobject thiz, jlong
 
 
 extern "C" JNIEXPORT float JNICALL
-Java_com_example_blodpool_MainActivity_getarea(JNIEnv *env, jobject thiz) {
+Java_com_example_blodpool_ClickReferenceActivity_getarea(JNIEnv *env, jobject thiz) {
 
     return getArea();
 }
