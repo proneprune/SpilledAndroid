@@ -124,7 +124,7 @@
                         android:layout_height="122dp"
                         android:layout_centerInParent="true"
                         android:fontFamily="@font/poppins_thin"
-                        android:text="In the picture preivew, click on the reference object and continue by pressing &quot;Confirm&quot;"
+                        android:text="In the picture preview, click on the reference object and continue by pressing &quot;Confirm&quot;"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="20sp"
