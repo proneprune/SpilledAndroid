@@ -29,15 +29,15 @@ class ClickReferenceActivity : AppCompatActivity() {
     }
 
     fun clickReferencePage(){
-        setContentView(R.layout.captured_image_view)
+        setContentView(R.layout.click_reference_page)
         val mRelativeLayout = findViewById<RelativeLayout>(R.id.relative_layout_1)
         val image = findViewById<ImageView>(R.id.captured_image)
 
-        Core.transpose(BloodMat, BloodMat);
-        Core.flip(BloodMat, BloodMat, 1);
+        Core.transpose(SelectedImage, SelectedImage);
+        Core.flip(SelectedImage, SelectedImage, 1);
 
-        val bitmap  = Bitmap.createBitmap(BloodMat.cols(), BloodMat.rows(), Bitmap.Config.ARGB_8888)
-        Utils.matToBitmap(BloodMat, bitmap)
+        val bitmap  = Bitmap.createBitmap(SelectedImage.cols(), SelectedImage.rows(), Bitmap.Config.ARGB_8888)
+        Utils.matToBitmap(SelectedImage, bitmap)
 
 
         image.setImageBitmap(bitmap)
@@ -78,9 +78,9 @@ class ClickReferenceActivity : AppCompatActivity() {
             buttontoconfirm.setOnClickListener(){
                 var pixels = getarea()
                 val areaperpixel = 46.75f/pixels
-                println(BloodPixelArea)
+                println(selectedImageLiquidArea)
 
-                var bloodpoolarea = areaperpixel * BloodPixelArea
+                var bloodpoolarea = areaperpixel * selectedImageLiquidArea
 
                 bloodpoolarea = bloodpoolarea * 0.0001f
                 var innerArg = currentLiquid.surfaceTension / (currentLiquid.density * gravity)

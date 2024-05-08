@@ -3,60 +3,34 @@ package com.example.blodpool
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import org.opencv.android.OpenCVLoader
-import org.opencv.android.Utils
 import org.opencv.core.Mat
-import kotlin.math.sqrt
 
 import android.content.Context
-import org.opencv.core.Core
 
 
 val gravity = 9.82f
 var unitcalc = 1f
 var unittobedisplayed = "dl"
-lateinit var BloodMat: Mat
-var BloodPixelArea : Float = 0.0f
+
+lateinit var SelectedImage: Mat
+var selectedImageLiquidArea : Float = 0.0f
 
 var currentLiquid = LiquidManager.Liquid("Blood", 1060f, 0.058f)
 
 
 class MainActivity : ComponentActivity() {
 
-    private lateinit var imageUri: Uri
-    private val GALLERY_REQUEST_CODE = 100
     private val PREFS_NAME = "MyPrefs"
     private val PREF_TUTORIAL_SHOWN = "tutorialShown"
-
-
-    external fun Undo(mat_addy: Long)
-    external fun removeAllContours()
-
-    external fun findArea(mat_addy: Long, x_addy: Int, y_addy: Int) : Int
-
-    external fun findAreaTwo() : Int
-
-    external fun cvTest(mat_addy: Long, mat_addy_res: Long, x_addy: Int, y_addy: Int)
-
-    external fun rotateMat(mat_addy: Long, mat_addy_res: Long)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
