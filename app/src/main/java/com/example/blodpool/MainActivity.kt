@@ -30,6 +30,9 @@ import java.io.File
 import kotlin.math.sqrt
 
 import android.content.Context
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import org.opencv.core.Core
 
 
@@ -838,13 +841,31 @@ class MainActivity : ComponentActivity() {
                     val formattedVolume = String.format("%.2f", volume)
 
                     setContentView(R.layout.area_of_blood)
-                    val Textviewarea = findViewById<TextView>(R.id.textViewb)
+                    val textViewb = findViewById<TextView>(R.id.textViewb)
+
+                    // Set initial visibility to invisible
+                    textViewb.visibility = View.INVISIBLE
+
+                    // Load animation
+                    val slideUpAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_up)
+
+                    // Set animation listener to make textViewb visible after animation ends
+                    slideUpAnimation.setAnimationListener(object : Animation.AnimationListener {
+                        override fun onAnimationStart(animation: Animation?) {}
+                        override fun onAnimationRepeat(animation: Animation?) {}
+                        override fun onAnimationEnd(animation: Animation?) {
+                            textViewb.visibility = View.VISIBLE
+                        }
+                    })
+
+                    // Start animation on textViewb
+                    textViewb.startAnimation(slideUpAnimation)
 
                     val liquidtext = findViewById<TextView>(R.id.liquidtext)
 
                     liquidtext.text = "$liquidname"
 
-                    Textviewarea.text = "Volume \n $formattedVolume $unittobedisplayed"
+                    textViewb.text = "Volume \n $formattedVolume $unittobedisplayed"
 
                     val go_back_2 = findViewById<ImageButton>(R.id.go_back_2)
 
