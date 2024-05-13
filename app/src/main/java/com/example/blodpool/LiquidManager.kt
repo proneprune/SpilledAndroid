@@ -12,7 +12,10 @@ import java.io.File
 class LiquidManager {
 
     //lateinit var liquids : List<Liquid>
-
+    //this entire class uses a json file to store liquids that are inputted
+    //by the user. This ensures that they are not removed when the app
+    //is restarted. It has functions to for base liquids, to add liquids
+    //to remove liquids and load liquids
     @Serializable
     data class Liquid(val name: String, val density: Float, val surfaceTension: Float)
     fun saveLiquid(name: String, density: Float, surfaceTension: Float, storageDir: File?){
