@@ -257,10 +257,13 @@ int findObjectArea(cv::Mat image, int x, int y) {
 
 
 void findObjectInfo(cv::Mat image, int x, int y) {
-    imageInfo = image;
 
     // Create a point for the specific pixel
     cv::Point point(x, y);
+
+    cv::circle(image, point, 5, cv::Scalar(0, 0, 255), -1); // Draw the specific pixel
+    imageInfo = image;
+
 
     std::vector<std::vector<cv::Point>> contours = getContours(image);
     double area = 0;
@@ -275,7 +278,7 @@ void findObjectInfo(cv::Mat image, int x, int y) {
 
             // Draw the contour containing the specific pixel
             drawWeightedContour(image, contour);
-            cv::circle(image, point, 5, cv::Scalar(0, 0, 255), -1); // Draw the specific pixel
+            //cv::circle(image, point, 5, cv::Scalar(0, 0, 255), -1); // Draw the specific pixel
 
             // Calculate center
             center = cv::Point(0, 0);
