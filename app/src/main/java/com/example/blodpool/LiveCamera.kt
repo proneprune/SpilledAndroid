@@ -79,7 +79,6 @@ class LiveCamera : CameraActivity() {
             setResult(Activity.RESULT_OK, resIntent)
             finish()
         }
-
     }
 
 

@@ -67,7 +67,6 @@ class MainActivity : ComponentActivity() {
                 showTutorial()
                 markTutorialAsShown()
             }
-
         }
     }
 
@@ -89,7 +88,6 @@ class MainActivity : ComponentActivity() {
                     // Permission denied, handle accordingly (e.g., display a message or disable camera functionality)
                     setContentView(R.layout.permission_denied)
                 }
-
             }
         }
     }

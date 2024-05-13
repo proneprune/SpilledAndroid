@@ -133,7 +133,6 @@ class ClickReferenceActivity : AppCompatActivity() {
                         textViewb.visibility = View.VISIBLE
                     }
                 })
-
                 // Start animation on textViewb
                 textViewb.startAnimation(slideUpAnimation)
 
@@ -148,7 +147,6 @@ class ClickReferenceActivity : AppCompatActivity() {
                 go_back_2.setOnClickListener(){
                     finish()
                 }
-
             }
             true
         }
@@ -160,7 +158,6 @@ class ClickReferenceActivity : AppCompatActivity() {
         Utils.bitmapToMat(initialImage, mat)
 
         findobjectinfo(mat.nativeObjAddr, xPos, yPoS)
-
     }
 
     fun getImageBitmap() : Bitmap{

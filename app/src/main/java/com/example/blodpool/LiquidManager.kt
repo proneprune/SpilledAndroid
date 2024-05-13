@@ -73,6 +73,4 @@ class LiquidManager {
             return baseLiquids
         }
     }
-
-
 }
