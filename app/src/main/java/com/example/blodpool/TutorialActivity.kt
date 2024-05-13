@@ -18,14 +18,9 @@ class TutorialActivity : AppCompatActivity() {
     fun Quittutorial(){
         setContentView(R.layout.activity_tutorial)
         val quitbutton = findViewById<ImageButton>(R.id.button8)
-
-
+        
         quitbutton.setOnClickListener{
           finish()
-
         }
-
     }
-
-
 }
