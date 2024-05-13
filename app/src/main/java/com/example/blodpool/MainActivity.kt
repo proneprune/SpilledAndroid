@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageButton
 import androidx.activity.ComponentActivity
@@ -13,13 +12,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import org.opencv.android.OpenCVLoader
 import org.opencv.core.Mat
-
 import android.content.Context
 
-import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import org.opencv.core.Core
 
 
 //sets some default values and constants that will be used
