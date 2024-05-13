@@ -6,7 +6,7 @@ This application was done as coursework in the course II1305 - Project in Inform
 
 
 
-##How to edit the application
+## How to edit the application
 ### First download opencv for android https://opencv.org/releases/
 
 import module in android studio
