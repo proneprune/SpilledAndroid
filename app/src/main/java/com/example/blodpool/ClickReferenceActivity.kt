@@ -17,7 +17,7 @@ import org.opencv.core.Mat
 import kotlin.math.sqrt
 
 class ClickReferenceActivity : AppCompatActivity() {
-
+    //external c++ functions that finds area etc
     external fun findobjectinfo(mat_addy: Long, x_addy: Int, y_addy: Int)
 
     external fun centerobjectinfo(mat_addy: Long)
@@ -32,20 +32,25 @@ class ClickReferenceActivity : AppCompatActivity() {
     }
 
     fun clickReferencePage(){
+
+        //init views and buttons and layout
         setContentView(R.layout.click_reference_page)
         val mRelativeLayout = findViewById<RelativeLayout>(R.id.relative_layout_1)
         val image = findViewById<ImageView>(R.id.captured_image)
 
+        //some black magic flipping that must be done
         Core.transpose(SelectedImage, SelectedImage);
         Core.flip(SelectedImage, SelectedImage, 1);
 
+        //some conversion from mat to bitmap
         val bitmap  = Bitmap.createBitmap(SelectedImage.cols(), SelectedImage.rows(), Bitmap.Config.ARGB_8888)
         Utils.matToBitmap(SelectedImage, bitmap)
 
-
+        //sets the captured image to the image shown
+        //on screen
         image.setImageBitmap(bitmap)
 
-        //button to take new picutre
+        //button to take new picture
         val newpicture = findViewById<ImageButton>(R.id.New_Picture)
 
         mRelativeLayout.layoutParams.height = image.height
@@ -58,6 +63,8 @@ class ClickReferenceActivity : AppCompatActivity() {
 
         val buttontoconfirm = findViewById<Button>(R.id.button2)
 
+        //this is some crazy shit that finds the x,y
+        //coordinates of your button press on the screen
         mRelativeLayout.setOnTouchListener { _, motionEvent ->
 
             val imageWidth = image.drawable.intrinsicWidth
@@ -72,24 +79,40 @@ class ClickReferenceActivity : AppCompatActivity() {
             val imageY = (mY * (imageHeight.toFloat() / image.height.toFloat())).toInt()
 
 
-
+            //using the found x,y coordinates the c++
+            //function to outline an object is called
+            //the object outlined is the one were
+            //the coordinates reside in
             findObjectInfo(bitmap, imageX, imageY)
             var resultBitmap = getImageBitmap()
 
             image.setImageBitmap(resultBitmap)
 
+            //button to confirm, calculations of volume
+            //and pixles are done here
             buttontoconfirm.setOnClickListener(){
+
+                //finding the pixels of the reference object
+                //it is hard coded in to be an id-1 card
+                //which has an area of roughly 46,75 cm^2
                 var pixels = getarea()
                 val areaperpixel = 46.75f/pixels
-                println(selectedImageLiquidArea)
+                //println(selectedImageLiquidArea)
 
+                //this takes the amount of pixels in the liquid
+                //times the actual size of every pixel to find
+                //the area of the bloodpool
                 var bloodpoolarea = areaperpixel * selectedImageLiquidArea
 
+
+                //this is the calculation of volume following the formula
+                //of finding volume of a liquid pool
                 bloodpoolarea = bloodpoolarea * 0.0001f
                 var innerArg = currentLiquid.surfaceTension / (currentLiquid.density * gravity)
                 var depth = 2 * sqrt(innerArg)
                 var volume = depth * bloodpoolarea * 10000f
 
+                //converts the volume to string that can be displayed
                 val formattedVolume = String.format("%.2f", volume)
 
                 setContentView(R.layout.display_liquid_volume)
@@ -98,6 +121,7 @@ class ClickReferenceActivity : AppCompatActivity() {
                 // Set initial visibility to invisible
                 textViewb.visibility = View.INVISIBLE
 
+                //Animation for the volume to slide up the screen
                 // Load animation
                 val slideUpAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_up)
 
@@ -129,7 +153,7 @@ class ClickReferenceActivity : AppCompatActivity() {
             true
         }
     }
-
+    //these kotlin functions call the c++ functions
     fun findObjectInfo(initialImage: Bitmap, xPos: Int, yPoS: Int){
 
         val mat = Mat()
