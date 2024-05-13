@@ -1,6 +1,7 @@
 package com.example.blodpool
 
 import android.annotation.SuppressLint
+//import androidx.databinding.DataBindingUtil
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Typeface
@@ -164,7 +165,7 @@ class SettingsActivity : AppCompatActivity() {
         for (liquid in liquids) {
 
             val layout = LinearLayout(this)
-            layout.orientation = LinearLayout.VERTICAL
+            layout.orientation = LinearLayout.HORIZONTAL
 
 
             val btn = ImageButton(this)
@@ -176,31 +177,36 @@ class SettingsActivity : AppCompatActivity() {
                 else -> btn.setImageResource(R.drawable.custom_add_button)
             }
 
+            btn.setOnClickListener {
+                displayIndividualCustom(liquid)
+            }
+
+
+
             val btnParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-            btnParams.gravity = Gravity.CENTER
+            btnParams.gravity = Gravity.START
+            btn.x = 40f
             btn.layoutParams = btnParams
 
             val textView = TextView(this)
             textView.text = liquid.name
-            textView.gravity = Gravity.CENTER
+            textView.gravity = Gravity.END
             textView.textSize = 18f // Set text size (in sp)
             textView.setTypeface(null, Typeface.BOLD) // Set text style to bold
             textView.setBackgroundResource(R.drawable.transparent_image) // Set text background to transparent image
 
             val textParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
             textParams.setMargins(0,0,0,0);
-            textView.y = 320f //Fuck this shit, moves the text below the image in the horizontal scroller
-            textParams.gravity = Gravity.CENTER_HORIZONTAL // Center text horizontally
+            textView.x = 40f
+            textView.y = 80f //Fuck this shit, moves the text below the image in the horizontal scroller
+            textParams.gravity = Gravity.END // Center text horizontally
             textView.layoutParams = textParams
 
-            layout.addView(textView)
+
             layout.addView(btn)
+            layout.addView(textView)
 
-
-            btn.setOnClickListener {
-                displayIndividualCustom(liquid)
-            }
-            view.addView(btn)
+            view.addView(layout)
         }
 
         goBackButton.setOnClickListener{
