@@ -81,6 +81,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
+    implementation(libs.androidx.databinding.runtime)
     //implementation("org.opencv:opencv-android:4.5.3")
 
     testImplementation(libs.junit)

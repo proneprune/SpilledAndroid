@@ -162,6 +162,11 @@ class SettingsActivity : AppCompatActivity() {
 
         //iterates through all the liquids and adds a button for choosing each liquid.
         for (liquid in liquids) {
+
+            val layout = LinearLayout(this)
+            layout.orientation = LinearLayout.VERTICAL
+
+
             val btn = ImageButton(this)
             btn.setBackgroundResource(R.drawable.transparent_image)
             when (liquid.name) {
@@ -170,9 +175,6 @@ class SettingsActivity : AppCompatActivity() {
                 "Oil" -> btn.setImageResource(R.drawable.oil)
                 else -> btn.setImageResource(R.drawable.custom_add_button)
             }
-
-
-
 
             val btnParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
             btnParams.gravity = Gravity.CENTER
