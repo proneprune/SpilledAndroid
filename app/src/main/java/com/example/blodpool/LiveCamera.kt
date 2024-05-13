@@ -13,6 +13,7 @@ import java.util.Collections
 
 
 class LiveCamera : CameraActivity() {
+    //initalizes the camera and external c++ functions
     private lateinit var viewBase : CameraBridgeViewBase
     external fun findobjectinfo(mat_addy: Long, x_addy: Int, y_addy: Int)
 
@@ -28,18 +29,22 @@ class LiveCamera : CameraActivity() {
         OpenCVLoader.initDebug()
         var currentMat = Mat()
 
+        //initalizes the camera view
         setContentView(R.layout.live_camera_page)
         viewBase = findViewById(R.id.javaCameraView)
 
+        //starts the camera listener (it is the live camera)
         viewBase.setCvCameraViewListener(object : CameraBridgeViewBase.CvCameraViewListener2 {
+                    //does some shit that we dont need
                     override fun onCameraViewStarted(width: Int, height: Int) {
                         // Your implementation for camera view started
                     }
-
+                    //does some shit that we dont need
                     override fun onCameraViewStopped() {
                         // Your implementation for camera view stopped
                     }
-
+                    //every frame we do the object detection on the
+                    //frame that the live camera finds.
                     override fun onCameraFrame(inputFrame: CameraBridgeViewBase.CvCameraViewFrame): Mat {
                         // Your implementation for camera frame processing
 
@@ -54,11 +59,17 @@ class LiveCamera : CameraActivity() {
                 })
                 viewBase.enableView()
 
+
+        //go back button
         val goToLandingPageButton = findViewById<ImageButton>(R.id.Live_Back_Button)
 
         goToLandingPageButton.setOnClickListener{
             finish()
         }
+
+        //backbutton is badly named, it is a big invisible button
+        //behind the camera "captures" an image when pressed
+        //it also marks the activity as complete
         val backbutton = findViewById<Button>(R.id.Captured_Button)
 
         backbutton.setOnClickListener{
@@ -72,7 +83,7 @@ class LiveCamera : CameraActivity() {
     }
 
 
-
+    //unclear wtf this does but necessary
     override fun getCameraViewList() : List<CameraBridgeViewBase> {
         return Collections.singletonList(viewBase)
 
