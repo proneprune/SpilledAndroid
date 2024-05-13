@@ -80,11 +80,8 @@ class LiveCamera : CameraActivity() {
             finish()
         }
     }
-
-
     //unclear wtf this does but necessary
     override fun getCameraViewList() : List<CameraBridgeViewBase> {
         return Collections.singletonList(viewBase)
-
     }
 }
