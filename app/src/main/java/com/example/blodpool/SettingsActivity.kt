@@ -178,11 +178,9 @@ class SettingsActivity : AppCompatActivity() {
                 displayIndividualCustom(liquid)
             }
 
-            val btnParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+            val btnParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
             btnParams.gravity = Gravity.CENTER
             btn.layoutParams = btnParams
-
-
 
             val textView = TextView(this)
             textView.text = liquid.name
@@ -191,15 +189,18 @@ class SettingsActivity : AppCompatActivity() {
             textView.setTypeface(null, Typeface.BOLD) // Set text style to bold
             textView.setBackgroundResource(R.drawable.transparent_image) // Set text background to transparent image
 
-            val textParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+            val textParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            textParams.setMargins(0,0,0,0);
+            textView.y = 320f
             textParams.gravity = Gravity.CENTER_HORIZONTAL // Center text horizontally
             textView.layoutParams = textParams
 
             layout.addView(textView)
             layout.addView(btn)
-
             view.addView(layout)
         }
+
+
 
         goBackButton.setOnClickListener{
             displaySettingsPage()
