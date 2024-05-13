@@ -223,9 +223,7 @@ class SettingsActivity : AppCompatActivity() {
                 displayCustomLiquids()
             }
         }
-
         backbutton.setOnClickListener{
-
             displayCustomLiquids()
         }
     }
