@@ -1,7 +1,6 @@
 package com.example.blodpool
 
 import android.annotation.SuppressLint
-import androidx.databinding.DataBindingUtil
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Typeface
