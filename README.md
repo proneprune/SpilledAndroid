@@ -1,6 +1,13 @@
-# An application for android that can scan blood spills and estimate the volume of blood.
+# An application for android which can find a liquid spill and with a reference object, determine the volume of the spill.
+This application was done as coursework in the course II1305 - Project in Information and Communication Technology at the Royal Institute of Technology in Stockholm, Sweden. The project was first intended to be developed as an application to find the volume of blood, but was broadened to allow all liquids. The course used Scrum as a framework for development and all work was done during 4 sprints lasting roughly a week each. The development team consists of 8 developers of which 5 worked with the android version.
+### [Download here]()
+### [Expo website](https://spilledowner.wixsite.com/spilled)
+### [iOS Version](https://github.com/tiselius/Blapp_ios/)
 
-## First download opencv for android https://opencv.org/releases/
+
+
+##How to edit the application
+### First download opencv for android https://opencv.org/releases/
 
 import module in android studio
 ```new -> import module -> module name = :opencv```
