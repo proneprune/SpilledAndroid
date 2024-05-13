@@ -59,9 +59,7 @@ class MainActivity : ComponentActivity() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted, request it
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 0)
-
         } else {
-
             displayFrontpage()
             if (!isTutorialShown()) {
                 showTutorial()
@@ -83,7 +81,6 @@ class MainActivity : ComponentActivity() {
                         showTutorial()
                         markTutorialAsShown()
                     }
-
                 } else {
                     // Permission denied, handle accordingly (e.g., display a message or disable camera functionality)
                     setContentView(R.layout.permission_denied)
@@ -161,7 +158,6 @@ class MainActivity : ComponentActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == 5 && resultCode == Activity.RESULT_OK){
-
             goToClickReference()
         }
     }
