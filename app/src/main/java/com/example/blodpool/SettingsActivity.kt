@@ -40,6 +40,7 @@ class SettingsActivity : AppCompatActivity() {
 
 
 
+    //all the buttons on the settings page
     fun displaySettingsPage(){
         setContentView(R.layout.settings)
         val aboutUsButton = findViewById<ImageButton>(R.id.aboutus)
@@ -64,11 +65,11 @@ class SettingsActivity : AppCompatActivity() {
         goBackToLandingPageButton.setOnClickListener{
             finish()
         }
-
     }
 
     private fun customliquids() {
-
+        //when creating custom liquids input a name
+        //it cannot be null
         val nameInputDialog = AlertDialog.Builder(this)
         val nameInputEditText = EditText(this)
         nameInputDialog.setTitle("Insert Liquid Name")
@@ -77,7 +78,8 @@ class SettingsActivity : AppCompatActivity() {
             val nameInput = nameInputEditText.text.toString()
             if(nameInput != null){
 
-
+                //entering density when inputting the liquid
+                //it can only handle numbers
                 val densityInputDialog = AlertDialog.Builder(this)
                 val densityInputEditText = EditText(this)
                 densityInputDialog.setTitle("Insert Density in kg/m^3")
@@ -90,6 +92,8 @@ class SettingsActivity : AppCompatActivity() {
                             // Density input is valid, proceed to surface tension input
                             dialog.dismiss()
 
+                            //enter surface tensions, this can also
+                            //handle only numbers
                             // Show a dialog to input surface tension
                             val surfaceTensionInputDialog = AlertDialog.Builder(this)
                             val surfaceTensionInputEditText = EditText(this)
@@ -119,18 +123,15 @@ class SettingsActivity : AppCompatActivity() {
                     }
                 }
                 densityInputDialog.show()
-
             }
             else{
                 Toast.makeText(this, "Invalid name input", Toast.LENGTH_SHORT).show()
-
             }
-
         }
         nameInputDialog.show()
-
     }
 
+    //displays the custom liquid layout and view
     fun displayCustomLiquids() {
         setContentView(R.layout.display_liquids)
 
@@ -153,10 +154,10 @@ class SettingsActivity : AppCompatActivity() {
             layout.orientation = LinearLayout.VERTICAL
 
             val btn = ImageButton(this)
-            btn.setBackgroundResource(R.drawable.transparent_image) // Set button background
-            when (liquid.name) {
-                "Blood" -> btn.setImageResource(R.drawable.blood_1_)
-                "Water" -> btn.setImageResource(R.drawable.water120h)
+            btn.setBackgroundResource(R.drawable.transparent_image)     // Set button background
+            when (liquid.name) {                                        //gives blood, water and oil
+                "Blood" -> btn.setImageResource(R.drawable.blood_1_)    //special images otherwise
+                "Water" -> btn.setImageResource(R.drawable.water120h)   //it is a regular image
                 "Oil" -> btn.setImageResource(R.drawable.oil_1_)
                 else -> btn.setImageResource(R.drawable.custom_add_button)
             }
@@ -177,7 +178,7 @@ class SettingsActivity : AppCompatActivity() {
 
             val textParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
             textParams.setMargins(0,0,0,0);
-            textView.y = 320f
+            textView.y = 320f //Fuck this shit, moves the text below the image in the horizontal scroller
             textParams.gravity = Gravity.CENTER_HORIZONTAL // Center text horizontally
             textView.layoutParams = textParams
 
@@ -185,16 +186,13 @@ class SettingsActivity : AppCompatActivity() {
             layout.addView(btn)
             view.addView(layout)
         }
-
-
-
         goBackButton.setOnClickListener{
             displaySettingsPage()
         }
-
-
     }
-
+    //function to display the information of the custom
+    //added liquid, it allows the liquid to be chosen
+    //and to be deleted if necessary
     fun displayIndividualCustom(liquid: LiquidManager.Liquid){
         setContentView(R.layout.display_liquid_info)
 
@@ -214,7 +212,8 @@ class SettingsActivity : AppCompatActivity() {
             currentLiquid = liquid
             finish() // go back to landing page
         }
-
+        //this makes sure that stupid users cannot delete water or blood
+        //from the json
         deletliquidbutton.setOnClickListener{
             if(liquid.name != "Blood" && liquid.name != "Water") {
                 val liquidManager = LiquidManager()
@@ -229,12 +228,10 @@ class SettingsActivity : AppCompatActivity() {
         backbutton.setOnClickListener{
 
             displayCustomLiquids()
-
         }
-
-
     }
-
+    //display the about us page, which gives some general information
+    //and also has a button that links to the expo website :)
     fun displayAboutUsPage(){
 
         setContentView(R.layout.aboutus)
@@ -250,7 +247,6 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
 }
 
 class MyBottomSheetDialogFragment : BottomSheetDialogFragment() {
@@ -268,14 +264,12 @@ class MyBottomSheetDialogFragment : BottomSheetDialogFragment() {
             unittobedisplayed = "dl"
             dismiss()
         }
-
         button2.setOnClickListener {
             // Handle button2 click
             unitcalc = 3.38140227f
             unittobedisplayed = "fl.oz"
             dismiss()
         }
-
         return view
     }
 }
