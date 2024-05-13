@@ -32,13 +32,6 @@
 
 
             <ImageButton
-                android:id="@+id/buttonback123"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/transparent_image"
-                android:src="@drawable/back_button1024h" />
-
-            <ImageButton
                 android:id="@+id/buttonhej"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -68,5 +61,18 @@
         android:src="@drawable/standing_18"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/buttonback123"
+        android:layout_width="88dp"
+        android:layout_height="80dp"
+        android:background="@drawable/transparent_image"
+        android:src="@drawable/back_button1024h"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
