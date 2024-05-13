@@ -3,16 +3,20 @@ package com.example.blodpool
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.view.Gravity
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import android.widget.LinearLayout.LayoutParams
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -159,18 +163,44 @@ class SettingsActivity : AppCompatActivity() {
 
         //iterates through all the liquids and adds a button for choosing each liquid.
         for (liquid in liquids) {
+            val layout = LinearLayout(this)
+            layout.orientation = LinearLayout.VERTICAL
+
             val btn = ImageButton(this)
+            btn.setBackgroundResource(R.drawable.transparent_image) // Set button background
             when (liquid.name) {
-                "Blood" -> btn.setImageResource(R.drawable.blood)
-                "Water" -> btn.setImageResource(R.drawable.water)
-                "Oil" -> btn.setImageResource(R.drawable.oil)
+                "Blood" -> btn.setImageResource(R.drawable.blood_1_)
+                "Water" -> btn.setImageResource(R.drawable.water120h)
+                "Oil" -> btn.setImageResource(R.drawable.oil_1_)
                 else -> btn.setImageResource(R.drawable.custom_add_button)
             }
             btn.setOnClickListener {
                 displayIndividualCustom(liquid)
             }
-            view.addView(btn)
+
+            val btnParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            btnParams.gravity = Gravity.CENTER
+            btn.layoutParams = btnParams
+
+            val textView = TextView(this)
+            textView.text = liquid.name
+            textView.gravity = Gravity.CENTER
+            textView.textSize = 18f // Set text size (in sp)
+            textView.setTypeface(null, Typeface.BOLD) // Set text style to bold
+            textView.setBackgroundResource(R.drawable.transparent_image) // Set text background to transparent image
+
+            val textParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            textParams.setMargins(0,0,0,0);
+            textView.y = 320f
+            textParams.gravity = Gravity.CENTER_HORIZONTAL // Center text horizontally
+            textView.layoutParams = textParams
+
+            layout.addView(textView)
+            layout.addView(btn)
+            view.addView(layout)
         }
+
+
 
         goBackButton.setOnClickListener{
             displaySettingsPage()
