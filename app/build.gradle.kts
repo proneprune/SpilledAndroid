@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("org.jetbrains.kotlin.plugin.serialization")
+    id ("kotlin-android")
+    id ("kotlin-kapt"   )
 }
 
 android {
@@ -44,6 +46,8 @@ android {
     buildFeatures {
         compose = true
         viewBinding = true
+        dataBinding = true
+
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -82,6 +86,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     //implementation("org.opencv:opencv-android:4.5.3")
+    implementation ("androidx.databinding:databinding-runtime:4.0.1")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -1,6 +1,7 @@
 package com.example.blodpool
 
 import android.annotation.SuppressLint
+import androidx.databinding.DataBindingUtil
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Typeface
@@ -18,43 +19,26 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.LinearLayout.LayoutParams
 
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+
+
 class SettingsActivity : AppCompatActivity() {
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tutorial) // Set the layout file here
 
+
         displaySettingsPage()
     }
 
-    @SuppressLint("SetTextI18n")
-    fun chooseUnit(){
-        setContentView(R.layout.choose_unit)
-        val dlbutton = findViewById<Button>(R.id.button4)
-        val flozbutton = findViewById<Button>(R.id.button8)
-        val backbutton = findViewById<ImageButton>(R.id.buttonbaackk)
-        val unitused = findViewById<TextView>(R.id.textView3)
 
-        unitused.text = "current unit: $unittobedisplayed"
-
-
-        backbutton.setOnClickListener{
-            displaySettingsPage()
-        }
-
-        dlbutton.setOnClickListener{
-            unitcalc = 1f
-            unittobedisplayed = "dl"
-            chooseUnit()
-        }
-
-        flozbutton.setOnClickListener{
-            unitcalc = 3.38140227f
-            unittobedisplayed = "fl.oz"
-            chooseUnit()
-        }
-
-    }
 
     fun displaySettingsPage(){
         setContentView(R.layout.settings)
@@ -63,8 +47,10 @@ class SettingsActivity : AppCompatActivity() {
         val goBackToLandingPageButton = findViewById<ImageButton>(R.id.backbtn123)
         val goToChooseUnitPageButton = findViewById<ImageButton>(R.id.language)
 
-        goToChooseUnitPageButton.setOnClickListener{
-            chooseUnit()
+        goToChooseUnitPageButton.setOnClickListener {
+            // Create and show the bottom sheet menu
+            val bottomSheetFragment = MyBottomSheetDialogFragment()
+            bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
         }
 
         displayLiquidsButton.setOnClickListener{
@@ -265,4 +251,31 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
+}
+
+class MyBottomSheetDialogFragment : BottomSheetDialogFragment() {
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.bottom_sheet_unit_select, container, false)
+
+        // Find your buttons and set click listeners
+        val button1 = view.findViewById<Button>(R.id.button1)
+        val button2 = view.findViewById<Button>(R.id.button2)
+
+        button1.setOnClickListener {
+            unitcalc = 1f
+            unittobedisplayed = "dl"
+            dismiss()
+        }
+
+        button2.setOnClickListener {
+            // Handle button2 click
+            unitcalc = 3.38140227f
+            unittobedisplayed = "fl.oz"
+            dismiss()
+        }
+
+        return view
+    }
 }
