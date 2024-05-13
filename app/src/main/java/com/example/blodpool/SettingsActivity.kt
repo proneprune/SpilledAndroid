@@ -248,8 +248,11 @@ class SettingsActivity : AppCompatActivity() {
     }
 }
 
+//this is the new class for creating the popup menu when selecting
+//units, instead of moving us to an entire new view, allows you to
+//either use metric or imperial units to be displayed and
+//calculated in
 class MyBottomSheetDialogFragment : BottomSheetDialogFragment() {
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.bottom_sheet_unit_select, container, false)
