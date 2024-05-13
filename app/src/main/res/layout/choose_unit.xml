@@ -7,10 +7,9 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="409dp"
-        android:layout_height="147dp"
+        android:layout_width="413dp"
+        android:layout_height="155dp"
         android:layout_gravity="center"
-        android:layout_marginTop="4dp"
         android:background="@drawable/rounded_button_background"
         android:fontFamily="@font/poppins_thin"
         android:text="&#xA;&#xA;Please choose your unit"
@@ -18,6 +17,7 @@
         android:textColor="@color/spilledblack"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

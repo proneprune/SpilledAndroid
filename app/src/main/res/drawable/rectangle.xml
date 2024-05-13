@@ -4,8 +4,6 @@
     <!-- Set the solid color of the rectangle -->
     <solid android:color="@color/white" /> <!-- Change the color code as needed -->
 
-   
-
     <!-- Set the corner radius of the rectangle -->
     <corners android:radius="8dp" /> <!-- Change the radius as needed -->
 
