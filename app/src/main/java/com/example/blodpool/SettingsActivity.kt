@@ -166,6 +166,10 @@ class SettingsActivity : AppCompatActivity() {
                 displayIndividualCustom(liquid)
             }
 
+            goBackButton.setOnClickListener{
+                displaySettingsPage()
+            }
+
             val btnParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
 
             btnParams.gravity = Gravity.START
