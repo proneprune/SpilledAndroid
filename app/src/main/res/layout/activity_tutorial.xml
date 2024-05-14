@@ -68,9 +68,12 @@
                         android:id="@+id/step1Text"
                         android:layout_width="255dp"
                         android:layout_height="121dp"
-                        android:layout_centerInParent="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="77dp"
+                        android:layout_marginTop="21dp"
                         android:fontFamily="@font/poppins_thin"
-                        android:text="Hover the phone straight above the liquid puddle and make sure that the reference object is visible in the picture"
+                        android:text="This is a liquid scanning app designed to estimate the spilled liquid on a flat surface area"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="20sp"
@@ -89,15 +92,22 @@
                         android:id="@+id/step2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginBottom="0dp"
                         android:src="@drawable/step_2" />
 
                     <TextView
                         android:id="@+id/step2Text"
                         android:layout_width="222dp"
                         android:layout_height="134dp"
-                        android:layout_centerInParent="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="93dp"
+                        android:layout_marginTop="21dp"
                         android:fontFamily="@font/poppins_thin"
-                        android:text="Press on the screen when the liquid you want to scan is being marked by the application"
+                        android:text="Using a reference object Spilled is able to make an estimation of the volume"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="20sp"
@@ -122,15 +132,113 @@
                         android:id="@+id/step3Text"
                         android:layout_width="250dp"
                         android:layout_height="122dp"
-                        android:layout_centerInParent="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="21dp"
+                        android:layout_marginEnd="77dp"
                         android:fontFamily="@font/poppins_thin"
-                        android:text="In the picture preview, click on the reference object and continue by pressing &quot;Confirm&quot;"
+                        android:text="With the reference object, the size of every pixel is found and can be used for calculations"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
                 </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/step4Layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="0dp">
+
+                    <ImageView
+                        android:id="@+id/step4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/step_3" />
+
+                    <TextView
+                        android:id="@+id/step4Text"
+                        android:layout_width="250dp"
+                        android:layout_height="122dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="21dp"
+                        android:layout_marginEnd="77dp"
+                        android:fontFamily="@font/poppins_thin"
+                        android:text="Countour detection detects the amount of pixels the spilled area contains. With the pixelsize the area is determined"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/step5Layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="0dp">
+
+                    <ImageView
+                        android:id="@+id/step5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/step_3" />
+
+                    <TextView
+                        android:id="@+id/step5Text"
+                        android:layout_width="246dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="21dp"
+                        android:layout_marginEnd="81dp"
+                        android:fontFamily="@font/poppins_thin"
+                        android:text="If the properties of the liquid is known the height of the spilled liquid on a flat surface can be calculated. When both height and area is know, volume can be estimated."
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/step6Layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="0dp">
+
+                    <ImageView
+                        android:id="@+id/step6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/step_3" />
+
+                    <TextView
+                        android:id="@+id/step6Text"
+                        android:layout_width="247dp"
+                        android:layout_height="226dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="21dp"
+                        android:layout_marginEnd="79dp"
+                        android:fontFamily="@font/poppins_thin"
+                        android:text="Scan the spilled area with the device as parallel as possible to the surface for best results. The scanned liquid will be marked on the screen"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+
+
+
 
             </LinearLayout>
         </HorizontalScrollView>

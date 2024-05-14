@@ -1,7 +1,9 @@
 package com.example.blodpool
 
+
 import android.annotation.SuppressLint
-//import androidx.databinding.DataBindingUtil
+
+
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Typeface
@@ -9,7 +11,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.view.Gravity
+
 import android.view.ViewGroup
+
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -17,45 +21,28 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+
 
 class SettingsActivity : AppCompatActivity() {
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tutorial) // Set the layout file here
 
+
         displaySettingsPage()
     }
 
-    @SuppressLint("SetTextI18n")
-    fun chooseUnit(){
-        setContentView(R.layout.choose_unit)
-        val dlbutton = findViewById<Button>(R.id.button4)
-        val flozbutton = findViewById<Button>(R.id.button8)
-        val backbutton = findViewById<ImageButton>(R.id.buttonbaackk)
-        val unitused = findViewById<TextView>(R.id.textView3)
-
-        unitused.text = "current unit: $unittobedisplayed"
 
 
-        backbutton.setOnClickListener{
-            displaySettingsPage()
-        }
-
-        dlbutton.setOnClickListener{
-            unitcalc = 1f
-            unittobedisplayed = "dl"
-            chooseUnit()
-        }
-
-        flozbutton.setOnClickListener{
-            unitcalc = 3.38140227f
-            unittobedisplayed = "fl.oz"
-            chooseUnit()
-        }
-
-    }
-
+    //all the buttons on the settings page
     fun displaySettingsPage(){
         setContentView(R.layout.settings)
         val aboutUsButton = findViewById<ImageButton>(R.id.aboutus)
@@ -63,8 +50,10 @@ class SettingsActivity : AppCompatActivity() {
         val goBackToLandingPageButton = findViewById<ImageButton>(R.id.backbtn123)
         val goToChooseUnitPageButton = findViewById<ImageButton>(R.id.language)
 
-        goToChooseUnitPageButton.setOnClickListener{
-            chooseUnit()
+        goToChooseUnitPageButton.setOnClickListener {
+            // Create and show the bottom sheet menu
+            val bottomSheetFragment = MyBottomSheetDialogFragment()
+            bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
         }
 
         displayLiquidsButton.setOnClickListener{
@@ -78,11 +67,11 @@ class SettingsActivity : AppCompatActivity() {
         goBackToLandingPageButton.setOnClickListener{
             finish()
         }
-
     }
 
     private fun customliquids() {
-
+        //when creating custom liquids input a name
+        //it cannot be null
         val nameInputDialog = AlertDialog.Builder(this)
         val nameInputEditText = EditText(this)
         nameInputDialog.setTitle("Insert Liquid Name")
@@ -91,7 +80,8 @@ class SettingsActivity : AppCompatActivity() {
             val nameInput = nameInputEditText.text.toString()
             if(nameInput != null){
 
-
+                //entering density when inputting the liquid
+                //it can only handle numbers
                 val densityInputDialog = AlertDialog.Builder(this)
                 val densityInputEditText = EditText(this)
                 densityInputDialog.setTitle("Insert Density in kg/m^3")
@@ -104,6 +94,8 @@ class SettingsActivity : AppCompatActivity() {
                             // Density input is valid, proceed to surface tension input
                             dialog.dismiss()
 
+                            //enter surface tensions, this can also
+                            //handle only numbers
                             // Show a dialog to input surface tension
                             val surfaceTensionInputDialog = AlertDialog.Builder(this)
                             val surfaceTensionInputEditText = EditText(this)
@@ -133,18 +125,15 @@ class SettingsActivity : AppCompatActivity() {
                     }
                 }
                 densityInputDialog.show()
-
             }
             else{
                 Toast.makeText(this, "Invalid name input", Toast.LENGTH_SHORT).show()
-
             }
-
         }
         nameInputDialog.show()
-
     }
 
+    //displays the custom liquid layout and view
     fun displayCustomLiquids() {
         setContentView(R.layout.display_liquids)
 
@@ -166,13 +155,12 @@ class SettingsActivity : AppCompatActivity() {
             val layout = LinearLayout(this)
             layout.orientation = LinearLayout.HORIZONTAL
 
-
             val btn = ImageButton(this)
-            btn.setBackgroundResource(R.drawable.transparent_image)
-            when (liquid.name) {
-                "Blood" -> btn.setImageResource(R.drawable.blood)
-                "Water" -> btn.setImageResource(R.drawable.water)
-                "Oil" -> btn.setImageResource(R.drawable.oil)
+            btn.setBackgroundResource(R.drawable.transparent_image)     // Set button background
+            when (liquid.name) {                                        //gives blood, water and oil
+                "Blood" -> btn.setImageResource(R.drawable.blood_1_)    //special images otherwise
+                "Water" -> btn.setImageResource(R.drawable.water120h)   //it is a regular image
+                "Oil" -> btn.setImageResource(R.drawable.oil_1_)
                 else -> btn.setImageResource(R.drawable.custom_add_button)
             }
 
@@ -180,14 +168,12 @@ class SettingsActivity : AppCompatActivity() {
                 displayIndividualCustom(liquid)
             }
 
-
             val btnParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
 
             btnParams.gravity = Gravity.START
             btn.x = 40f
 
             btn.layoutParams = btnParams
-
 
             val textView = TextView(this)
             textView.text = liquid.name
@@ -207,10 +193,6 @@ class SettingsActivity : AppCompatActivity() {
             layout.addView(textView)
             
             view.addView(layout)
-        }
-
-        goBackButton.setOnClickListener{
-            displaySettingsPage()
         }
 
         //add custom liquid button
@@ -250,9 +232,12 @@ class SettingsActivity : AppCompatActivity() {
         layout.addView(textView)
 
         view.addView(layout)
-
     }
-
+    
+    
+    //function to display the information of the custom
+    //added liquid, it allows the liquid to be chosen
+    //and to be deleted if necessary
     fun displayIndividualCustom(liquid: LiquidManager.Liquid){
         setContentView(R.layout.display_liquid_info)
 
@@ -272,7 +257,8 @@ class SettingsActivity : AppCompatActivity() {
             currentLiquid = liquid
             finish() // go back to landing page
         }
-
+        //this makes sure that stupid users cannot delete water or blood
+        //from the json
         deletliquidbutton.setOnClickListener{
             if(liquid.name != "Blood" && liquid.name != "Water") {
                 val liquidManager = LiquidManager()
@@ -283,16 +269,12 @@ class SettingsActivity : AppCompatActivity() {
                 displayCustomLiquids()
             }
         }
-
         backbutton.setOnClickListener{
-
             displayCustomLiquids()
-
         }
-
-
     }
-
+    //display the about us page, which gives some general information
+    //and also has a button that links to the expo website :)
     fun displayAboutUsPage(){
 
         setContentView(R.layout.aboutus)
@@ -308,5 +290,32 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+}
 
+//this is the new class for creating the popup menu when selecting
+//units, instead of moving us to an entire new view, allows you to
+//either use metric or imperial units to be displayed and
+//calculated in
+class MyBottomSheetDialogFragment : BottomSheetDialogFragment() {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.bottom_sheet_unit_select, container, false)
+
+        // Find your buttons and set click listeners
+        val button1 = view.findViewById<Button>(R.id.button1)
+        val button2 = view.findViewById<Button>(R.id.button2)
+
+        button1.setOnClickListener {
+            unitcalc = 1f
+            unittobedisplayed = "dl"
+            dismiss()
+        }
+        button2.setOnClickListener {
+            // Handle button2 click
+            unitcalc = 3.38140227f
+            unittobedisplayed = "fl.oz"
+            dismiss()
+        }
+        return view
+    }
 }
