@@ -111,8 +111,8 @@ class ClickReferenceActivity : AppCompatActivity() {
                 //this is the calculation of volume following the formula
                 //of finding volume of a liquid pool
                 bloodpoolarea = bloodpoolarea * 0.0001f
-                var innerArg = (currentLiquid.surfaceTension / (currentLiquid.density * gravity))
-                var depth = 2 * sqrt(innerArg)
+                var innerArg = (currentLiquid.surfaceTension / (currentLiquid.density * gravity)) * (1 - Math.cos(75 * Math.PI / 180))
+                var depth = sqrt(2 * innerArg)
 
 
                 var volume = (depth * bloodpoolarea * 10000f * unitcalc)
