@@ -84,6 +84,9 @@ class MainActivity : ComponentActivity() {
     }
 
     //declarations for functions in external files
+
+
+    // starts the live camera activity, see code in LiveCamera.kt
     private fun goToLiveCamera(){
         val intent = Intent(this, LiveCamera::class.java)
         startActivityForResult(intent, 5)
@@ -129,29 +132,36 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    // starts the settings activity, see code in SettingsActivity.kt
     fun goToSettings(){
         val intent = Intent(this, SettingsActivity::class.java)
         startActivity(intent)
     }
 
+    // starts the tutorial activity, see code in TutorialActivity.kt
     fun goToTutorial(){
         val intent = Intent(this, TutorialActivity::class.java)
         startActivity(intent)
     }
 
+    // starts the click reference activity, see code in ClickReferenceActivity.kt
     fun goToClickReference(){
         val intent = Intent(this, ClickReferenceActivity::class.java)
         startActivity(intent)
     }
 
     //@Deprecated
-    //if the spill is found in the live camera, function to find reference object
-    //is called
+    //this function is called every time an activity is finished with a result
     @SuppressLint("ClickableViewAccessibility")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
 
+        //Activity corresponding to liveCamera
         if(requestCode == 5 && resultCode == Activity.RESULT_OK){
+
+            //Being here means that the live camera activity just finished and there exists an image to be processed (select reference object)
+
+            //starts the click reference activity
             goToClickReference()
         }
     }

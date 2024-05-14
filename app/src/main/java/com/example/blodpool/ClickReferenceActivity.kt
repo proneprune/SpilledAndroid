@@ -51,13 +51,15 @@ class ClickReferenceActivity : AppCompatActivity() {
         //on screen
         image.setImageBitmap(bitmap)
 
-        //button to take new picture
+        //button to take new picture (go back to main page)
         val newpicture = findViewById<ImageButton>(R.id.New_Picture)
 
+        //set the relative layout to be the same size as the image
         mRelativeLayout.layoutParams.height = image.height
         mRelativeLayout.layoutParams.width = image.width
         mRelativeLayout.requestLayout()
 
+        // cancel and go back to the main page if clicked
         newpicture.setOnClickListener(){
             finish()
         }
@@ -68,14 +70,15 @@ class ClickReferenceActivity : AppCompatActivity() {
         //coordinates of your button press on the screen
         mRelativeLayout.setOnTouchListener { _, motionEvent ->
 
+            // get the actual pixel size of the image
             val imageWidth = image.drawable.intrinsicWidth
             val imageHeight = image.drawable.intrinsicHeight
 
-            // X and Y values are fetched relative to the view (mRelativeLayout)
+            // get screen x and y values of the click
             val mX = motionEvent.x
             val mY = motionEvent.y
 
-            // Calculate the corresponding coordinates relative to the original image
+            // Transform the screen x and y values from the click to the equivalent pixel postion for the image
             val imageX = (mX * (imageWidth.toFloat() / image.width.toFloat())).toInt()
             val imageY = (mY * (imageHeight.toFloat() / image.height.toFloat())).toInt()
 
@@ -87,6 +90,7 @@ class ClickReferenceActivity : AppCompatActivity() {
             findObjectInfo(bitmap, imageX, imageY)
             var resultBitmap = getImageBitmap()
 
+            //displays the new image with the chosen object outlined
             image.setImageBitmap(resultBitmap)
 
             //button to confirm, calculations of volume
@@ -109,13 +113,13 @@ class ClickReferenceActivity : AppCompatActivity() {
 
 
                 //this is the calculation of volume following the formula
-                //of finding volume of a liquid pool
-                bloodpoolarea = bloodpoolarea * 0.0001f
+                //of finding volume of a liquid pool on a flat surface with no/low absorption
+                bloodpoolarea = bloodpoolarea * 0.0001f //bloodpoolarea is initally in cm^2, this line transforms it to m^2
                 var innerArg = (currentLiquid.surfaceTension / (currentLiquid.density * gravity)) * (1 - Math.cos(75 * Math.PI / 180))
                 var depth = sqrt(2 * innerArg)
 
 
-                var volume = (depth * bloodpoolarea * 10000f * unitcalc)
+                var volume = (depth * bloodpoolarea * 10000f * unitcalc) //the formula gives the volume in m^3, therefore it is multiplied with 10000 to transform it to dl. Then multiplied with unitcalc which is 1 or 3.38 for dl or ounces respectively.
 
                 //converts the volume to string that can be displayed
                 val formattedVolume = String.format("%.2f", volume)
@@ -149,6 +153,7 @@ class ClickReferenceActivity : AppCompatActivity() {
 
                 val go_back_2 = findViewById<ImageButton>(R.id.go_back_2)
 
+                //goes back to the main page
                 go_back_2.setOnClickListener(){
                     finish()
                 }
@@ -159,17 +164,22 @@ class ClickReferenceActivity : AppCompatActivity() {
     //these kotlin functions call the c++ functions
     fun findObjectInfo(initialImage: Bitmap, xPos: Int, yPoS: Int){
 
+        //transforms the bitmap to a mat which can be used by opencv in c++
         val mat = Mat()
         Utils.bitmapToMat(initialImage, mat)
 
+
+        //calls c++ function to select the object in the image found at (xPos, yPos)
         findobjectinfo(mat.nativeObjAddr, xPos, yPoS)
     }
 
     fun getImageBitmap() : Bitmap{
 
+        //gets the image with the object, found by findobjectinfo, outlined
         var resMat = Mat()
         getimage(resMat.nativeObjAddr)
 
+        //transform the mat to a bitmap in order to be displayed as an image
         val resultBitmap = Bitmap.createBitmap(resMat.cols(), resMat.rows(), Bitmap.Config.ARGB_8888)
         Utils.matToBitmap(resMat, resultBitmap)
 

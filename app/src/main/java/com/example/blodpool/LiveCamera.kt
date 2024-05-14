@@ -25,7 +25,10 @@ class LiveCamera : CameraActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         System.loadLibrary("testcpp")
+
+        //initialize opencv
         OpenCVLoader.initDebug()
         var currentMat = Mat()
 
@@ -37,21 +40,25 @@ class LiveCamera : CameraActivity() {
         viewBase.setCvCameraViewListener(object : CameraBridgeViewBase.CvCameraViewListener2 {
                     //does some shit that we dont need
                     override fun onCameraViewStarted(width: Int, height: Int) {
-                        // Your implementation for camera view started
+
                     }
                     //does some shit that we dont need
                     override fun onCameraViewStopped() {
-                        // Your implementation for camera view stopped
+
                     }
                     //every frame we do the object detection on the
                     //frame that the live camera finds.
                     override fun onCameraFrame(inputFrame: CameraBridgeViewBase.CvCameraViewFrame): Mat {
-                        // Your implementation for camera frame processing
 
                         var tmp = inputFrame.rgba()
+
+                        //attempts to find object in the middle of the captured image
                         findobjectinfo(tmp.nativeObjAddr, tmp.cols()/2, tmp.rows()/2)
 
+                        //gets the image with the object highlighted, if it exists otherwise its the default image
                         getimage(tmp.nativeObjAddr)
+
+                        //stores this image in currentMat as a way to access the most recent image taken
                         tmp.copyTo(currentMat)
 
                         return tmp
@@ -72,11 +79,14 @@ class LiveCamera : CameraActivity() {
         //it also marks the activity as complete
         val backbutton = findViewById<Button>(R.id.Captured_Button)
 
+
         backbutton.setOnClickListener{
-            selectedImageLiquidArea = getarea()
-            SelectedImage = currentMat
+
+            //the following code happens when the user clicks on the screen select the marked liquid pool
+            selectedImageLiquidArea = getarea() // gets the area of the liquid pool
+            SelectedImage = currentMat //saves the current mat with liquid pool marked in a global variable to be used later
             val resIntent = Intent()
-            setResult(Activity.RESULT_OK, resIntent)
+            setResult(Activity.RESULT_OK, resIntent) //finishes the activity with result_ok indicating to mainActivity that the user has taken an image with a liquid pool that should be processed further
             finish()
         }
     }

@@ -32,7 +32,11 @@ class LiquidManager {
         f.writeText(updatedLiquidString)
     }
 
+    // returns a list of base liquids
     fun baseLiquids() : List<Liquid>{
+
+
+
         val blood = Liquid("Blood", 1060f, 0.058f)
         val water = Liquid("Water", 1000f, 0.072f)
 
@@ -40,6 +44,8 @@ class LiquidManager {
         return liquids
     }
 
+
+    // removes a specified liquid from the saved liquids
     fun removeLiquid(liquidToRemove: Liquid, storageDir: File?){
         val liquidsFileName = "liquids.json"
 
@@ -53,6 +59,8 @@ class LiquidManager {
 
         f.writeText(updatedLiquidString)
     }
+
+    // loads the saved liquids from the json file to a list of objects
     fun loadLiquids(storageDir: File?) : List<Liquid>{
         val liquidsFileName = "liquids.json"
 
