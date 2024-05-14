@@ -12,8 +12,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.Gravity
 
-import android.view.ViewGroup
-
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -202,7 +200,7 @@ class SettingsActivity : AppCompatActivity() {
 
         val btn = ImageButton(this)
         btn.setBackgroundResource(R.drawable.transparent_image)
-        btn.setImageResource(R.drawable.custom)
+        btn.setImageResource(R.drawable.custom120h)
 
         btn.setOnClickListener{
             customliquids()
