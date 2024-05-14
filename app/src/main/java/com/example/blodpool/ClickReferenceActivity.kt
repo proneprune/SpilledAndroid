@@ -10,6 +10,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import org.opencv.android.Utils
 import org.opencv.core.Core
@@ -105,12 +106,16 @@ class ClickReferenceActivity : AppCompatActivity() {
                 var bloodpoolarea = areaperpixel * selectedImageLiquidArea
 
 
+
+
                 //this is the calculation of volume following the formula
                 //of finding volume of a liquid pool
                 bloodpoolarea = bloodpoolarea * 0.0001f
-                var innerArg = currentLiquid.surfaceTension / (currentLiquid.density * gravity)
+                var innerArg = (currentLiquid.surfaceTension / (currentLiquid.density * gravity))
                 var depth = 2 * sqrt(innerArg)
-                var volume = depth * bloodpoolarea * 10000f
+
+
+                var volume = (depth * bloodpoolarea * 10000f * unitcalc)
 
                 //converts the volume to string that can be displayed
                 val formattedVolume = String.format("%.2f", volume)
