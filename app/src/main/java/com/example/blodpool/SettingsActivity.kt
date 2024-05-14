@@ -1,5 +1,9 @@
 package com.example.blodpool
 
+
+import android.annotation.SuppressLint
+
+
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Typeface
@@ -7,6 +11,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.view.Gravity
+
+import android.view.ViewGroup
+
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -135,18 +142,18 @@ class SettingsActivity : AppCompatActivity() {
         val liquids = liquidManager.loadLiquids(getExternalFilesDir(Environment.DIRECTORY_PICTURES))
 
         val goBackButton = findViewById<ImageButton>(R.id.buttonback123)
-        val addNewLiquidButton = findViewById<ImageButton>(R.id.buttonhej)
 
-        addNewLiquidButton.setOnClickListener{
-            customliquids()
-        }
+        val text = TextView(this)
+        text.text = "Liquids"
 
-        val view = findViewById<LinearLayout>(R.id.linearlayout1)
+
+        val view = findViewById<LinearLayout>(R.id.vertView)
 
         //iterates through all the liquids and adds a button for choosing each liquid.
         for (liquid in liquids) {
+
             val layout = LinearLayout(this)
-            layout.orientation = LinearLayout.VERTICAL
+            layout.orientation = LinearLayout.HORIZONTAL
 
             val btn = ImageButton(this)
             btn.setBackgroundResource(R.drawable.transparent_image)     // Set button background
@@ -156,35 +163,78 @@ class SettingsActivity : AppCompatActivity() {
                 "Oil" -> btn.setImageResource(R.drawable.oil_1_)
                 else -> btn.setImageResource(R.drawable.custom_add_button)
             }
+
             btn.setOnClickListener {
                 displayIndividualCustom(liquid)
             }
 
             val btnParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-            btnParams.gravity = Gravity.CENTER
+
+            btnParams.gravity = Gravity.START
+            btn.x = 40f
+
             btn.layoutParams = btnParams
 
             val textView = TextView(this)
             textView.text = liquid.name
-            textView.gravity = Gravity.CENTER
+            textView.gravity = Gravity.END
             textView.textSize = 18f // Set text size (in sp)
             textView.setTypeface(null, Typeface.BOLD) // Set text style to bold
             textView.setBackgroundResource(R.drawable.transparent_image) // Set text background to transparent image
 
             val textParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
             textParams.setMargins(0,0,0,0);
-            textView.y = 320f //Fuck this shit, moves the text below the image in the horizontal scroller
-            textParams.gravity = Gravity.CENTER_HORIZONTAL // Center text horizontally
+            textView.x = 40f
+            textView.y = 80f //Fuck this shit, moves the text below the image in the horizontal scroller
+            textParams.gravity = Gravity.END // Center text horizontally
             textView.layoutParams = textParams
 
-            layout.addView(textView)
             layout.addView(btn)
+            layout.addView(textView)
+            
             view.addView(layout)
         }
-        goBackButton.setOnClickListener{
-            displaySettingsPage()
+
+        //add custom liquid button
+
+        val layout = LinearLayout(this)
+        layout.orientation = LinearLayout.HORIZONTAL
+
+        val btn = ImageButton(this)
+        btn.setBackgroundResource(R.drawable.transparent_image)
+        btn.setImageResource(R.drawable.custom)
+
+        btn.setOnClickListener{
+            customliquids()
         }
+
+        val btnParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        btnParams.gravity = Gravity.START
+        btn.x = 40f
+        btn.layoutParams = btnParams
+
+        val textView = TextView(this)
+        textView.text = "Add a custom liquid"
+        textView.gravity = Gravity.END
+        textView.textSize = 18f // Set text size (in sp)
+        textView.setTypeface(null, Typeface.BOLD) // Set text style to bold
+        textView.setBackgroundResource(R.drawable.transparent_image) // Set text background to transparent image
+
+        val textParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        textParams.setMargins(0,0,0,0);
+        textView.x = 40f
+        textView.y = 80f //Fuck this shit, moves the text below the image in the horizontal scroller
+        textParams.gravity = Gravity.END // Center text horizontally
+        textView.layoutParams = textParams
+
+
+        layout.addView(btn)
+        layout.addView(textView)
+
+        view.addView(layout)
     }
+    
+    
     //function to display the information of the custom
     //added liquid, it allows the liquid to be chosen
     //and to be deleted if necessary
