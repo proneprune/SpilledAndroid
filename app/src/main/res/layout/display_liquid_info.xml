@@ -7,8 +7,9 @@
 
     <TextView
         android:id="@+id/textViewname"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="460dp"
         android:layout_marginEnd="164dp"
         android:background="@drawable/rounded_button_background"
@@ -17,28 +18,36 @@
         android:textAlignment="center"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.928"
-        app:layout_constraintStart_toEndOf="@+id/textViewsurfacetension"
-        app:layout_constraintTop_toTopOf="parent" />
+
+        app:layout_constraintHeight_percent="0.0556"
+        app:layout_constraintStart_toEndOf="@+id/textViewdensity"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.2" />
 
     <TextView
         android:id="@+id/textViewdensity"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="27dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="57dp"
+
         android:layout_marginTop="460dp"
         android:background="@drawable/rounded_button_background"
         android:fontFamily="@font/yusei_magic"
         android:text="TextView"
         android:textAlignment="center"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textViewname"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.0556"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.2" />
+
 
     <TextView
         android:id="@+id/textViewsurfacetension"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="22dp"
         android:layout_marginTop="460dp"
         android:layout_marginEnd="272dp"
         android:background="@drawable/rounded_button_background"
@@ -47,48 +56,57 @@
         android:textAlignment="center"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHeight_percent="0.0556"
+        app:layout_constraintStart_toEndOf="@+id/textViewname"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.2" />
 
     <Button
         android:id="@+id/conliq"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="124dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="104dp"
         android:background="@drawable/rounded_button_background"
         android:text="Use this liquid"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.0625"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.953" />
+        app:layout_constraintVertical_bias="0.953"
+        app:layout_constraintWidth_percent="0.25" />
 
     <Button
         android:id="@+id/delustomC1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="64dp"
         android:background="@drawable/rounded_button_background"
         android:text="Delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.953" />
+        app:layout_constraintVertical_bias="0.953"
+        app:layout_constraintWidth_percent="0.22727273"
+        app:layout_constraintHeight_percent="0.0625"/>
 
     <ImageButton
         android:id="@+id/goback"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="4dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/transparent_image"
         android:src="@drawable/back_button1024h"
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.585"
+        app:layout_constraintHeight_percent="0.11"/>
 
     <TextView
         android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="44dp"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/poppins_thin"
@@ -96,13 +114,19 @@
         android:textAlignment="center"
         android:textColor="@color/spilledblack"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textViewsurfacetension"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/textViewdensity"
+        app:layout_constraintEnd_toStartOf="@+id/textView13"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.2727" />
+
 
     <TextView
         android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="39dp"
         android:layout_marginEnd="76dp"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/poppins_thin"
@@ -110,13 +134,17 @@
         android:textAlignment="center"
         android:textColor="@color/spilledblack"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textViewdensity"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/textViewsurfacetension"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toEndOf="@+id/textView14"
+        app:layout_constraintWidth_percent="0.1364" />
+
 
     <TextView
         android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/poppins_thin"
@@ -127,5 +155,7 @@
         app:layout_constraintBottom_toTopOf="@+id/textViewname"
         app:layout_constraintEnd_toStartOf="@+id/textView13"
         app:layout_constraintHorizontal_bias="0.24"
-        app:layout_constraintStart_toEndOf="@+id/textView12" />
+        app:layout_constraintStart_toEndOf="@+id/textView12"
+        app:layout_constraintWidth_percent="0.13636364"
+        app:layout_constraintHeight_percent="0.05"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
