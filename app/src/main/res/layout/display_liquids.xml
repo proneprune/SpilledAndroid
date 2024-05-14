@@ -19,18 +19,20 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="88dp"
         android:layout_marginBottom="56dp"
         android:src="@drawable/standing_18"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintHeight_percent="0.275"/>
 
     <ImageButton
         android:id="@+id/buttonback123"
-        android:layout_width="88dp"
-        android:layout_height="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:background="@drawable/transparent_image"
         android:src="@drawable/back_button1024h"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -38,18 +40,22 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintWidth_percent="0.585"
+        app:layout_constraintHeight_percent="0.11"/>
 
     <ScrollView
         android:id="@+id/vertScroll"
-        android:layout_width="match_parent"
-        android:layout_height="476dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toTopOf="@+id/imageView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15">
+        app:layout_constraintTop_toBottomOf="@+id/textView15"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintHeight_percent="0.47">
 
         <LinearLayout
             android:id="@+id/vertView"
@@ -60,12 +66,14 @@
 
     <TextView
         android:id="@+id/textView15"
-        android:layout_width="405dp"
-        android:layout_height="85dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:text="Liquids"
         android:textAlignment="center"
         android:textSize="60sp"
         tools:layout_editor_absoluteX="2dp"
-        tools:layout_editor_absoluteY="16dp" />
+        tools:layout_editor_absoluteY="16dp"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintHeight_percent="0.125"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

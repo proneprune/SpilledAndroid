@@ -7,8 +7,8 @@
     <!-- ImageButton with constraints and src attribute -->
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="62dp"
-        android:layout_height="68dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@drawable/back_button1024h"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,12 +16,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/transparent_image"
-        app:layout_constraintVertical_bias="0.98" />
+        app:layout_constraintVertical_bias="0.98"
+        app:layout_constraintWidth_percent="0.585"
+        app:layout_constraintHeight_percent="0.14"/>
 
     <TextView
         android:id="@+id/textView7"
-        android:layout_width="379dp"
-        android:layout_height="252dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@drawable/rounded_button_background"
         android:text="With Spilled, users are going to be able to find the volume of spilled liquids with the option of either a live camera or with the usage of a reference object. This application was created as a part of the KTH course II1305."
         android:textColor="@color/spilledblack"
@@ -30,7 +32,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.205" />
+        app:layout_constraintVertical_bias="0.205"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintHeight_percent="0.35556"/>
 
     <ImageView
         android:id="@+id/imageView5"
@@ -49,8 +53,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="68dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="68dp"
         android:background="@drawable/transparent_image"
         android:src="@drawable/rectangle_16"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
